@@ -1,0 +1,112 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x", "linux-arm64-openssl-1.1.x", "rhel-openssl-3.0.x"]
+}
+
+enum Role {
+  SALESPERSON
+  MASTERSUHU
+}
+enum Progress {
+  INITIAL
+  INPROGRESS
+  COMPLETED
+}
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  password      String
+  role          Role      @default(SALESPERSON)
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  leads         Lead[]
+  activities    Activity[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// This is the schema for the Leads model
+model Lead {
+  id           String @id @default(cuid())
+  company      String @default("")
+  industry     String @default("")
+  picFirstName String @default("")
+  picLastName  String @default("")
+  picEmail     String @default("")
+  picPhone     String @default("")
+  legalEntity  String @default("")
+  leadSource   String @default("")
+  leadStatus   String @default("")
+  city         String @default("")
+  province     String @default("")
+  address      String @default("")
+  isDeleted    Boolean @default(false)
+  userId       String @default("")
+  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activities   Activity[]
+}
+
+
+// model activity
+model Activity{
+  id String @id @default(cuid())
+  leadId String
+  userId String
+  activityType String
+  activityDate DateTime
+  activityNote String
+  latLongStart String
+  latLongFinish String
+  timeStart DateTime
+  timeFinish DateTime
+  subject String
+  status String
+  stageOfSale String
+  dealName String
+  contact String
+  statusProgress Progress
+  isDeleted Boolean @default(false)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lead Lead @relation(fields: [leadId], references: [id], onDelete: Cascade)
+}
