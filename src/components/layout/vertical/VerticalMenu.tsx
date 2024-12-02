@@ -110,6 +110,18 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
           <MenuItem href={`/${locale}/apps/activity/add`}>{dictionary['navigation'].add}</MenuItem>
         </SubMenu>
 
+        {/* products */}
+        <SubMenu
+          label={dictionary['navigation'].products}
+          icon={<i className='tabler-smart-home' />}
+
+        // suffix={<CustomChip label='5' size='small' color='error' round='true' />}
+        >
+          <MenuItem href={`/${locale}/apps/products/list`}>{dictionary['navigation'].list}</MenuItem>
+          <MenuItem href={`/${locale}/apps/products/add`}>{dictionary['navigation'].category}</MenuItem>
+          <MenuItem href={`/${locale}/apps/products/add`}>{dictionary['navigation'].unit}</MenuItem>
+        </SubMenu>
+
       </Menu>
       {/* <Menu
         popoutMenuOffset={{ mainAxis: 23 }}
