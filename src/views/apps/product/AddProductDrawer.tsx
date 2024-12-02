@@ -14,6 +14,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 // Third-party Imports
 import { useForm, Controller } from 'react-hook-form'
 
+// Type Imports
 import type { ProductType } from '@/types/apps/productTypes'
 
 // Components Imports
@@ -22,7 +23,7 @@ import CustomTextField from '@core/components/mui/TextField'
 type Props = {
   open: boolean
   handleClose: () => void
-  productData: ProductType[]
+  categoryData: ProductType[]
   setData: (data: ProductType[]) => void
 }
 
@@ -31,18 +32,21 @@ type FormValues = {
   description: string
   status: string
   comment: string
-  image: File | null
+  image: string
 }
 
-const AddProductDrawer = ({ open, handleClose, productData, setData }: Props) => {
+const AddProductDrawer = (props: Props) => {
+  // Props
+  const { open, handleClose, productData, setData } = props
 
-  // State
+  // States
   const [fileName, setFileName] = useState('')
+
 
   // Refs
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  // React Hook Form
+  // Hooks
   const {
     control,
     reset: resetForm,
@@ -50,44 +54,44 @@ const AddProductDrawer = ({ open, handleClose, productData, setData }: Props) =>
     formState: { errors }
   } = useForm<FormValues>({
     defaultValues: {
-      product_title: '',
-      description: '',
-      status: 'Published',
-      comment: '',
-      image: null
+      product_title: "",
+      description: "",
+      status: "",
+      comment: "",
+      image: ""
+
     }
   })
 
   // Handle Form Submit
   const handleFormSubmit = (data: FormValues) => {
     const newData = {
-      product_title: data.product_title,
+      id: productData.length + 1,
+      categoryTitle: data.product_title,
       description: data.description,
-      image: data.image ? URL.createObjectURL(data.image) : '', // If image is uploaded, generate a URL
-      status: data.status,
-      comment: data.comment
+      totalProduct: Math.floor(Math.random() * 9000) + 1000,
+      totalEarning: Math.floor(Math.random() * 90000) + 10000,
+      image: `/images/apps/ecommerce/product-${Math.floor(Math.random() * 20) + 1}.png`
     }
 
     setData([...productData, newData])
-
     handleReset()
   }
 
-  // Handle Reset
+  // Handle Form Reset
   const handleReset = () => {
     handleClose()
-    resetForm()
+    resetForm({ product_title: '', description: '' })
     setFileName('')
+
   }
 
   // Handle File Upload
   const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target
 
-    if (files && files.length > 0) {
-
-      setFileName(files[0].name) // Display the file name in the input field
-
+    if (files && files.length !== 0) {
+      setFileName(files[0].name)
     }
   }
 

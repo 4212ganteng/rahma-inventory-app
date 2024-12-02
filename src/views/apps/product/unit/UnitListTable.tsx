@@ -4,7 +4,6 @@
 import { useEffect, useMemo, useState } from 'react'
 
 // Next Imports
-import Link from 'next/link'
 import { useParams } from 'next/navigation'
 
 // MUI Imports
@@ -16,7 +15,6 @@ import Chip from '@mui/material/Chip'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import MenuItem from '@mui/material/MenuItem'
-import Switch from '@mui/material/Switch'
 import TablePagination from '@mui/material/TablePagination'
 import type { TextFieldProps } from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
@@ -41,23 +39,18 @@ import classnames from 'classnames'
 
 // Type Imports
 
-
 import type { ThemeColor } from '@core/types'
 
 import type { ProductType } from '@/types/apps/productTypes'
 
 // Component Imports
-import CustomAvatar from '@core/components/mui/Avatar'
 import CustomTextField from '@core/components/mui/TextField'
 import OptionMenu from '@core/components/option-menu'
-import TableFilters from '../list/TableFilters'
-
-// Util Imports
 
 // Style Imports
 import TablePaginationComponent from '@/components/TablePaginationComponent'
 import tableStyles from '@core/styles/table.module.css'
-import AddProductDrawer from '../AddProductDrawer'
+import AddCategoryDrawer from '../AddCategoryDrawer'
 
 
 declare module '@tanstack/table-core' {
@@ -71,13 +64,6 @@ declare module '@tanstack/table-core' {
 
 type ProductWithActionsType = ProductType & {
   actions?: string
-}
-
-type ProductCategoryType = {
-  [key: string]: {
-    icon: string
-    color: ThemeColor
-  }
 }
 
 type productStatusType = {
@@ -130,14 +116,7 @@ const DebouncedInput = ({
 }
 
 // Vars
-const productCategoryObj: ProductCategoryType = {
-  Accessories: { icon: 'tabler-headphones', color: 'error' },
-  'Home Decor': { icon: 'tabler-smart-home', color: 'info' },
-  Electronics: { icon: 'tabler-device-laptop', color: 'primary' },
-  Shoes: { icon: 'tabler-shoe', color: 'success' },
-  Office: { icon: 'tabler-briefcase', color: 'warning' },
-  Games: { icon: 'tabler-device-gamepad-2', color: 'secondary' }
-}
+
 
 const productStatusObj: productStatusType = {
   Scheduled: { title: 'Scheduled', color: 'warning' },
@@ -374,7 +353,8 @@ const UnitListTable = ({ productData }: { productData?: ProductType[] }) => {
           }}
         />
 
-        <AddProductDrawer
+        <AddCategoryDrawer
+          title='Add Unit'
           open={addCategoryOpen}
           productData={data || []}
           setData={setData}

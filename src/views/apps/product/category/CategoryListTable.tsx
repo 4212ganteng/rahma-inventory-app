@@ -58,6 +58,7 @@ import TableFilters from '../list/TableFilters'
 import TablePaginationComponent from '@/components/TablePaginationComponent'
 import tableStyles from '@core/styles/table.module.css'
 import AddProductDrawer from '../AddProductDrawer'
+import AddCategoryDrawer from '../AddCategoryDrawer'
 
 
 declare module '@tanstack/table-core' {
@@ -402,7 +403,8 @@ const CategoryListTable = ({ productData }: { productData?: ProductType[] }) => 
           }}
         />
 
-        <AddProductDrawer
+        <AddCategoryDrawer
+          title='Add Category'
           open={addCategoryOpen}
           productData={data || []}
           setData={setData}
