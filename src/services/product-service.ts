@@ -1,6 +1,15 @@
 import type { Product } from '@prisma/client'
 import { PrismaClient, Prisma } from '@prisma/client'
 
+type Tproduct = {
+  name: string
+  sku: string
+  description: string | null
+  categoryId: string
+  unitId: string
+  minStockThreshold: number
+}
+
 export class ProductService {
   private prisma: PrismaClient
 
@@ -9,7 +18,7 @@ export class ProductService {
   }
 
   // Tambah Produk Baru
-  async createProduct(data: Product) {
+  async createProduct(data: Tproduct) {
     try {
       // Validasi SKU unik
       const existingSku = await this.prisma.product.findUnique({

@@ -34,6 +34,12 @@ enum StockStatus {
   KOSONG
 }
 
+// enum status
+enum StatusActive {
+  Active
+  Inactive
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -62,11 +68,11 @@ model Session {
 }
 
 model User {
-  id            String        @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
-  email         String?       @unique
+  email         String?   @unique
   password      String
-  role          Role          @default(SALESPERSON)
+  role          Role      @default(SALESPERSON)
   emailVerified DateTime?
   image         String?
   accounts      Account[]
@@ -81,72 +87,75 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-
 // Satuan produk (pcs, kg, liter)
 model Unit {
-  id        String    @id @default(cuid())
-  unit      String
-  isDeleted Boolean   @default(false)
-  products  Product[]
+  id           String       @id @default(cuid())
+  unit         String
+  isDeleted    Boolean      @default(false)
+  products     Product[]
+  description  String?
+  statusActive StatusActive
 }
 
 model Category {
-  id        String    @id @default(cuid())
-  category  String
-  isDeleted Boolean   @default(false)
-  products  Product[]
+  id           String       @id @default(cuid())
+  category     String
+  isDeleted    Boolean      @default(false)
+  products     Product[]
+  description  String?
+  statusActive StatusActive
 }
-
 
 // Model Produk
 model Product {
-  id                String             @id @default(cuid())
-  name              String             @unique
-  sku               String             @unique
+  id                String           @id @default(cuid())
+  name              String           @unique
+  sku               String           @unique
   description       String?
   categoryId        String
-  category Category @relation(fields: [categoryId],references: [id])
-  unitId              String
-  unit Unit @relation(fields: [unitId],references: [id])
-  minStockThreshold Int                @default(10)
+  category          Category         @relation(fields: [categoryId], references: [id])
+  unitId            String
+  unit              Unit             @relation(fields: [unitId], references: [id])
+  minStockThreshold Int              @default(10)
+  image             String?
   inventoryEntries  InventoryEntry[]
 
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // Entri Inventori dengan tracking FIFO
 model InventoryEntry {
-  id                String             @id @default(cuid())
-  productId         String
-  product           Product            @relation(fields: [productId], references: [id])
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
 
-  batchNumber       String             @unique
+  batchNumber       String @unique
   quantity          Float
   remainingQuantity Float
 
-  entryDate         DateTime           @default(now())
-  expiryDate        DateTime
+  entryDate  DateTime @default(now())
+  expiryDate DateTime
 
-  status            StockStatus        @default(TERSEDIA)
+  status StockStatus @default(TERSEDIA)
 
   // Metode tracking FIFO
-  fifoSequence      Int                // Urutan masuk untuk FIFO
+  fifoSequence Int // Urutan masuk untuk FIFO
 
   // Logging perubahan stok
-  stockChanges      StockChange[]
+  stockChanges StockChange[]
 }
 
 // Catatan Perubahan Stok
 model StockChange {
-  id                String             @id @default(cuid())
-  inventoryEntryId  String
-  inventoryEntry    InventoryEntry     @relation(fields: [inventoryEntryId], references: [id])
+  id               String         @id @default(cuid())
+  inventoryEntryId String
+  inventoryEntry   InventoryEntry @relation(fields: [inventoryEntryId], references: [id])
 
-  changeType        String             // "PENAMBAHAN", "PENGURANGAN"
-  quantity          Float
-  changeDate        DateTime           @default(now())
-  description       String?
+  changeType  String // "PENAMBAHAN", "PENGURANGAN"
+  quantity    Float
+  changeDate  DateTime @default(now())
+  description String?
 
-  userId            String?            // Optional: untuk tracking siapa yang melakukan perubahan
+  userId String? // Optional: untuk tracking siapa yang melakukan perubahan
 }

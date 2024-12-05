@@ -2,37 +2,54 @@ import type { FC } from 'react';
 
 import { Button, Divider, Drawer, IconButton, MenuItem, Typography } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
+import type { InferInput } from 'valibot'
+import { minLength, nonEmpty, object, pipe, string } from 'valibot'
+import { valibotResolver } from '@hookform/resolvers/valibot'
+
+
 
 import CustomTextField from '@/@core/components/mui/TextField';
 
-type ProductType = {
-  name: string
-  description: string
-  status: string
-}
+import type { Category, CategoryFormData } from '@/types/apps/categoryType';
+import { useCategory } from './category/hooks/useCategory';
 
-type FormValues = {
-  name: string
-  description: string
-  status: string
-}
 
 type Props = {
-  title: string
   open: boolean
+  title: string
   handleClose: () => void
-  categoryData: ProductType[]
-  setData: (data: ProductType[]) => void
+  category?: Category | null
+  setData: () => void
 }
 
-const AddCategoryDrawer: FC<Props> = ({ title, open, handleClose, categoryData, setData }) => {
+type FormValues = InferInput<typeof schema>
 
-  const defVal = {
-    name: '',
-    description: '',
-    status: 'Published'
-  }
+const schema = object({
+  category: pipe(
+    string(),
+    nonEmpty('This field is required'),
+    minLength(3, 'First Name must be at least 3 characters long')
+  ),
+  description: pipe(
+    string(), minLength(0)
+  ),
+  statusActive: pipe(
+    string(),
+    nonEmpty('This field is required'),
+    minLength(3, 'First Name must be at least 3 characters long')
+  )
+})
 
+
+const defaultValues = {
+  category: '',
+  description: '',
+  statusActive: 'Active'
+}
+
+// start func
+const AddCategoryDrawer: FC<Props> = ({ title, open, handleClose, category, setData }) => {
+  const { createCategory } = useCategory()
 
   // React Hook Form
   const {
@@ -40,39 +57,18 @@ const AddCategoryDrawer: FC<Props> = ({ title, open, handleClose, categoryData, 
     handleSubmit,
     formState: { errors },
     reset: resetForm
-  } = useForm<FormValues>({
-    defaultValues: defVal
+  } = useForm<CategoryFormData>({
+    defaultValues: defaultValues,
+    resolver: valibotResolver(schema)
   })
 
   // Handle form submission
   const handleFormSubmit = async (data: FormValues) => {
-    try {
-
-      console.log("data to post", data)
-
-
-      const response = await fetch('/api/categories', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-
-      if (response.ok) {
-        const newCategory = await response.json()
-
-        setData([...categoryData, newCategory])
-        handleClose() // Close the drawer after successful submission
-      } else {
-        console.error('Failed to create category')
-      }
-    } catch (error) {
-      console.error('Error creating category:', error)
-    }
+    setData(data)
+    console.log('data payload', data)
+    createCategory(data)
+    handleClose() // Close the drawer after successful submission
   }
-
-
 
   // Handle form reset
   const handleReset = () => {
@@ -102,20 +98,26 @@ const AddCategoryDrawer: FC<Props> = ({ title, open, handleClose, categoryData, 
       <Divider />
       <div className='p-6'>
         <form onSubmit={handleSubmit(data => handleFormSubmit(data))} className='flex flex-col gap-5'>
+
+          {/* category name */}
           <Controller
-            name='name'
+            name='category'
             control={control}
             rules={{ required: true }}
             render={({ field }) => (
               <CustomTextField
                 {...field}
                 fullWidth
-                label='Title'
+                label='Category'
                 placeholder='Fashion'
-                {...(errors.name && { error: true, helperText: 'This field is required.' })}
+                value={field.value}
+                {...(errors.category && { error: true, helperText: errors.category.message })}
               />
             )}
+
           />
+
+          {/* description */}
           <Controller
             name='description'
             control={control}
@@ -124,6 +126,8 @@ const AddCategoryDrawer: FC<Props> = ({ title, open, handleClose, categoryData, 
               <CustomTextField
                 {...field}
                 fullWidth
+                rows={4}
+                multiline
                 label='Description'
                 placeholder='Enter a description...'
                 {...(errors.description && { error: true, helperText: 'This field is required.' })}
@@ -131,26 +135,26 @@ const AddCategoryDrawer: FC<Props> = ({ title, open, handleClose, categoryData, 
             )}
           />
 
+          {/* status */}
           <Controller
-            name="status"
+            name='statusActive'
             control={control}
-            defaultValue=""
-            render={({ field }) => (
+            rules={{ required: true }}
+            render={(field) => (
               <CustomTextField
                 {...field}
                 select
                 fullWidth
-                name='status'
-                label='Category Status'
-                value={status}
+                label='statusActive'
+                error={Boolean(errors.statusActive)}
               >
-                <MenuItem value='Published'>Published</MenuItem>
+                <MenuItem value=''>Select Status</MenuItem>
+                <MenuItem value='Active'>Active</MenuItem>
                 <MenuItem value='Inactive'>Inactive</MenuItem>
-                <MenuItem value='Scheduled'>Scheduled</MenuItem>
               </CustomTextField>
             )}
-          />
 
+          />
 
           <div className='flex items-center gap-4'>
             <Button variant='contained' type='submit'>
@@ -167,3 +171,4 @@ const AddCategoryDrawer: FC<Props> = ({ title, open, handleClose, categoryData, 
 }
 
 export default AddCategoryDrawer
+

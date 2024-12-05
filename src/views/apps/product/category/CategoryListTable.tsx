@@ -4,7 +4,6 @@
 import { useEffect, useMemo, useState } from 'react'
 
 // Next Imports
-import Link from 'next/link'
 import { useParams } from 'next/navigation'
 
 // MUI Imports
@@ -42,6 +41,8 @@ import classnames from 'classnames'
 // Type Imports
 
 
+import type { Category } from '@prisma/client'
+
 import type { ThemeColor } from '@core/types'
 
 import type { ProductType } from '@/types/apps/productTypes'
@@ -57,8 +58,8 @@ import TableFilters from '../list/TableFilters'
 // Style Imports
 import TablePaginationComponent from '@/components/TablePaginationComponent'
 import tableStyles from '@core/styles/table.module.css'
-import AddProductDrawer from '../AddProductDrawer'
 import AddCategoryDrawer from '../AddCategoryDrawer'
+import { useCategory } from './hooks/useCategory'
 
 
 declare module '@tanstack/table-core' {
@@ -74,12 +75,7 @@ type ProductWithActionsType = ProductType & {
   actions?: string
 }
 
-type ProductCategoryType = {
-  [key: string]: {
-    icon: string
-    color: ThemeColor
-  }
-}
+
 
 type productStatusType = {
   [key: string]: {
@@ -131,36 +127,27 @@ const DebouncedInput = ({
 }
 
 // Vars
-const productCategoryObj: ProductCategoryType = {
-  Accessories: { icon: 'tabler-headphones', color: 'error' },
-  'Home Decor': { icon: 'tabler-smart-home', color: 'info' },
-  Electronics: { icon: 'tabler-device-laptop', color: 'primary' },
-  Shoes: { icon: 'tabler-shoe', color: 'success' },
-  Office: { icon: 'tabler-briefcase', color: 'warning' },
-  Games: { icon: 'tabler-device-gamepad-2', color: 'secondary' }
-}
-
 const productStatusObj: productStatusType = {
-  Scheduled: { title: 'Scheduled', color: 'warning' },
-  Published: { title: 'Publish', color: 'success' },
+  Active: { title: 'Active', color: 'success' },
   Inactive: { title: 'Inactive', color: 'error' }
 }
 
 // Column Definitions
-const columnHelper = createColumnHelper<ProductWithActionsType>()
+const columnHelper = createColumnHelper<Category>()
 
-const CategoryListTable = ({ productData }: { productData?: ProductType[] }) => {
+const CategoryListTable = () => {
+  // Hooks
+  const { lang: locale } = useParams()
+  const { fetchCategory, dataCategory } = useCategory()
+
   // States
   const [rowSelection, setRowSelection] = useState({})
-  const [data, setData] = useState(...[productData])
-  const [filteredData, setFilteredData] = useState(data)
+  const [filteredData, setFilteredData] = useState(dataCategory)
   const [globalFilter, setGlobalFilter] = useState('')
   const [addCategoryOpen, setAddCategoryOpen] = useState(false)
 
-  // Hooks
-  const { lang: locale } = useParams()
 
-  const columns = useMemo<ColumnDef<ProductWithActionsType, any>[]>(
+  const columns = useMemo<ColumnDef<Category, any>[]>(
     () => [
       {
         id: 'select',
@@ -184,55 +171,28 @@ const CategoryListTable = ({ productData }: { productData?: ProductType[] }) => 
           />
         )
       },
-      columnHelper.accessor('productName', {
-        header: 'Product',
-        cell: ({ row }) => (
-          <div className='flex items-center gap-4'>
-            <img src={row.original.image} width={38} height={38} className='rounded bg-actionHover' />
-            <div className='flex flex-col'>
-              <Typography className='font-medium' color='text.primary'>
-                {row.original.productName}
-              </Typography>
-              <Typography variant='body2'>{row.original.productBrand}</Typography>
-            </div>
-          </div>
-        )
-      }),
       columnHelper.accessor('category', {
         header: 'Category',
         cell: ({ row }) => (
           <div className='flex items-center gap-4'>
-            <CustomAvatar skin='light' color={productCategoryObj[row.original.category].color} size={30}>
-              <i className={classnames(productCategoryObj[row.original.category].icon, 'text-lg')} />
-            </CustomAvatar>
-            <Typography color='text.primary'>{row.original.category}</Typography>
+            <div className='flex flex-col'>
+              <Typography className='font-medium' color='text.primary'>
+                {row.original.category}
+              </Typography>
+              <Typography variant='body2'>{row.original.description}</Typography>
+            </div>
           </div>
         )
       }),
-      columnHelper.accessor('stock', {
-        header: 'Stock',
-        cell: ({ row }) => <Switch defaultChecked={row.original.stock} />,
-        enableSorting: false
-      }),
-      columnHelper.accessor('sku', {
-        header: 'SKU',
-        cell: ({ row }) => <Typography>{row.original.sku}</Typography>
-      }),
-      columnHelper.accessor('price', {
-        header: 'Price',
-        cell: ({ row }) => <Typography>{row.original.price}</Typography>
-      }),
-      columnHelper.accessor('qty', {
-        header: 'QTY',
-        cell: ({ row }) => <Typography>{row.original.qty}</Typography>
-      }),
-      columnHelper.accessor('status', {
+
+      columnHelper.accessor('statusActive', {
         header: 'Status',
         cell: ({ row }) => (
           <Chip
-            label={productStatusObj[row.original.status].title}
+            label={productStatusObj[row.original.statusActive].title}
             variant='tonal'
-            color={productStatusObj[row.original.status].color}
+
+            color={productStatusObj[row.original.statusActive].color}
             size='small'
           />
         )
@@ -248,13 +208,13 @@ const CategoryListTable = ({ productData }: { productData?: ProductType[] }) => 
               iconButtonProps={{ size: 'medium' }}
               iconClassName='text-textSecondary'
               options={[
-                { text: 'Download', icon: 'tabler-download' },
+
                 {
                   text: 'Delete',
                   icon: 'tabler-trash',
                   menuItemProps: { onClick: () => setData(data?.filter(product => product.id !== row.original.id)) }
                 },
-                { text: 'Duplicate', icon: 'tabler-copy' }
+
               ]}
             />
           </div>
@@ -263,11 +223,11 @@ const CategoryListTable = ({ productData }: { productData?: ProductType[] }) => 
       })
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data, filteredData]
+    [dataCategory]
   )
 
   const table = useReactTable({
-    data: filteredData as ProductType[],
+    data: dataCategory || [],
     columns,
     filterFns: {
       fuzzy: fuzzyFilter
@@ -295,11 +255,19 @@ const CategoryListTable = ({ productData }: { productData?: ProductType[] }) => 
     getFacetedMinMaxValues: getFacetedMinMaxValues()
   })
 
+  useEffect(() => {
+    fetchCategory()
+  }, [])
+
+
+  console.log({ filteredData })
+  console.log(dataCategory)
+
   return (
     <>
       <Card>
         <CardHeader title='Filters' />
-        <TableFilters setData={setFilteredData} productData={data} />
+        {/* <TableFilters setData={setFilteredData} productData={data} /> */}
         <Divider />
         <div className='flex flex-wrap justify-between gap-4 p-6'>
           <DebouncedInput
@@ -406,8 +374,10 @@ const CategoryListTable = ({ productData }: { productData?: ProductType[] }) => 
         <AddCategoryDrawer
           title='Add Category'
           open={addCategoryOpen}
-          productData={data || []}
-          setData={setData}
+
+          setData={setFilteredData}
+
+          // category={}
           handleClose={() => setAddCategoryOpen(!addCategoryOpen)}
         />
       </Card>

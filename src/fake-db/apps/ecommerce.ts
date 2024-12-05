@@ -23,7 +23,7 @@ export const db: ECommerceType = {
       sku: 72836,
       price: '$25.50',
       qty: 827,
-      status: 'Published',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-2.png',
       productBrand: 'Echo Dot Smart speaker with Alexa'
     },
@@ -35,7 +35,7 @@ export const db: ECommerceType = {
       sku: 29540,
       price: '$16.34',
       qty: 804,
-      status: 'Published',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-3.png',
       productBrand: 'Modern 10 Inch Battery Operated Wall Clocks'
     },
@@ -47,7 +47,7 @@ export const db: ECommerceType = {
       sku: 49402,
       price: '$36.98',
       qty: 528,
-      status: 'Scheduled',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-4.png',
       productBrand: 'Lightweight Tennis Shoes Non Slip Gym Workout Shoes'
     },
@@ -59,7 +59,7 @@ export const db: ECommerceType = {
       sku: 46658,
       price: '$799',
       qty: 851,
-      status: 'Scheduled',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-5.png',
       productBrand: 'Starlight Aluminum Case with Starlight Sport Band.'
     },
@@ -71,7 +71,7 @@ export const db: ECommerceType = {
       sku: 57640,
       price: '$299',
       qty: 962,
-      status: 'Scheduled',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-6.png',
       productBrand: 'Advanced All-In-One Virtual Reality Headset'
     },
@@ -83,7 +83,7 @@ export const db: ECommerceType = {
       sku: 92885,
       price: '$2648.95',
       qty: 965,
-      status: 'Published',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-7.png',
       productBrand: 'Laptop M2 Pro chip with 12‑core CPU and 19‑core GPU'
     },
@@ -95,7 +95,7 @@ export const db: ECommerceType = {
       sku: 75257,
       price: '$899',
       qty: 447,
-      status: 'Published',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-8.png',
       productBrand: 'Android Smartphone, 256GB, 8K Camera'
     },
@@ -119,7 +119,7 @@ export const db: ECommerceType = {
       sku: 91848,
       price: '$190.45',
       qty: 133,
-      status: 'Scheduled',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-10.png',
       productBrand: 'Armchair, Skartofta black/light grey'
     },
@@ -143,7 +143,7 @@ export const db: ECommerceType = {
       sku: 59551,
       price: '$499',
       qty: 145,
-      status: 'Scheduled',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-12.png',
       productBrand: 'Marvel at incredible graphics and experience'
     },
@@ -155,7 +155,7 @@ export const db: ECommerceType = {
       sku: 5829,
       price: '$263.49',
       qty: 587,
-      status: 'Scheduled',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-13.png',
       productBrand: '4K UHD smart TV, stream live TV without cable'
     },
@@ -167,7 +167,7 @@ export const db: ECommerceType = {
       sku: 24456,
       price: '$34.99',
       qty: 310,
-      status: 'Scheduled',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-14.png',
       productBrand: 'Modern Farmhouse Decor Vase Set of 3'
     },
@@ -179,7 +179,7 @@ export const db: ECommerceType = {
       sku: 35946,
       price: '$248.39',
       qty: 468,
-      status: 'Published',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-15.png',
       productBrand: '10.2-inch Retina Display, 64GB'
     },
@@ -203,7 +203,7 @@ export const db: ECommerceType = {
       sku: 43224,
       price: '$49.99',
       qty: 787,
-      status: 'Published',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-17.png',
       productBrand: 'Dual Controller Charger Station Dock'
     },
@@ -215,7 +215,7 @@ export const db: ECommerceType = {
       sku: 63474,
       price: '$399',
       qty: 810,
-      status: 'Scheduled',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-18.png',
       productBrand: '18-55mm Lens | Built-in Wi-Fi | 24.1 MP CMOS Sensor'
     },
@@ -251,7 +251,7 @@ export const db: ECommerceType = {
       sku: 99009,
       price: '$719.13',
       qty: 927,
-      status: 'Scheduled',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-1.png',
       productBrand: 'Cruickshank-Jones'
     },
@@ -263,7 +263,7 @@ export const db: ECommerceType = {
       sku: 53795,
       price: '$775.80',
       qty: 442,
-      status: 'Scheduled',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-2.png',
       productBrand: 'Ferry Group'
     },
@@ -275,7 +275,7 @@ export const db: ECommerceType = {
       sku: 77663,
       price: '$817.60',
       qty: 256,
-      status: 'Published',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-3.png',
       productBrand: 'Bruen-Heathcote'
     },
@@ -287,7 +287,7 @@ export const db: ECommerceType = {
       sku: 45282,
       price: '$167.19',
       qty: 728,
-      status: 'Published',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-4.png',
       productBrand: 'Koch Group'
     },
@@ -299,7 +299,7 @@ export const db: ECommerceType = {
       sku: 5622,
       price: '$189.77',
       qty: 445,
-      status: 'Scheduled',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-5.png',
       productBrand: 'Emmerich and Sons'
     },
@@ -311,7 +311,7 @@ export const db: ECommerceType = {
       sku: 38920,
       price: '$411.46',
       qty: 857,
-      status: 'Scheduled',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-6.png',
       productBrand: 'Zulauf-Prohaska'
     },
@@ -323,7 +323,7 @@ export const db: ECommerceType = {
       sku: 78211,
       price: '$961.76',
       qty: 975,
-      status: 'Published',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-7.png',
       productBrand: 'VonRueden, Rogahn and Kris'
     },
@@ -335,7 +335,7 @@ export const db: ECommerceType = {
       sku: 98552,
       price: '$514.14',
       qty: 39,
-      status: 'Published',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-8.png',
       productBrand: "Romaguera, O'Connell and Abernathy"
     },
@@ -347,7 +347,7 @@ export const db: ECommerceType = {
       sku: 7151,
       price: '$591.30',
       qty: 74,
-      status: 'Published',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-9.png',
       productBrand: 'Mills, Hagenes and Bednar'
     },
@@ -383,7 +383,7 @@ export const db: ECommerceType = {
       sku: 6506,
       price: '$951.29',
       qty: 770,
-      status: 'Published',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-12.png',
       productBrand: 'Langosh Inc'
     },
@@ -407,7 +407,7 @@ export const db: ECommerceType = {
       sku: 60307,
       price: '$337.90',
       qty: 896,
-      status: 'Scheduled',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-14.png',
       productBrand: 'Barrows, Quitzon and Roberts'
     },
@@ -431,7 +431,7 @@ export const db: ECommerceType = {
       sku: 69072,
       price: '$756.81',
       qty: 410,
-      status: 'Scheduled',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-16.png',
       productBrand: "O'Conner-Zboncak"
     },
@@ -443,7 +443,7 @@ export const db: ECommerceType = {
       sku: 68290,
       price: '$256.86',
       qty: 630,
-      status: 'Published',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-17.png',
       productBrand: 'Rutherford, Heller and Bashirian'
     },
@@ -479,7 +479,7 @@ export const db: ECommerceType = {
       sku: 90484,
       price: '$745.76',
       qty: 697,
-      status: 'Published',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-20.png',
       productBrand: 'Johnston, Anderson and Metz'
     },
@@ -491,7 +491,7 @@ export const db: ECommerceType = {
       sku: 76980,
       price: '$603.16',
       qty: 74,
-      status: 'Published',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-1.png',
       productBrand: "O'Conner, Paucek and Braun"
     },
@@ -503,7 +503,7 @@ export const db: ECommerceType = {
       sku: 66971,
       price: '$772.51',
       qty: 280,
-      status: 'Published',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-2.png',
       productBrand: 'Wisoky-Kassulke'
     },
@@ -551,7 +551,7 @@ export const db: ECommerceType = {
       sku: 48177,
       price: '$224.28',
       qty: 935,
-      status: 'Scheduled',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-1.png',
       productBrand: 'Kreiger, Reynolds and Sporer'
     },
@@ -563,7 +563,7 @@ export const db: ECommerceType = {
       sku: 225,
       price: '$952.14',
       qty: 361,
-      status: 'Published',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-6.png',
       productBrand: 'Kuphal-Abbott'
     },
@@ -575,7 +575,7 @@ export const db: ECommerceType = {
       sku: 29438,
       price: '$646.21',
       qty: 908,
-      status: 'Scheduled',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-7.png',
       productBrand: 'Romaguera, Schmeler and Volkman'
     },
@@ -587,7 +587,7 @@ export const db: ECommerceType = {
       sku: 55666,
       price: '$583.13',
       qty: 898,
-      status: 'Scheduled',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-1.png',
       productBrand: 'Hane-Romaguera'
     },
@@ -599,7 +599,7 @@ export const db: ECommerceType = {
       sku: 55860,
       price: '$273.67',
       qty: 332,
-      status: 'Published',
+      status: 'Active',
       image: '/images/apps/ecommerce/product-9.png',
       productBrand: 'Hoeger-Powlowski'
     }
@@ -614,7 +614,7 @@ export const db: ECommerceType = {
       email: 'zscraggs0@flavors.me',
       avatar: '/images/avatars/1.png',
       date: '5/28/2020',
-      status: 'Published',
+      status: 'Active',
       review: 2,
       head: 'lorem ipsum dolor',
       para: 'Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.'
@@ -628,7 +628,7 @@ export const db: ECommerceType = {
       email: 'shallgalley1@google.nl',
       avatar: '/images/avatars/2.png',
       date: '3/21/2021',
-      status: 'Published',
+      status: 'Active',
       review: 5,
       head: 'libero ut',
       para: 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.'
@@ -642,7 +642,7 @@ export const db: ECommerceType = {
       email: 'fcoulthurst2@upenn.edu',
       avatar: '/images/avatars/3.png',
       date: '8/10/2020',
-      status: 'Published',
+      status: 'Active',
       review: 2,
       head: 'neque libero convallis',
       para: 'Phasellus in felis. Donec semper sapien a libero. Nam dui.'
@@ -726,7 +726,7 @@ export const db: ECommerceType = {
       email: 'gleppard8@yandex.ru',
       avatar: '/images/avatars/1.png',
       date: '4/20/2020',
-      status: 'Published',
+      status: 'Active',
       review: 2,
       head: 'ut mauris',
       para: 'Fusce consequat. Nulla nisl. Nunc nisl.'
@@ -768,7 +768,7 @@ export const db: ECommerceType = {
       email: 'nkingscottb@soup.io',
       avatar: '/images/avatars/4.png',
       date: '12/27/2020',
-      status: 'Published',
+      status: 'Active',
       review: 1,
       head: 'lacus at velit',
       para: 'Phasellus in felis. Donec semper sapien a libero. Nam dui.'
@@ -782,7 +782,7 @@ export const db: ECommerceType = {
       email: 'tventhamc@thetimes.co.uk',
       avatar: '/images/avatars/5.png',
       date: '3/17/2021',
-      status: 'Published',
+      status: 'Active',
       review: 3,
       head: 'at nunc commodo placerat praesent',
       para: 'Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.'
@@ -796,7 +796,7 @@ export const db: ECommerceType = {
       email: 'rtruckelld@gravatar.com',
       avatar: '/images/avatars/6.png',
       date: '2/23/2020',
-      status: 'Published',
+      status: 'Active',
       review: 5,
       head: 'in hac',
       para: 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.'
@@ -810,7 +810,7 @@ export const db: ECommerceType = {
       email: 'jheggse@nba.com',
       avatar: '/images/avatars/7.png',
       date: '4/21/2020',
-      status: 'Published',
+      status: 'Active',
       review: 1,
       head: 'ac consequat',
       para: 'Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam.'
@@ -824,7 +824,7 @@ export const db: ECommerceType = {
       email: 'mrowesbyf@surveymonkey.com',
       avatar: '/images/avatars/1.png',
       date: '12/11/2021',
-      status: 'Published',
+      status: 'Active',
       review: 1,
       head: 'mattis egestas metus',
       para: 'Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.'
@@ -838,7 +838,7 @@ export const db: ECommerceType = {
       email: 'bbenzag@utexas.edu',
       avatar: '/images/avatars/2.png',
       date: '4/26/2021',
-      status: 'Published',
+      status: 'Active',
       review: 1,
       head: 'sapien placerat',
       para: 'Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.'
@@ -866,7 +866,7 @@ export const db: ECommerceType = {
       email: 'wfieldsi@columbia.edu',
       avatar: '/images/avatars/1.png',
       date: '3/30/2020',
-      status: 'Published',
+      status: 'Active',
       review: 1,
       head: 'parturient montes nascetur ridiculus',
       para: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.'
@@ -894,7 +894,7 @@ export const db: ECommerceType = {
       email: 'rwalshk@latimes.com',
       avatar: '/images/avatars/1.png',
       date: '7/17/2021',
-      status: 'Published',
+      status: 'Active',
       review: 1,
       head: 'convallis nulla',
       para: 'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.'
@@ -936,7 +936,7 @@ export const db: ECommerceType = {
       email: 'hmorsleyn@gov.uk',
       avatar: '/images/avatars/1.png',
       date: '2/12/2021',
-      status: 'Published',
+      status: 'Active',
       review: 2,
       head: 'metus sapien ut',
       para: 'Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.'
@@ -964,7 +964,7 @@ export const db: ECommerceType = {
       email: 'iovillp@newsvine.com',
       avatar: '/images/avatars/1.png',
       date: '11/18/2020',
-      status: 'Published',
+      status: 'Active',
       review: 2,
       head: 'vestibulum ante ipsum',
       para: 'Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.'
@@ -978,7 +978,7 @@ export const db: ECommerceType = {
       email: 'sbreckinq@jimdo.com',
       avatar: '/images/avatars/1.png',
       date: '7/26/2020',
-      status: 'Published',
+      status: 'Active',
       review: 2,
       head: 'vel enim',
       para: 'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.'
@@ -1034,7 +1034,7 @@ export const db: ECommerceType = {
       email: 'bodowdu@infoseek.co.jp',
       avatar: '/images/avatars/1.png',
       date: '7/7/2020',
-      status: 'Published',
+      status: 'Active',
       review: 5,
       head: 'odio elementum eu',
       para: 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.'
@@ -1048,7 +1048,7 @@ export const db: ECommerceType = {
       email: 'bbodimeadev@gnu.org',
       avatar: '/images/avatars/1.png',
       date: '3/21/2020',
-      status: 'Published',
+      status: 'Active',
       review: 2,
       head: 'in imperdiet et commodo',
       para: 'Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.'
@@ -1062,7 +1062,7 @@ export const db: ECommerceType = {
       email: 'rallanw@ucsd.edu',
       avatar: '/images/avatars/1.png',
       date: '1/23/2020',
-      status: 'Published',
+      status: 'Active',
       review: 4,
       head: 'pellentesque at',
       para: 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.'
@@ -1104,7 +1104,7 @@ export const db: ECommerceType = {
       email: 'dmacgettigenz@ca.gov',
       avatar: '/images/avatars/1.png',
       date: '2/17/2020',
-      status: 'Published',
+      status: 'Active',
       review: 1,
       head: 'vel dapibus',
       para: 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.'
@@ -1118,7 +1118,7 @@ export const db: ECommerceType = {
       email: 'lbraunroth10@nytimes.com',
       avatar: '/images/avatars/1.png',
       date: '1/28/2021',
-      status: 'Published',
+      status: 'Active',
       review: 4,
       head: 'sit amet consectetuer',
       para: 'Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.'
@@ -1132,7 +1132,7 @@ export const db: ECommerceType = {
       email: 'nvasilic11@ft.com',
       avatar: '/images/avatars/1.png',
       date: '1/2/2020',
-      status: 'Published',
+      status: 'Active',
       review: 1,
       head: 'blandit non',
       para: 'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.'
@@ -1146,7 +1146,7 @@ export const db: ECommerceType = {
       email: 'mforseith12@phpbb.com',
       avatar: '/images/avatars/1.png',
       date: '7/2/2020',
-      status: 'Published',
+      status: 'Active',
       review: 1,
       head: 'in ante vestibulum ante',
       para: 'Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.'
@@ -1188,7 +1188,7 @@ export const db: ECommerceType = {
       email: 'fdrury15@chicagotribune.com',
       avatar: '/images/avatars/1.png',
       date: '2/11/2020',
-      status: 'Published',
+      status: 'Active',
       review: 3,
       head: 'dictumst aliquam augue quam',
       para: 'Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.'
@@ -1202,7 +1202,7 @@ export const db: ECommerceType = {
       email: 'ajouen16@admin.ch',
       avatar: '/images/avatars/1.png',
       date: '12/11/2020',
-      status: 'Published',
+      status: 'Active',
       review: 3,
       head: 'mauris non ligula pellentesque ultrices',
       para: 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.'
@@ -1300,7 +1300,7 @@ export const db: ECommerceType = {
       email: 'chadden1d@hao123.com',
       avatar: '/images/avatars/1.png',
       date: '4/15/2020',
-      status: 'Published',
+      status: 'Active',
       review: 5,
       head: 'non sodales',
       para: 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.'
@@ -1356,7 +1356,7 @@ export const db: ECommerceType = {
       email: 'fdavis1h@guardian.co.uk',
       avatar: '/images/avatars/1.png',
       date: '3/16/2021',
-      status: 'Published',
+      status: 'Active',
       review: 5,
       head: 'maecenas pulvinar lobortis est phasellus',
       para: 'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.'
@@ -1398,7 +1398,7 @@ export const db: ECommerceType = {
       email: 'gleftley1k@disqus.com',
       avatar: '/images/avatars/1.png',
       date: '9/19/2021',
-      status: 'Published',
+      status: 'Active',
       review: 3,
       head: 'sed nisl nunc rhoncus',
       para: 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.'
@@ -1412,7 +1412,7 @@ export const db: ECommerceType = {
       email: 'rcritcher1l@icq.com',
       avatar: '/images/avatars/1.png',
       date: '4/20/2020',
-      status: 'Published',
+      status: 'Active',
       review: 5,
       head: 'bibendum imperdiet nullam orci',
       para: 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.'
@@ -1426,7 +1426,7 @@ export const db: ECommerceType = {
       email: 'ctersay1m@berkeley.edu',
       avatar: '/images/avatars/1.png',
       date: '3/31/2021',
-      status: 'Published',
+      status: 'Active',
       review: 4,
       head: 'curabitur at',
       para: 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.'
@@ -1440,7 +1440,7 @@ export const db: ECommerceType = {
       email: 'rrosenauer1n@360.cn',
       avatar: '/images/avatars/1.png',
       date: '6/3/2020',
-      status: 'Published',
+      status: 'Active',
       review: 2,
       head: 'massa donec dapibus duis at',
       para: 'Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.'
@@ -1482,7 +1482,7 @@ export const db: ECommerceType = {
       email: 'noliffe1q@tinypic.com',
       avatar: '/images/avatars/1.png',
       date: '3/31/2021',
-      status: 'Published',
+      status: 'Active',
       review: 4,
       head: 'sagittis nam congue',
       para: 'Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.'
@@ -1510,7 +1510,7 @@ export const db: ECommerceType = {
       email: 'cperot1s@goodreads.com',
       avatar: '/images/avatars/1.png',
       date: '10/15/2020',
-      status: 'Published',
+      status: 'Active',
       review: 4,
       head: 'enim blandit mi',
       para: 'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.'
@@ -1524,7 +1524,7 @@ export const db: ECommerceType = {
       email: 'wtivenan1t@example.com',
       avatar: '/images/avatars/1.png',
       date: '5/27/2021',
-      status: 'Published',
+      status: 'Active',
       review: 3,
       head: 'pede ullamcorper augue a suscipit',
       para: 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.'
@@ -1538,7 +1538,7 @@ export const db: ECommerceType = {
       email: 'fperceval1u@psu.edu',
       avatar: '/images/avatars/1.png',
       date: '10/2/2020',
-      status: 'Published',
+      status: 'Active',
       review: 2,
       head: 'porta volutpat',
       para: 'In congue. Etiam justo. Etiam pretium iaculis justo.'
@@ -1552,7 +1552,7 @@ export const db: ECommerceType = {
       email: 'srunge1v@theatlantic.com',
       avatar: '/images/avatars/1.png',
       date: '12/17/2021',
-      status: 'Published',
+      status: 'Active',
       review: 3,
       head: 'aliquam lacus morbi quis tortor',
       para: 'Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.'
@@ -1594,7 +1594,7 @@ export const db: ECommerceType = {
       email: 'bpetit1y@addtoany.com',
       avatar: '/images/avatars/1.png',
       date: '8/9/2021',
-      status: 'Published',
+      status: 'Active',
       review: 5,
       head: 'blandit lacinia erat vestibulum sed',
       para: 'Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.'
@@ -1622,7 +1622,7 @@ export const db: ECommerceType = {
       email: 'gpainter20@drupal.org',
       avatar: '/images/avatars/1.png',
       date: '12/11/2021',
-      status: 'Published',
+      status: 'Active',
       review: 4,
       head: 'tortor duis mattis egestas',
       para: 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.'
@@ -1650,7 +1650,7 @@ export const db: ECommerceType = {
       email: 'areah22@indiegogo.com',
       avatar: '/images/avatars/1.png',
       date: '11/22/2021',
-      status: 'Published',
+      status: 'Active',
       review: 3,
       head: 'sit amet lobortis sapien',
       para: 'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.'
@@ -1678,7 +1678,7 @@ export const db: ECommerceType = {
       email: 'fhance24@odnoklassniki.ru',
       avatar: '/images/avatars/1.png',
       date: '7/1/2021',
-      status: 'Published',
+      status: 'Active',
       review: 5,
       head: 'luctus tincidunt nulla mollis molestie',
       para: 'In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.'
@@ -1692,7 +1692,7 @@ export const db: ECommerceType = {
       email: 'mhazelton25@miitbeian.gov.cn',
       avatar: '/images/avatars/1.png',
       date: '5/31/2021',
-      status: 'Published',
+      status: 'Active',
       review: 1,
       head: 'ut odio cras',
       para: 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.'
@@ -1748,7 +1748,7 @@ export const db: ECommerceType = {
       email: 'amapham29@cbslocal.com',
       avatar: '/images/avatars/1.png',
       date: '6/10/2021',
-      status: 'Published',
+      status: 'Active',
       review: 4,
       head: 'odio porttitor',
       para: 'Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.'
@@ -1762,7 +1762,7 @@ export const db: ECommerceType = {
       email: 'lprosek2a@webs.com',
       avatar: '/images/avatars/1.png',
       date: '7/16/2021',
-      status: 'Published',
+      status: 'Active',
       review: 1,
       head: 'lacinia sapien quis',
       para: 'Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.'
@@ -1818,7 +1818,7 @@ export const db: ECommerceType = {
       email: 'fmacieiczyk2e@sciencedaily.com',
       avatar: '/images/avatars/1.png',
       date: '8/27/2020',
-      status: 'Published',
+      status: 'Active',
       review: 4,
       head: 'augue quam sollicitudin',
       para: 'Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.'
@@ -1874,7 +1874,7 @@ export const db: ECommerceType = {
       email: 'mrobichon2i@accuweather.com',
       avatar: '/images/avatars/1.png',
       date: '4/12/2020',
-      status: 'Published',
+      status: 'Active',
       review: 3,
       head: 'dui maecenas',
       para: 'Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.'
@@ -1902,7 +1902,7 @@ export const db: ECommerceType = {
       email: 'hflannigan2k@printfriendly.com',
       avatar: '/images/avatars/1.png',
       date: '6/3/2020',
-      status: 'Published',
+      status: 'Active',
       review: 5,
       head: 'ultrices phasellus id',
       para: 'Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.'
@@ -1930,7 +1930,7 @@ export const db: ECommerceType = {
       email: 'auc2m@archive.org',
       avatar: '/images/avatars/1.png',
       date: '1/27/2021',
-      status: 'Published',
+      status: 'Active',
       review: 4,
       head: 'fermentum justo',
       para: 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.'
@@ -1972,7 +1972,7 @@ export const db: ECommerceType = {
       email: 'wpaolone2p@paginegialle.it',
       avatar: '/images/avatars/1.png',
       date: '7/15/2021',
-      status: 'Published',
+      status: 'Active',
       review: 2,
       head: 'tincidunt in leo maecenas',
       para: 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.'
@@ -2000,7 +2000,7 @@ export const db: ECommerceType = {
       email: 'ldudman2r@nationalgeographic.com',
       avatar: '/images/avatars/1.png',
       date: '11/12/2020',
-      status: 'Published',
+      status: 'Active',
       review: 3,
       head: 'suscipit ligula in lacus',
       para: 'In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.'

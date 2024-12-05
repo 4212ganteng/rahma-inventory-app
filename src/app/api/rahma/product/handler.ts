@@ -1,8 +1,6 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
-import { ProductCategory } from '@prisma/client'
-
 import { ProductService } from '@/services/product-service'
 
 export class ProductController {
@@ -18,22 +16,17 @@ export class ProductController {
       const body = await req.json()
 
       // Validasi input
-      const { name, sku, category, unit, description, minStockThreshold } = body
+      const { name, sku, categoryId, unitId, description, minStockThreshold } = body
 
-      if (!name || !sku || !category || !unit) {
+      if (!name || !sku || !categoryId || !unitId) {
         return NextResponse.json({ message: 'Data produk tidak lengkap' }, { status: 400 })
-      }
-
-      // Validasi kategori
-      if (!Object.values(ProductCategory).includes(category)) {
-        return NextResponse.json({ message: 'Kategori produk tidak valid' }, { status: 400 })
       }
 
       const newProduct = await this.productService.createProduct({
         name,
         sku,
         categoryId,
-        unit,
+        unitId,
         description,
         minStockThreshold
       })
@@ -72,9 +65,10 @@ export class ProductController {
   }
 
   // Dapatkan Produk berdasarkan ID
-  async getProductById(req: NextRequest, { params }: { params: { id: string } }) {
+  async getProductById(req: NextRequest, id: string) {
     try {
-      const product = await this.productService.getProductById(params.id)
+      console.log('beneran id nih bos', id)
+      const product = await this.productService.getProductById(id)
 
       return NextResponse.json(
         {
@@ -89,11 +83,11 @@ export class ProductController {
   }
 
   // Update Produk
-  async updateProduct(req: NextRequest, { params }: { params: { id: string } }) {
+  async updateProduct(req: NextRequest, id: string) {
     try {
       const body = await req.json()
 
-      const updatedProduct = await this.productService.updateProduct(params.id, body)
+      const updatedProduct = await this.productService.updateProduct(id, body)
 
       return NextResponse.json(
         {
@@ -108,9 +102,9 @@ export class ProductController {
   }
 
   // Hapus Produk
-  async deleteProduct(req: NextRequest, { params }: { params: { id: string } }) {
+  async deleteProduct(req: NextRequest, id: string) {
     try {
-      await this.productService.deleteProduct(params.id)
+      await this.productService.deleteProduct(id)
 
       return NextResponse.json(
         {
