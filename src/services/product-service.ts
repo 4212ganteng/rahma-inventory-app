@@ -7,6 +7,7 @@ type Tproduct = {
   description: string | null
   categoryId: string
   unitId: string
+  image: string
   minStockThreshold: number
 }
 

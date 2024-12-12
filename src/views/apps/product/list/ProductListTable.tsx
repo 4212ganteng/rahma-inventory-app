@@ -58,6 +58,7 @@ import TableFilters from './TableFilters'
 import TablePaginationComponent from '@/components/TablePaginationComponent'
 import tableStyles from '@core/styles/table.module.css'
 import AddProductDrawer from '../AddProductDrawer'
+import { UseProduct } from './hooks/useProduct'
 
 
 declare module '@tanstack/table-core' {
@@ -149,6 +150,9 @@ const productStatusObj: productStatusType = {
 const columnHelper = createColumnHelper<ProductWithActionsType>()
 
 const ProductListTable = ({ productData }: { productData?: ProductType[] }) => {
+
+  const { CreateproductwithFile } = UseProduct()
+
   // States
   const [rowSelection, setRowSelection] = useState({})
   const [data, setData] = useState(...[productData])
@@ -225,17 +229,18 @@ const ProductListTable = ({ productData }: { productData?: ProductType[] }) => {
         header: 'QTY',
         cell: ({ row }) => <Typography>{row.original.qty}</Typography>
       }),
-      columnHelper.accessor('status', {
-        header: 'Status',
-        cell: ({ row }) => (
-          <Chip
-            label={productStatusObj[row.original.status].title}
-            variant='tonal'
-            color={productStatusObj[row.original.status].color}
-            size='small'
-          />
-        )
-      }),
+
+      // columnHelper.accessor('status', {
+      //   header: 'Status',
+      //   cell: ({ row }) => (
+      //     <Chip
+      //       label={productStatusObj[row.original.status].title}
+      //       variant='tonal'
+      //       color={productStatusObj[row.original.status].color}
+      //       size='small'
+      //     />
+      //   )
+      // }),
       columnHelper.accessor('actions', {
         header: 'Actions',
         cell: ({ row }) => (
@@ -297,9 +302,8 @@ const ProductListTable = ({ productData }: { productData?: ProductType[] }) => {
   return (
     <>
       <Card>
-        <CardHeader title='Filters' />
-        <TableFilters setData={setFilteredData} productData={data} />
-        <Divider />
+        <CardHeader title='Products' />
+
         <div className='flex flex-wrap justify-between gap-4 p-6'>
           <DebouncedInput
             value={globalFilter ?? ''}
@@ -404,8 +408,11 @@ const ProductListTable = ({ productData }: { productData?: ProductType[] }) => {
 
         <AddProductDrawer
           open={addCategoryOpen}
-          productData={data || []}
-          setData={setData}
+
+          // product={productData}
+          onDataSubmit={CreateproductwithFile}
+
+          // product={}
           handleClose={() => setAddCategoryOpen(!addCategoryOpen)}
         />
       </Card>

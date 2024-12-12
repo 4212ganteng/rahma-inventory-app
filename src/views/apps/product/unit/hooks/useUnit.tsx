@@ -39,10 +39,9 @@ export const useUnit = () => {
 
   // create unit
   const createUnit = async (payload: unitForm) => {
-    console.log('kddjkhdfjuh')
+    setLoading(true)
 
     try {
-      setLoading(true)
       const response = await api_v1.post('rahma/unit', payload)
 
       console.log({ response })

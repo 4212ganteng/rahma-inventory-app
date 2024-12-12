@@ -1,3 +1,7 @@
+import { writeFile } from 'fs/promises'
+
+import path from 'path'
+
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
@@ -15,6 +19,8 @@ export class ProductController {
     try {
       const body = await req.json()
 
+      console.log({ body })
+
       // Validasi input
       const { name, sku, categoryId, unitId, description, minStockThreshold } = body
 
@@ -28,7 +34,8 @@ export class ProductController {
         categoryId,
         unitId,
         description,
-        minStockThreshold
+        minStockThreshold: Number(minStockThreshold),
+        image: ''
       })
 
       return NextResponse.json(
@@ -40,6 +47,57 @@ export class ProductController {
       )
     } catch (error) {
       return this.handleError(error)
+    }
+  }
+
+  // create product upload file
+  async createProductUpfile(req: NextRequest) {
+    const formData = await req.formData()
+
+    const file = formData.get('image') as string
+    const name = formData.get('name') as string
+    const sku = formData.get('sku') as string
+    const description = formData.get('description') as string
+    const minStockThreshold = formData.get('minStockThreshold') as string
+    const categoryId = formData.get('categoryId') as string
+    const unitId = formData.get('unitId') as string
+
+    if (!file) {
+      return NextResponse.json({ error: 'No files received.' }, { status: 400 })
+    }
+
+    console.log('ini fileeee', file)
+
+    const buffer = Buffer.from(await file.arrayBuffer())
+
+    const filename = file.name.replaceAll(' ', '_')
+
+    console.log(filename)
+
+    if (!name || !sku || !categoryId || !unitId) {
+      return NextResponse.json({ message: 'Data produk tidak lengkap' }, { status: 400 })
+    }
+
+    try {
+      await writeFile(path.join(process.cwd(), 'public/assets/' + filename), buffer)
+
+      const newProduct = await this.productService.createProduct({
+        name,
+        image: filename,
+        sku,
+        categoryId,
+        unitId,
+        description,
+        minStockThreshold: Number(minStockThreshold)
+      })
+
+      console.log({ newProduct })
+
+      return NextResponse.json({ message: 'Produk berhasil dibuat', data: newProduct }, { status: 201 })
+    } catch (error) {
+      console.log('Error occured ', error)
+
+      return NextResponse.json({ message: 'Failed', error }, { status: 500 })
     }
   }
 

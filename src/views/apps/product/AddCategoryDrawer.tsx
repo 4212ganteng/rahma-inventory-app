@@ -154,7 +154,7 @@ const AddCategoryDrawer: FC<Props> = ({ title, open, handleClose, category, onDa
 
           <div className='flex items-center gap-4'>
             <Button variant='contained' type='submit'>
-              Addd
+              Add
             </Button>
             <Button variant='tonal' color='error' type='reset' onClick={handleReset}>
               Discard

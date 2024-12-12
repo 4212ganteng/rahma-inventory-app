@@ -7,7 +7,9 @@ export async function POST(req: NextRequest) {
   console.log('im here')
   const controller = new ProductController()
 
-  return controller.createProduct(req)
+  // return controller.createProduct(req)
+
+  return controller.createProductUpfile(req)
 }
 
 export async function GET(req: NextRequest) {
