@@ -16,7 +16,7 @@ export interface Category {
 export interface CategoryFormData {
   category: string
   description: string
-  status: CategoryStatus
+  statusActive: CategoryStatus
 }
 
 export type productStatusType = {

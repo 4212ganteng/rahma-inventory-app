@@ -51,6 +51,8 @@ import OptionMenu from '@core/components/option-menu'
 import TablePaginationComponent from '@/components/TablePaginationComponent'
 import tableStyles from '@core/styles/table.module.css'
 import AddCategoryDrawer from '../AddCategoryDrawer'
+import AddUnitDrawer from '../AddUnitDrawer'
+import { useUnit } from './hooks/useUnit'
 
 
 declare module '@tanstack/table-core' {
@@ -119,8 +121,7 @@ const DebouncedInput = ({
 
 
 const productStatusObj: productStatusType = {
-  Scheduled: { title: 'Scheduled', color: 'warning' },
-  Published: { title: 'Publish', color: 'success' },
+  Active: { title: 'Active', color: 'success' },
   Inactive: { title: 'Inactive', color: 'error' }
 }
 
@@ -128,12 +129,14 @@ const productStatusObj: productStatusType = {
 const columnHelper = createColumnHelper<ProductWithActionsType>()
 
 const UnitListTable = ({ productData }: { productData?: ProductType[] }) => {
+
+  const { fetchUnit, dataUnit, createUnit } = useUnit()
+
   // States
   const [rowSelection, setRowSelection] = useState({})
-  const [data, setData] = useState(...[productData])
-  const [filteredData, setFilteredData] = useState(data)
+  const [filteredData, setFilteredData] = useState(dataUnit)
   const [globalFilter, setGlobalFilter] = useState('')
-  const [addCategoryOpen, setAddCategoryOpen] = useState(false)
+  const [addUnitOpen, setAddUnitOpen] = useState(false)
 
   // Hooks
   const { lang: locale } = useParams()
@@ -162,27 +165,27 @@ const UnitListTable = ({ productData }: { productData?: ProductType[] }) => {
           />
         )
       },
-      columnHelper.accessor('productName', {
+      columnHelper.accessor('unit', {
         header: 'Unit',
         cell: ({ row }) => (
           <div className='flex items-center gap-4'>
             <div className='flex flex-col'>
               <Typography className='font-medium' color='text.primary'>
-                {row.original.productName}
+                {row.original.unit}
               </Typography>
-              <Typography variant='body2'>{row.original.productBrand}</Typography>
+              <Typography variant='body2'>{row.original.description}</Typography>
             </div>
           </div>
         )
       }),
 
-      columnHelper.accessor('status', {
+      columnHelper.accessor('statusActive', {
         header: 'Status',
         cell: ({ row }) => (
           <Chip
-            label={productStatusObj[row.original.status].title}
+            label={productStatusObj[row.original.statusActive].title}
             variant='tonal'
-            color={productStatusObj[row.original.status].color}
+            color={productStatusObj[row.original.statusActive].color}
             size='small'
           />
         )
@@ -198,13 +201,13 @@ const UnitListTable = ({ productData }: { productData?: ProductType[] }) => {
               iconButtonProps={{ size: 'medium' }}
               iconClassName='text-textSecondary'
               options={[
-                { text: 'Download', icon: 'tabler-download' },
+
                 {
                   text: 'Delete',
                   icon: 'tabler-trash',
                   menuItemProps: { onClick: () => setData(data?.filter(product => product.id !== row.original.id)) }
                 },
-                { text: 'Duplicate', icon: 'tabler-copy' }
+
               ]}
             />
           </div>
@@ -213,11 +216,11 @@ const UnitListTable = ({ productData }: { productData?: ProductType[] }) => {
       })
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data, filteredData]
+    [dataUnit]
   )
 
   const table = useReactTable({
-    data: filteredData as ProductType[],
+    data: dataUnit || [],
     columns,
     filterFns: {
       fuzzy: fuzzyFilter
@@ -244,6 +247,10 @@ const UnitListTable = ({ productData }: { productData?: ProductType[] }) => {
     getFacetedUniqueValues: getFacetedUniqueValues(),
     getFacetedMinMaxValues: getFacetedMinMaxValues()
   })
+
+  useEffect(() => {
+    fetchUnit()
+  }, [])
 
   return (
     <>
@@ -281,10 +288,10 @@ const UnitListTable = ({ productData }: { productData?: ProductType[] }) => {
               variant='contained'
 
               className='max-sm:is-full is-auto'
-              onClick={() => setAddCategoryOpen(!addCategoryOpen)}
+              onClick={() => setAddUnitOpen(!addUnitOpen)}
               startIcon={<i className='tabler-plus' />}
             >
-              Add Product
+              Add Unit
             </Button>
           </div>
         </div>
@@ -352,14 +359,7 @@ const UnitListTable = ({ productData }: { productData?: ProductType[] }) => {
             table.setPageIndex(page)
           }}
         />
-
-        <AddCategoryDrawer
-          title='Add Unit'
-          open={addCategoryOpen}
-          productData={data || []}
-          setData={setData}
-          handleClose={() => setAddCategoryOpen(!addCategoryOpen)}
-        />
+        <AddUnitDrawer handleClose={() => setAddUnitOpen(!addUnitOpen)} open={addUnitOpen} title='Add Unit' onDataSubmit={createUnit} />
       </Card>
     </>
   )

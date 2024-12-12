@@ -7,22 +7,25 @@ import { minLength, nonEmpty, object, pipe, string } from 'valibot';
 
 
 
+import type { Unit } from '@prisma/client';
+
 import CustomTextField from '@/@core/components/mui/TextField';
 
-import type { Category, CategoryFormData } from '@/types/apps/categoryType';
+
+type unitForm = Omit<Unit, 'id' | 'isDeleted'>
 
 
 type Props = {
   open: boolean
   title: string
   handleClose: () => void
-  category?: Category | null
-  onDataSubmit: (data: CategoryFormData) => Promise<void>
+  unit?: Unit | null
+  onDataSubmit: (data: unitForm) => Promise<void>
 }
 
 
 const schema = object({
-  category: pipe(
+  unit: pipe(
     string(),
     nonEmpty('This field is required'),
     minLength(3, 'First Name must be at least 3 characters long')
@@ -38,14 +41,14 @@ const schema = object({
 })
 
 
-const defaultValues = {
-  category: '',
+const defaultValues: unitForm = {
+  unit: '',
   description: '',
   statusActive: 'Active'
 }
 
 // start func
-const AddCategoryDrawer: FC<Props> = ({ title, open, handleClose, category, onDataSubmit }) => {
+const AddUnitDrawer: FC<Props> = ({ title, open, handleClose, unit, onDataSubmit }) => {
 
   // React Hook Form
   const {
@@ -53,7 +56,7 @@ const AddCategoryDrawer: FC<Props> = ({ title, open, handleClose, category, onDa
     handleSubmit,
     formState: { errors },
     reset: resetForm
-  } = useForm<CategoryFormData>({
+  } = useForm<unitForm>({
     defaultValues: defaultValues,
     resolver: valibotResolver(schema)
   })
@@ -97,17 +100,17 @@ const AddCategoryDrawer: FC<Props> = ({ title, open, handleClose, category, onDa
 
           {/* category name */}
           <Controller
-            name='category'
+            name='unit'
             control={control}
             rules={{ required: true }}
             render={({ field }) => (
               <CustomTextField
                 {...field}
                 fullWidth
-                label='Category'
+                label='Unit'
                 placeholder='Fashion'
                 value={field.value}
-                {...(errors.category && { error: true, helperText: errors.category.message })}
+                {...(errors.unit && { error: true, helperText: errors.unit.message })}
               />
             )}
 
@@ -154,7 +157,7 @@ const AddCategoryDrawer: FC<Props> = ({ title, open, handleClose, category, onDa
 
           <div className='flex items-center gap-4'>
             <Button variant='contained' type='submit'>
-              Addd
+              Addss
             </Button>
             <Button variant='tonal' color='error' type='reset' onClick={handleReset}>
               Discard
@@ -166,5 +169,5 @@ const AddCategoryDrawer: FC<Props> = ({ title, open, handleClose, category, onDa
   )
 }
 
-export default AddCategoryDrawer
+export default AddUnitDrawer
 

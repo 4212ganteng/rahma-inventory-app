@@ -15,7 +15,6 @@ import Chip from '@mui/material/Chip'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import MenuItem from '@mui/material/MenuItem'
-import Switch from '@mui/material/Switch'
 import TablePagination from '@mui/material/TablePagination'
 import type { TextFieldProps } from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
@@ -48,10 +47,8 @@ import type { ThemeColor } from '@core/types'
 import type { ProductType } from '@/types/apps/productTypes'
 
 // Component Imports
-import CustomAvatar from '@core/components/mui/Avatar'
 import CustomTextField from '@core/components/mui/TextField'
 import OptionMenu from '@core/components/option-menu'
-import TableFilters from '../list/TableFilters'
 
 // Util Imports
 
@@ -138,7 +135,8 @@ const columnHelper = createColumnHelper<Category>()
 const CategoryListTable = () => {
   // Hooks
   const { lang: locale } = useParams()
-  const { fetchCategory, dataCategory } = useCategory()
+
+  const { fetchCategory, dataCategory, createCategory } = useCategory()
 
   // States
   const [rowSelection, setRowSelection] = useState({})
@@ -375,7 +373,7 @@ const CategoryListTable = () => {
           title='Add Category'
           open={addCategoryOpen}
 
-          setData={setFilteredData}
+          onDataSubmit={createCategory}
 
           // category={}
           handleClose={() => setAddCategoryOpen(!addCategoryOpen)}
