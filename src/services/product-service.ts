@@ -51,19 +51,48 @@ export class ProductService {
       include: {
         _count: {
           select: { inventoryEntries: true }
+        },
+        category: {
+          select: { category: true }
+        },
+        unit: {
+          select: { unit: true }
         }
+      },
+
+      orderBy: {
+        id: 'desc'
       }
     })
+
+    const totByCategory = await this.prisma.product.groupBy({
+      by: ['categoryId']
+    })
+
+    const totByUnit = await this.prisma.product.groupBy({
+      by: ['unitId']
+    })
+
+    const totalCategory = totByCategory.length
+    const totalUnit = totByUnit.length
+
+    const counttotalInventoryEntries = products.reduce((total, entriesInventory) => {
+      return total + (entriesInventory._count.inventoryEntries || 0)
+    }, 0)
 
     return {
       products: products.map(product => ({
         ...product,
         totalInventoryEntries: product._count.inventoryEntries
       })),
+
       pagination: {
         currentPage: page,
         totalPages: Math.ceil(totalProducts / limit),
-        totalProducts
+        totalProducts,
+        totalCategory,
+        totalUnit,
+        counttotalInventoryEntries
       }
     }
   }

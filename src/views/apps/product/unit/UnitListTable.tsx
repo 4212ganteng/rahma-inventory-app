@@ -128,7 +128,7 @@ const productStatusObj: productStatusType = {
 // Column Definitions
 const columnHelper = createColumnHelper<ProductWithActionsType>()
 
-const UnitListTable = ({ productData }: { productData?: ProductType[] }) => {
+const UnitListTable = () => {
 
   const { fetchUnit, dataUnit, createUnit } = useUnit()
 

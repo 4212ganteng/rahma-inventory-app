@@ -62,15 +62,18 @@ export class ProductController {
     const categoryId = formData.get('categoryId') as string
     const unitId = formData.get('unitId') as string
 
-    if (!file) {
-      return NextResponse.json({ error: 'No files received.' }, { status: 400 })
+    if (!file || file === 'undefined') {
+      console.log(file)
+      console.log(typeof file)
+
+      return NextResponse.json({ error: 'Gambar wajib di isi' }, { status: 400 })
     }
 
     console.log('ini fileeee', file)
 
     const buffer = Buffer.from(await file.arrayBuffer())
 
-    const filename = file.name.replaceAll(' ', '_')
+    const filename = file.name.replaceAll(' ', '_') || 'public/images/products/product1.png'
 
     console.log(filename)
 
@@ -79,7 +82,7 @@ export class ProductController {
     }
 
     try {
-      await writeFile(path.join(process.cwd(), 'public/assets/' + filename), buffer)
+      await writeFile(path.join(process.cwd(), 'public/images/products' + filename), buffer)
 
       const newProduct = await this.productService.createProduct({
         name,

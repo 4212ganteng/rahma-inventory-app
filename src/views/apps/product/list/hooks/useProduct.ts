@@ -13,6 +13,26 @@ type ProductForm = Omit<Product, 'id' | 'createdAt' | 'updatedAt'>
 
 export const UseProduct = () => {
   const [loading, setLoading] = useState(false)
+  const [dataProducts, setDataProducts] = useState<Product[]>([])
+
+  // FetchAllProducts
+  const FetchAllProducts = async () => {
+    try {
+      setLoading(true)
+      const response = await api_v1.get('rahma/product')
+
+      setLoading(false)
+      console.log('products', response.data)
+      setDataProducts(response.data.products)
+    } catch (error) {
+      setLoading(false)
+      const errorMessage = getErrorMessage(error)
+
+      toast.error(errorMessage)
+
+      return isRejectedWithValue(errorMessage)
+    }
+  }
 
   // create Product
   const CreateproductwithFile = async (payload: ProductForm) => {
@@ -83,5 +103,5 @@ export const UseProduct = () => {
   //   }
   // }
 
-  return { CreateproductwithFile, loading }
+  return { CreateproductwithFile, loading, dataProducts, FetchAllProducts }
 }

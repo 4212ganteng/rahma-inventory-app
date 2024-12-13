@@ -18,47 +18,55 @@ import CustomAvatar from '@core/components/mui/Avatar'
 
 type DataType = {
   title: string
-  value: string
+  value: number
   icon: string
   desc: string
   change?: number
 }
 
-// Vars
-const data: DataType[] = [
-  {
-    title: 'In-Store Sales',
-    value: '$5,345',
-    icon: 'tabler-smart-home',
-    desc: '5k',
-    change: 5.7
-  },
-  {
-    title: 'Website Sales',
-    value: '$74,347',
-    icon: 'tabler-device-laptop',
-    desc: '21k',
-    change: 12.4
-  },
-  {
-    title: 'Discount',
-    value: '$14,235',
-    icon: 'tabler-gift',
-    desc: '6k'
-  },
-  {
-    title: 'Affiliate',
-    value: '$8,345',
-    icon: 'tabler-wallet',
-    desc: '150',
-    change: -3.5
-  }
-]
+type TpropsProductHeader = {
+  product: number, entries: number, category: number, unit: number
+}
 
-const ProductCard = () => {
+
+const ProductCard = ({ valueDataHeaderProduct }: { valueDataHeaderProduct: TpropsProductHeader }) => {
   // Hooks
   const isBelowMdScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
   const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
+
+
+  // Vars
+  const data: DataType[] = [
+    {
+      title: 'Total Product',
+      value: valueDataHeaderProduct?.product,
+      icon: 'tabler-smart-home',
+      desc: 'Product Terdaftar',
+      change: valueDataHeaderProduct?.product
+    },
+    {
+      title: 'Total Entries',
+      value: valueDataHeaderProduct?.entries,
+      icon: 'tabler-device-laptop',
+      desc: 'Inventory Entries',
+      change: valueDataHeaderProduct?.entries
+    },
+    {
+      title: 'Total Category',
+      value: valueDataHeaderProduct?.category,
+      icon: 'tabler-gift',
+      desc: 'Grouping Category',
+      change: valueDataHeaderProduct?.entries
+    },
+
+    {
+      title: 'Total Unit',
+      value: valueDataHeaderProduct?.unit,
+      icon: 'tabler-wallet',
+      desc: 'Grouping Unit',
+      change: valueDataHeaderProduct?.unit,
+    }
+  ]
 
   return (
     <Card>
@@ -88,16 +96,16 @@ const ProductCard = () => {
                 </div>
                 {item.change ? (
                   <div className='flex items-center gap-2'>
-                    <Typography>{`${item.desc} orders`}</Typography>
+                    <Typography>{`${item.desc}`}</Typography>
                     <Chip
                       variant='tonal'
-                      label={`${item.change}%`}
+                      label={`${item.change}`}
                       size='small'
-                      color={item.change > 0 ? 'success' : 'error'}
+                      color={item.change > 5 ? 'success' : 'error'}
                     />
                   </div>
                 ) : (
-                  <Typography>{`${item.desc} orders`}</Typography>
+                  <Typography>{`${item.desc}`}</Typography>
                 )}
               </div>
               {isBelowMdScreen && !isSmallScreen && index < data.length - 2 && (

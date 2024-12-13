@@ -4,7 +4,6 @@
 import { useEffect, useMemo, useState } from 'react'
 
 // Next Imports
-import Link from 'next/link'
 import { useParams } from 'next/navigation'
 
 // MUI Imports
@@ -12,11 +11,8 @@ import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import Checkbox from '@mui/material/Checkbox'
-import Chip from '@mui/material/Chip'
-import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import MenuItem from '@mui/material/MenuItem'
-import Switch from '@mui/material/Switch'
 import TablePagination from '@mui/material/TablePagination'
 import type { TextFieldProps } from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
@@ -42,15 +38,15 @@ import classnames from 'classnames'
 // Type Imports
 
 
-import type { ThemeColor } from '@core/types'
+import type { Product } from '@prisma/client'
 
-import type { ProductType } from '@/types/apps/productTypes'
+import { Grid } from '@mui/material'
+
+
 
 // Component Imports
-import CustomAvatar from '@core/components/mui/Avatar'
 import CustomTextField from '@core/components/mui/TextField'
 import OptionMenu from '@core/components/option-menu'
-import TableFilters from './TableFilters'
 
 // Util Imports
 
@@ -59,6 +55,7 @@ import TablePaginationComponent from '@/components/TablePaginationComponent'
 import tableStyles from '@core/styles/table.module.css'
 import AddProductDrawer from '../AddProductDrawer'
 import { UseProduct } from './hooks/useProduct'
+import ProductCard from './ProductCard'
 
 
 declare module '@tanstack/table-core' {
@@ -70,23 +67,7 @@ declare module '@tanstack/table-core' {
   }
 }
 
-type ProductWithActionsType = ProductType & {
-  actions?: string
-}
 
-type ProductCategoryType = {
-  [key: string]: {
-    icon: string
-    color: ThemeColor
-  }
-}
-
-type productStatusType = {
-  [key: string]: {
-    title: string
-    color: ThemeColor
-  }
-}
 
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -130,40 +111,26 @@ const DebouncedInput = ({
   return <CustomTextField {...props} value={value} onChange={e => setValue(e.target.value)} />
 }
 
-// Vars
-const productCategoryObj: ProductCategoryType = {
-  Accessories: { icon: 'tabler-headphones', color: 'error' },
-  'Home Decor': { icon: 'tabler-smart-home', color: 'info' },
-  Electronics: { icon: 'tabler-device-laptop', color: 'primary' },
-  Shoes: { icon: 'tabler-shoe', color: 'success' },
-  Office: { icon: 'tabler-briefcase', color: 'warning' },
-  Games: { icon: 'tabler-device-gamepad-2', color: 'secondary' }
-}
 
-const productStatusObj: productStatusType = {
-  Scheduled: { title: 'Scheduled', color: 'warning' },
-  Published: { title: 'Publish', color: 'success' },
-  Inactive: { title: 'Inactive', color: 'error' }
-}
 
 // Column Definitions
-const columnHelper = createColumnHelper<ProductWithActionsType>()
+const columnHelper = createColumnHelper<Product>()
 
-const ProductListTable = ({ productData }: { productData?: ProductType[] }) => {
+const ProductListTable = () => {
+  const imgUrl = process.env.NEXT_PUBLIC_IMAGE_URL
 
-  const { CreateproductwithFile } = UseProduct()
+
+  const { CreateproductwithFile, FetchAllProducts, dataProducts, loading } = UseProduct()
 
   // States
   const [rowSelection, setRowSelection] = useState({})
-  const [data, setData] = useState(...[productData])
-  const [filteredData, setFilteredData] = useState(data)
   const [globalFilter, setGlobalFilter] = useState('')
   const [addCategoryOpen, setAddCategoryOpen] = useState(false)
 
   // Hooks
   const { lang: locale } = useParams()
 
-  const columns = useMemo<ColumnDef<ProductWithActionsType, any>[]>(
+  const columns = useMemo<ColumnDef<Product, any>[]>(
     () => [
       {
         id: 'select',
@@ -187,60 +154,41 @@ const ProductListTable = ({ productData }: { productData?: ProductType[] }) => {
           />
         )
       },
-      columnHelper.accessor('productName', {
+      columnHelper.accessor('name', {
         header: 'Product',
         cell: ({ row }) => (
           <div className='flex items-center gap-4'>
-            <img src={row.original.image} width={38} height={38} className='rounded bg-actionHover' />
+            <img src={`${imgUrl}/${row.original?.image}`} width={38} height={38} className='rounded bg-actionHover' />
             <div className='flex flex-col'>
               <Typography className='font-medium' color='text.primary'>
-                {row.original.productName}
+                {row.original.name}
               </Typography>
-              <Typography variant='body2'>{row.original.productBrand}</Typography>
+              <Typography variant='body2'>{row.original.description}</Typography>
             </div>
           </div>
         )
-      }),
-      columnHelper.accessor('category', {
-        header: 'Category',
-        cell: ({ row }) => (
-          <div className='flex items-center gap-4'>
-            <CustomAvatar skin='light' color={productCategoryObj[row.original.category].color} size={30}>
-              <i className={classnames(productCategoryObj[row.original.category].icon, 'text-lg')} />
-            </CustomAvatar>
-            <Typography color='text.primary'>{row.original.category}</Typography>
-          </div>
-        )
-      }),
-      columnHelper.accessor('stock', {
-        header: 'Stock',
-        cell: ({ row }) => <Switch defaultChecked={row.original.stock} />,
-        enableSorting: false
       }),
       columnHelper.accessor('sku', {
         header: 'SKU',
         cell: ({ row }) => <Typography>{row.original.sku}</Typography>
       }),
-      columnHelper.accessor('price', {
-        header: 'Price',
-        cell: ({ row }) => <Typography>{row.original.price}</Typography>
-      }),
-      columnHelper.accessor('qty', {
-        header: 'QTY',
-        cell: ({ row }) => <Typography>{row.original.qty}</Typography>
+      columnHelper.accessor('categoryId', {
+        header: 'Category',
+        cell: ({ row }) => (
+          <Typography color='text.primary'>{row.original.category.category}</Typography>
+        )
       }),
 
-      // columnHelper.accessor('status', {
-      //   header: 'Status',
-      //   cell: ({ row }) => (
-      //     <Chip
-      //       label={productStatusObj[row.original.status].title}
-      //       variant='tonal'
-      //       color={productStatusObj[row.original.status].color}
-      //       size='small'
-      //     />
-      //   )
-      // }),
+      columnHelper.accessor('unitId', {
+        header: 'Unit',
+        cell: ({ row }) => <Typography>{row.original.unit.unit}</Typography>
+      }),
+
+      columnHelper.accessor('minStockThreshold', {
+        header: 'Minimal Stock',
+        cell: ({ row }) => <Typography>{row.original.minStockThreshold}</Typography>
+      }),
+
       columnHelper.accessor('actions', {
         header: 'Actions',
         cell: ({ row }) => (
@@ -267,11 +215,11 @@ const ProductListTable = ({ productData }: { productData?: ProductType[] }) => {
       })
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data, filteredData]
+    [dataProducts]
   )
 
   const table = useReactTable({
-    data: filteredData as ProductType[],
+    data: dataProducts as Product[],
     columns,
     filterFns: {
       fuzzy: fuzzyFilter
@@ -299,124 +247,154 @@ const ProductListTable = ({ productData }: { productData?: ProductType[] }) => {
     getFacetedMinMaxValues: getFacetedMinMaxValues()
   })
 
+
+
+  useEffect(() => {
+    FetchAllProducts()
+  }, [])
+
+  type TpropsProductHeader = {
+    product: number, entries: number, category: number, unit: number
+  }
+
+  const dataHeader: TpropsProductHeader = {
+    category: 10,
+    entries: 15,
+    product: 7,
+    unit: 2
+  }
+
   return (
-    <>
-      <Card>
-        <CardHeader title='Products' />
+    <Grid container spacing={6}>
 
-        <div className='flex flex-wrap justify-between gap-4 p-6'>
-          <DebouncedInput
-            value={globalFilter ?? ''}
-            onChange={value => setGlobalFilter(String(value))}
-            placeholder='Search Product'
-            className='max-sm:is-full'
-          />
-          <div className='flex flex-wrap items-center max-sm:flex-col gap-4 max-sm:is-full is-auto'>
-            <CustomTextField
-              select
-              value={table.getState().pagination.pageSize}
-              onChange={e => table.setPageSize(Number(e.target.value))}
-              className='flex-auto is-[70px] max-sm:is-full'
-            >
-              <MenuItem value='10'>10</MenuItem>
-              <MenuItem value='25'>25</MenuItem>
-              <MenuItem value='50'>50</MenuItem>
-            </CustomTextField>
-            <Button
-              color='secondary'
-              variant='tonal'
-              className='max-sm:is-full is-auto'
-              startIcon={<i className='tabler-upload' />}
-            >
-              Export
-            </Button>
-            <Button
-              variant='contained'
 
-              className='max-sm:is-full is-auto'
-              onClick={() => setAddCategoryOpen(!addCategoryOpen)}
-              startIcon={<i className='tabler-plus' />}
-            >
-              Add Product
-            </Button>
+      {/* header product */}
+      <Grid item xs={12}>
+        <ProductCard valueDataHeaderProduct={dataHeader} />
+      </Grid>
+
+
+
+      {/* list table */}
+      <Grid item xs={12}>
+        <Card>
+          <CardHeader title='Products' />
+
+          <div className='flex flex-wrap justify-between gap-4 p-6'>
+            <DebouncedInput
+              value={globalFilter ?? ''}
+              onChange={value => setGlobalFilter(String(value))}
+              placeholder='Search Product'
+              className='max-sm:is-full'
+            />
+            <div className='flex flex-wrap items-center max-sm:flex-col gap-4 max-sm:is-full is-auto'>
+              <CustomTextField
+                select
+                value={table.getState().pagination.pageSize}
+                onChange={e => table.setPageSize(Number(e.target.value))}
+                className='flex-auto is-[70px] max-sm:is-full'
+              >
+                <MenuItem value='10'>10</MenuItem>
+                <MenuItem value='25'>25</MenuItem>
+                <MenuItem value='50'>50</MenuItem>
+              </CustomTextField>
+              <Button
+                color='secondary'
+                variant='tonal'
+                className='max-sm:is-full is-auto'
+                startIcon={<i className='tabler-upload' />}
+              >
+                Export
+              </Button>
+              <Button
+                variant='contained'
+
+                className='max-sm:is-full is-auto'
+                onClick={() => setAddCategoryOpen(!addCategoryOpen)}
+                startIcon={<i className='tabler-plus' />}
+              >
+                Add Product
+              </Button>
+            </div>
           </div>
-        </div>
-        <div className='overflow-x-auto'>
-          <table className={tableStyles.table}>
-            <thead>
-              {table.getHeaderGroups().map(headerGroup => (
-                <tr key={headerGroup.id}>
-                  {headerGroup.headers.map(header => (
-                    <th key={header.id}>
-                      {header.isPlaceholder ? null : (
-                        <>
-                          <div
-                            className={classnames({
-                              'flex items-center': header.column.getIsSorted(),
-                              'cursor-pointer select-none': header.column.getCanSort()
-                            })}
-                            onClick={header.column.getToggleSortingHandler()}
-                          >
-                            {flexRender(header.column.columnDef.header, header.getContext())}
-                            {{
-                              asc: <i className='tabler-chevron-up text-xl' />,
-                              desc: <i className='tabler-chevron-down text-xl' />
-                            }[header.column.getIsSorted() as 'asc' | 'desc'] ?? null}
-                          </div>
-                        </>
-                      )}
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            {table.getFilteredRowModel().rows.length === 0 ? (
-              <tbody>
-                <tr>
-                  <td colSpan={table.getVisibleFlatColumns().length} className='text-center'>
-                    No data available
-                  </td>
-                </tr>
-              </tbody>
-            ) : (
-              <tbody>
-                {table
-                  .getRowModel()
-                  .rows.slice(0, table.getState().pagination.pageSize)
-                  .map(row => {
-                    return (
-                      <tr key={row.id} className={classnames({ selected: row.getIsSelected() })}>
-                        {row.getVisibleCells().map(cell => (
-                          <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
-                        ))}
-                      </tr>
-                    )
-                  })}
-              </tbody>
-            )}
-          </table>
-        </div>
-        <TablePagination
-          component={() => <TablePaginationComponent table={table} />}
-          count={table.getFilteredRowModel().rows.length}
-          rowsPerPage={table.getState().pagination.pageSize}
-          page={table.getState().pagination.pageIndex}
-          onPageChange={(_, page) => {
-            table.setPageIndex(page)
-          }}
-        />
+          <div className='overflow-x-auto'>
+            <table className={tableStyles.table}>
+              <thead>
+                {table.getHeaderGroups().map(headerGroup => (
+                  <tr key={headerGroup.id}>
+                    {headerGroup.headers.map(header => (
+                      <th key={header.id}>
+                        {header.isPlaceholder ? null : (
+                          <>
+                            <div
+                              className={classnames({
+                                'flex items-center': header.column.getIsSorted(),
+                                'cursor-pointer select-none': header.column.getCanSort()
+                              })}
+                              onClick={header.column.getToggleSortingHandler()}
+                            >
+                              {flexRender(header.column.columnDef.header, header.getContext())}
+                              {{
+                                asc: <i className='tabler-chevron-up text-xl' />,
+                                desc: <i className='tabler-chevron-down text-xl' />
+                              }[header.column.getIsSorted() as 'asc' | 'desc'] ?? null}
+                            </div>
+                          </>
+                        )}
+                      </th>
+                    ))}
+                  </tr>
+                ))}
+              </thead>
+              {table.getFilteredRowModel().rows.length === 0 ? (
+                <tbody>
+                  <tr>
+                    <td colSpan={table.getVisibleFlatColumns().length} className='text-center'>
+                      No data available
+                    </td>
+                  </tr>
+                </tbody>
+              ) : (
+                <tbody>
+                  {table
+                    .getRowModel()
+                    .rows.slice(0, table.getState().pagination.pageSize)
+                    .map(row => {
+                      return (
+                        <tr key={row.id} className={classnames({ selected: row.getIsSelected() })}>
+                          {row.getVisibleCells().map(cell => (
+                            <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+                          ))}
+                        </tr>
+                      )
+                    })}
+                </tbody>
+              )}
+            </table>
+          </div>
+          <TablePagination
+            component={() => <TablePaginationComponent table={table} />}
+            count={table.getFilteredRowModel().rows.length}
+            rowsPerPage={table.getState().pagination.pageSize}
+            page={table.getState().pagination.pageIndex}
+            onPageChange={(_, page) => {
+              table.setPageIndex(page)
+            }}
+          />
 
-        <AddProductDrawer
-          open={addCategoryOpen}
+          <AddProductDrawer
+            open={addCategoryOpen}
 
-          // product={productData}
-          onDataSubmit={CreateproductwithFile}
+            // product={productData}
+            onDataSubmit={CreateproductwithFile}
 
-          // product={}
-          handleClose={() => setAddCategoryOpen(!addCategoryOpen)}
-        />
-      </Card>
-    </>
+            // product={}
+            handleClose={() => setAddCategoryOpen(!addCategoryOpen)}
+          />
+        </Card>
+      </Grid>
+    </Grid>
+
   )
 }
 
