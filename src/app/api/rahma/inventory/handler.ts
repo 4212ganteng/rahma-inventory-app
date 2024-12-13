@@ -1,6 +1,8 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
+import { number } from 'valibot'
+
 import { InventoryService } from '@/services/inventory-service'
 
 export class InventoryController {
@@ -15,7 +17,7 @@ export class InventoryController {
     try {
       const { productId, quantity, expiryDate } = await req.json()
 
-      const newEntry = await this.inventoryService.addProductStock(productId, quantity, new Date(expiryDate))
+      const newEntry = await this.inventoryService.addProductStock(productId, Number(quantity), new Date(expiryDate))
 
       return NextResponse.json(
         {

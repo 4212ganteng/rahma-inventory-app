@@ -128,7 +128,7 @@ export class InventoryService {
     const products = await this.prisma.product.findMany({
       include: {
         inventoryEntries: {
-          orderBy: { fifoSequence: 'asc' }
+          orderBy: { fifoSequence: 'desc' }
         }
       }
     })

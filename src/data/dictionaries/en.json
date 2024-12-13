@@ -16,6 +16,7 @@
     "apps": "Apps",
     "dashboard": "Dashboard",
     "products": "Products",
+    "inventory": "Inventory",
     "list": "List",
     "add": "Add",
     "category": "Category",
@@ -105,6 +106,7 @@
     "about": "About",
     "leads": "Leads",
     "activity": "Activity",
-    "unit": "Unit"
+    "unit": "Unit",
+    "addStock": "Add Stock"
   }
 }
