@@ -13,7 +13,6 @@ import CardHeader from '@mui/material/CardHeader'
 import Checkbox from '@mui/material/Checkbox'
 import Chip from '@mui/material/Chip'
 import Divider from '@mui/material/Divider'
-import IconButton from '@mui/material/IconButton'
 import MenuItem from '@mui/material/MenuItem'
 import TablePagination from '@mui/material/TablePagination'
 import type { TextFieldProps } from '@mui/material/TextField'
@@ -38,20 +37,15 @@ import {
 import classnames from 'classnames'
 
 // Type Imports
-
 import type { ThemeColor } from '@core/types'
-
-import type { ProductType } from '@/types/apps/productTypes'
 
 // Component Imports
 import CustomTextField from '@core/components/mui/TextField'
-import OptionMenu from '@core/components/option-menu'
 
 // Style Imports
 import TablePaginationComponent from '@/components/TablePaginationComponent'
+import type { LogisticResponData } from '@/types/apps/LogisticType'
 import tableStyles from '@core/styles/table.module.css'
-import { useInventory } from '../hooks/useInventory'
-import type { DataListInventory } from '@/types/apps/InventoryType'
 
 
 declare module '@tanstack/table-core' {
@@ -63,9 +57,6 @@ declare module '@tanstack/table-core' {
   }
 }
 
-type ProductWithActionsType = ProductType & {
-  actions?: string
-}
 
 type productStatusType = {
   [key: string]: {
@@ -117,33 +108,26 @@ const DebouncedInput = ({
 }
 
 // Vars
-
-
 const productStatusObj: productStatusType = {
-  Active: { title: 'Active', color: 'success' },
-  Inactive: { title: 'Inactive', color: 'error' }
+  PENAMBAHAN: { title: 'PENAMBAHAN', color: 'success' },
+  PENGURANGAN: { title: 'PENGURANGAN', color: 'error' }
 }
 
-const getEntriesTitle = (entries) => {
-  return entries && entries.length > 0 ? 'Entries' : 'No Entries';
-};
-
 // Column Definitions
-const columnHelper = createColumnHelper<DataListInventory>()
+const columnHelper = createColumnHelper<LogisticResponData>()
 
-const InventoryListTable = () => {
+const LogisticListTable = ({ dataFetch }: { dataFetch: LogisticResponData }) => {
 
-  const { AddStock, FetchListInventory, dataInventory } = useInventory()
+
 
   // States
   const [rowSelection, setRowSelection] = useState({})
   const [globalFilter, setGlobalFilter] = useState('')
-  const [addUnitOpen, setAddUnitOpen] = useState(false)
 
   // Hooks
   const { lang: locale } = useParams()
 
-  const columns = useMemo<ColumnDef<DataListInventory, any>[]>(
+  const columns = useMemo<ColumnDef<LogisticResponData, any>[]>(
     () => [
       {
         id: 'select',
@@ -167,86 +151,57 @@ const InventoryListTable = () => {
           />
         )
       },
-
-      columnHelper.accessor('productName', {
+      columnHelper.accessor('inventoryEntry.product.name', {
         header: 'Product Name',
         cell: ({ row }) => (
 
-          <Typography variant='body2'>{row.original.productName}</Typography>
-
-        )
-      }),
-      columnHelper.accessor('totalStock', {
-        header: 'Stock',
-        cell: ({ row }) => (
-
-          <Typography variant='body2'>{row.original.totalStock}</Typography>
+          <Typography variant='body2'> {row.original.inventoryEntry.product.name}</Typography>
 
         )
       }),
 
-      columnHelper.accessor('entries', {
-        header: 'Entries Status',
-        cell: ({ row }) => {
-          const hasEntries = row.original.entries && row.original.entries.length > 0;
-          const title = getEntriesTitle(row.original.entries); // Menentukan judul berdasarkan entries
-          const color = hasEntries ? 'success' : 'error'; // Warna berdasarkan kondisi entries
-          const productID = row.original.productId; // Ambil productID dari data row
-
-          return (
-            <Chip
-              label={
-                hasEntries ? (
-                  <a href={`/product/${productID}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                    {title}
-                  </a>
-                ) : (
-                  title
-                )
-              }
-              variant="tonal"
-              color={color}
-              size="small"
-              component="button"
-              disabled={!hasEntries} // Nonaktifkan jika tidak ada entries
-              style={{
-                cursor: hasEntries ? 'pointer' : 'not-allowed', // Ubah kursor berdasarkan kondisi
-              }}
-            />
-          );
-        },
+      columnHelper.accessor('inventoryEntry.product.sku', {
+        header: 'SKU',
+        cell: ({ row }) => <Typography>{row.original.inventoryEntry.product.sku}</Typography>
       }),
-      columnHelper.accessor('productId', {
-        header: 'Actions',
+
+      columnHelper.accessor('quantity', {
+        header: 'Quantity',
         cell: ({ row }) => (
-          <div className='flex items-center'>
-            {/* <IconButton>
-              <i className='tabler-eye-edit text-textSecondary' />
-            </IconButton> */}
-            <OptionMenu
-              iconButtonProps={{ size: 'medium' }}
-              iconClassName='text-textSecondary'
-              options={[
 
-                {
-                  text: 'Delete',
-                  icon: 'tabler-trash',
-                  menuItemProps: { onClick: () => setData(data?.filter(product => product.id !== row.original.id)) }
-                },
+          <Typography variant='body2'>{row.original.quantity}</Typography>
 
-              ]}
-            />
-          </div>
-        ),
-        enableSorting: false
-      })
+        )
+      }),
+      columnHelper.accessor('description', {
+        header: 'Description',
+        cell: ({ row }) => (
+
+          <Typography variant='body2'>{row.original.description}</Typography>
+
+        )
+      }),
+
+
+      columnHelper.accessor('changeType', {
+        header: 'Status',
+        cell: ({ row }) => (
+          <Chip
+            label={productStatusObj[row.original.changeType].title}
+            variant='tonal'
+            color={productStatusObj[row.original.changeType].color}
+            size='small'
+          />
+        )
+      }),
+
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dataInventory]
+    [dataFetch]
   )
 
   const table = useReactTable({
-    data: dataInventory || [],
+    data: dataFetch || [],
     columns,
     filterFns: {
       fuzzy: fuzzyFilter
@@ -274,14 +229,12 @@ const InventoryListTable = () => {
     getFacetedMinMaxValues: getFacetedMinMaxValues()
   })
 
-  useEffect(() => {
-    FetchListInventory()
-  }, [])
+
 
   return (
     <>
       <Card>
-        <CardHeader title='Inventory Data' />
+        <CardHeader title='Unit Data' />
         {/* <TableFilters setData={setFilteredData} productData={data} /> */}
         <Divider />
         <div className='flex flex-wrap justify-between gap-4 p-6'>
@@ -382,4 +335,4 @@ const InventoryListTable = () => {
   )
 }
 
-export default InventoryListTable
+export default LogisticListTable

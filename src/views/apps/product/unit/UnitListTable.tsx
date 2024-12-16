@@ -134,7 +134,6 @@ const UnitListTable = () => {
 
   // States
   const [rowSelection, setRowSelection] = useState({})
-  const [filteredData, setFilteredData] = useState(dataUnit)
   const [globalFilter, setGlobalFilter] = useState('')
   const [addUnitOpen, setAddUnitOpen] = useState(false)
 

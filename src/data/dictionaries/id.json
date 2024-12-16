@@ -107,6 +107,9 @@
     "leads": "Leads",
     "activity": "Activity",
     "unit": "Unit",
-    "addStock": "Tambah Stok"
+    "addStock": "Tambah Stok",
+    "reduceStock": "Pengurangan Stok",
+    "stockAdditionData": "Data Penambahan Stock",
+    "stockReductionData": "Data Pengurangan Stock"
   }
 }

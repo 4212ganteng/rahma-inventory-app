@@ -84,36 +84,12 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
         <MenuItem href={`/${locale}/home`} icon={<i className='tabler-smart-home' />}>
           {dictionary['navigation'].home}
         </MenuItem>
-        <MenuItem href={`/${locale}/about`} icon={<i className='tabler-info-circle' />}>
-          {dictionary['navigation'].about}
-        </MenuItem>
 
-
-
-        <SubMenu
-          label={dictionary['navigation'].leads}
-          icon={<i className='tabler-smart-home' />}
-
-        // suffix={<CustomChip label='5' size='small' color='error' round='true' />}
-        >
-          <MenuItem href={`/${locale}/apps/leads`}>{dictionary['navigation'].list}</MenuItem>
-          <MenuItem href={`/${locale}/apps/leads/add`}>{dictionary['navigation'].add}</MenuItem>
-        </SubMenu>
-
-
-        {/* activity */}
-        <SubMenu
-          label={dictionary['navigation'].activity}
-          icon={<i className='tabler-smart-home' />}
-        >
-          <MenuItem href={`/${locale}/apps/activity`}>{dictionary['navigation'].list}</MenuItem>
-          <MenuItem href={`/${locale}/apps/activity/add`}>{dictionary['navigation'].add}</MenuItem>
-        </SubMenu>
 
         {/* products */}
         <SubMenu
           label={dictionary['navigation'].products}
-          icon={<i className='tabler-smart-home' />}
+          icon={<i className='tabler-layout' />}
 
         // suffix={<CustomChip label='5' size='small' color='error' round='true' />}
         >
@@ -125,25 +101,26 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
         {/* inventory */}
         <SubMenu
           label={dictionary['navigation'].inventory}
-          icon={<i className='tabler-smart-home' />}
-
-        // suffix={<CustomChip label='5' size='small' color='error' round='true' />}
+          icon={<i className='tabler-shopping-cart' />}
         >
           <MenuItem href={`/${locale}/apps/inventory/list`}>{dictionary['navigation'].list}</MenuItem>
           <MenuItem href={`/${locale}/apps/inventory/add-stock`}>{dictionary['navigation'].addStock}</MenuItem>
-          <MenuItem href={`/${locale}/apps/inventory/unit`}>{dictionary['navigation'].unit}</MenuItem>
+          <MenuItem href={`/${locale}/apps/inventory/reduce-stock`}>{dictionary['navigation'].reduceStock}</MenuItem>
+        </SubMenu>
+
+
+        {/* Logistic */}
+        <SubMenu
+          label={dictionary['navigation'].logistics}
+          icon={<i className='tabler-truck' />}
+        >
+          <MenuItem href={`/${locale}/apps/logistics/list`}>{dictionary['navigation'].list}</MenuItem>
+          <MenuItem href={`/${locale}/apps/logistics/stock-addition`}>{dictionary['navigation'].stockAdditionData}</MenuItem>
+          <MenuItem href={`/${locale}/apps/logistics/stock-reduction`}>{dictionary['navigation'].stockReductionData}</MenuItem>
         </SubMenu>
 
       </Menu>
-      {/* <Menu
-        popoutMenuOffset={{ mainAxis: 23 }}
-        menuItemStyles={menuItemStyles(verticalNavOptions, theme)}
-        renderExpandIcon={({ open }) => <RenderExpandIcon open={open} transitionDuration={transitionDuration} />}
-        renderExpandedMenuItemIcon={{ icon: <i className='tabler-circle text-xs' /> }}
-        menuSectionStyles={menuSectionStyles(verticalNavOptions, theme)}
-      >
-        <GenerateVerticalMenu menuData={menuData(dictionary)} />
-      </Menu> */}
+
     </ScrollWrapper>
   )
 }

@@ -1,8 +1,6 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
-import { number } from 'valibot'
-
 import { InventoryService } from '@/services/inventory-service'
 
 export class InventoryController {

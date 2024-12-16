@@ -7,13 +7,10 @@ export async function GET() {
   try {
     const products = await prisma.unit.findMany()
 
-    return NextResponse.json(
-      {
-        message: 'Unit berhasil ambil',
-        data: products
-      },
-      { status: 201 }
-    )
+    return NextResponse.json({
+      message: 'Unit berhasil ambil',
+      data: products
+    })
   } catch (error) {
     return NextResponse.json(
       {

@@ -2,7 +2,7 @@
 
 import { Fragment, useEffect } from 'react';
 
-import { Card, CardContent, Grid, Typography } from '@mui/material';
+import { Card, CardContent, Grid } from '@mui/material';
 
 import { Controller, useForm } from 'react-hook-form';
 
@@ -11,22 +11,20 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import CustomAutocomplete from '@/@core/components/mui/Autocomplete';
 import CustomTextField from '@/@core/components/mui/TextField';
 import { useStandarizedOptions } from '@/hooks/useStandarizedOptions';
-import AppReactDatepicker from '@/libs/styles/AppReactDatepicker';
-import type { AddStockForm } from '@/types/apps/InventoryType';
+import type { reduceStockForm } from '@/types/apps/InventoryType';
 import { UseProduct } from '../../product/list/hooks/useProduct';
 import { useInventory } from '../hooks/useInventory';
 
 
-const FormHandlerAddStock = () => {
+const FormHandlerReduceStock = () => {
   const { FetchAllProducts, dataProducts } = UseProduct()
-  const { AddStock } = useInventory()
+  const { ReduceStock } = useInventory()
 
 
 
   const defaultValues = {
     productId: "",
     quantity: 0,
-    expiryDate: ""
   }
 
 
@@ -41,7 +39,7 @@ const FormHandlerAddStock = () => {
     handleSubmit,
     formState: { errors },
 
-  } = useForm<AddStockForm>({
+  } = useForm<reduceStockForm>({
     defaultValues: defaultValues,
 
     // resolver: valibotResolver(addStockSchema)
@@ -49,14 +47,14 @@ const FormHandlerAddStock = () => {
 
 
   // Handle Form Submit
-  const onSubmit = handleSubmit(async (data: AddStockForm) => {
+  const onSubmit = handleSubmit(async (data: reduceStockForm) => {
 
-    const payload: AddStockForm = {
+    const payload: reduceStockForm = {
       ...data,
       productId: data.productId.value
     }
 
-    AddStock(payload)
+    ReduceStock(payload)
 
     // await onDataSubmit(data)
 
@@ -124,38 +122,6 @@ const FormHandlerAddStock = () => {
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={6}>
-                  <Controller
-                    name="expiryDate"
-                    control={control}
-                    rules={{ required: true }}
-
-                    render={({ field: { onChange, value } }) => (
-                      <>
-                        <Typography className="min-is-[95px] mie-4" color="text.primary">
-                          Expired Date:
-                        </Typography>
-                        <AppReactDatepicker
-                          selected={value ? new Date(value) : null}
-                          placeholderText="YYYY-MM-DD"
-                          dateFormat="yyyy-MM-dd"
-                          onChange={(date) => onChange(date ? date.toISOString().split('T')[0] : '')}
-                          customInput={
-                            <CustomTextField
-                              fullWidth
-                              error={!!errors.expiryDate}
-                              helperText={errors.expiryDate?.message}
-                            />
-                          }
-                        />
-                      </>
-                    )}
-                  />
-                </Grid>
-
-
-
-
                 <Grid item xs={12}>
                   <LoadingButton
 
@@ -178,4 +144,4 @@ const FormHandlerAddStock = () => {
   )
 }
 
-export default FormHandlerAddStock
+export default FormHandlerReduceStock

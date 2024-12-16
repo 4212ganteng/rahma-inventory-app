@@ -29,3 +29,9 @@ export interface AddStockForm {
   quantity: number
   expiryDate: Date
 }
+
+// reduce stock
+export interface reduceStockForm {
+  productId: string
+  quantity: number
+}

@@ -107,6 +107,9 @@
     "leads": "Leads",
     "activity": "Activity",
     "unit": "Unit",
-    "addStock": "Add Stock"
+    "addStock": "Add Stock",
+    "reduceStock": "Reduce Stock",
+    "stockAdditionData": "Stock Addition Data",
+    "stockReductionData": "Stock Reduction Data"
   }
 }

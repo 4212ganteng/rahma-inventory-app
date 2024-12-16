@@ -57,6 +57,7 @@ export class InventoryService {
           productId,
           remainingQuantity: { gt: 0 }
         },
+
         orderBy: { fifoSequence: 'asc' }
       })
 
@@ -67,10 +68,26 @@ export class InventoryService {
         reducedQuantity: number
       }[] = []
 
+      console.log({ availableEntries })
+
+      // cek total stock
+      const totalStock = availableEntries.reduce((total, entry) => total + entry.remainingQuantity, 0)
+
+      // handle if demand is greater than available stock
+      if (remainingToReduce > totalStock) {
+        throw new Error('Insufficient stock: cannot reduce more than available quantity.')
+      }
+
       for (const entry of availableEntries) {
-        if (remainingToReduce <= 0) break
+        if (remainingToReduce <= 0) break //Jika tidak ada lagi yang perlu dikurangi, keluar dari loop.
+
+        console.log({ remainingToReduce })
+
+        console.log('what this', entry.remainingQuantity)
 
         const reduceQuantity = Math.min(entry.remainingQuantity, remainingToReduce)
+
+        console.log({ reduceQuantity })
 
         // Update sisa kuantitas
         await tx.inventoryEntry.update({
