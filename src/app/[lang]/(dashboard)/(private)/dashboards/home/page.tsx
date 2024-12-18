@@ -1,6 +1,8 @@
+import HomeDashboard from "@/views/apps/dashboard/HomeDashboard"
+
 const Home = () => {
   return (
-    <h1>Home nih</h1>
+    <HomeDashboard />
   )
 }
 

@@ -46,6 +46,8 @@ import CustomTextField from '@core/components/mui/TextField'
 import TablePaginationComponent from '@/components/TablePaginationComponent'
 import type { LogisticResponData } from '@/types/apps/LogisticType'
 import tableStyles from '@core/styles/table.module.css'
+import { useInventory } from '../hooks/useInventory'
+import type { InventoryByProductID } from '@/types/apps/InventoryType'
 
 
 declare module '@tanstack/table-core' {
@@ -109,15 +111,18 @@ const DebouncedInput = ({
 
 // Vars
 const productStatusObj: productStatusType = {
-  PENAMBAHAN: { title: 'PENAMBAHAN', color: 'success' },
-  PENGURANGAN: { title: 'PENGURANGAN', color: 'error' }
+  TERSEDIA: { title: 'TERSEDIA', color: 'success' },
+  KADALUWARSA: { title: 'KADALUWARSA', color: 'warning' },
+  HAMPIR_HABIS: { title: 'HAMPIR HABIS', color: 'info' },
+  KOSONG: { title: 'KOSONG', color: 'error' }
 }
 
 // Column Definitions
-const columnHelper = createColumnHelper<LogisticResponData>()
+const columnHelper = createColumnHelper<InventoryByProductID>()
 
 const InventoryByProductId = ({ productId }: { productId: string }) => {
 
+  const { FetchInventoryByProductId, detailInventory } = useInventory();
 
 
   // States
@@ -127,7 +132,7 @@ const InventoryByProductId = ({ productId }: { productId: string }) => {
   // Hooks
   const { lang: locale } = useParams()
 
-  const columns = useMemo<ColumnDef<LogisticResponData, any>[]>(
+  const columns = useMemo<ColumnDef<InventoryByProductID, any>[]>(
     () => [
       {
         id: 'select',
@@ -151,20 +156,36 @@ const InventoryByProductId = ({ productId }: { productId: string }) => {
           />
         )
       },
-      columnHelper.accessor('inventoryEntry.product.name', {
+      columnHelper.accessor('product.name', {
         header: 'Product Name',
         cell: ({ row }) => (
 
-          <Typography variant='body2'> {row.original.inventoryEntry.product.name}</Typography>
+          <Typography variant='body2'> {row.original.product.name}</Typography>
 
         )
       }),
 
-      columnHelper.accessor('inventoryEntry.product.sku', {
+      columnHelper.accessor('product.sku', {
         header: 'SKU',
-        cell: ({ row }) => <Typography>{row.original.inventoryEntry.product.sku}</Typography>
+        cell: ({ row }) => <Typography>{row.original.product.sku}</Typography>
       }),
 
+      columnHelper.accessor('batchNumber', {
+        header: 'Batch Number',
+        cell: ({ row }) => (
+
+          <Typography variant='body2'>{row.original.batchNumber}</Typography>
+
+        )
+      }),
+      columnHelper.accessor('fifoSequence', {
+        header: 'Fifo Sequence',
+        cell: ({ row }) => (
+
+          <Typography variant='body2'>{row.original.fifoSequence}</Typography>
+
+        )
+      }),
       columnHelper.accessor('quantity', {
         header: 'Quantity',
         cell: ({ row }) => (
@@ -173,23 +194,39 @@ const InventoryByProductId = ({ productId }: { productId: string }) => {
 
         )
       }),
-      columnHelper.accessor('description', {
-        header: 'Description',
+
+      columnHelper.accessor('remainingQuantity', {
+        header: 'Remaining QTY',
         cell: ({ row }) => (
 
-          <Typography variant='body2'>{row.original.description}</Typography>
+          <Typography variant='body2'>{row.original.remainingQuantity}</Typography>
+
+        )
+      }),
+
+      columnHelper.accessor('entryDate', {
+        header: 'Entry Date',
+        cell: ({ row }) => (
+          <Typography>{`${new Date(row.original.entryDate).toDateString()}`}</Typography>
+        )
+      }),
+      columnHelper.accessor('expiryDate', {
+        header: 'Expired Date',
+        cell: ({ row }) => (
+
+          <Typography>{`${new Date(row.original.expiryDate).toDateString()}`}</Typography>
 
         )
       }),
 
 
-      columnHelper.accessor('changeType', {
+      columnHelper.accessor('status', {
         header: 'Status',
         cell: ({ row }) => (
           <Chip
-            label={productStatusObj[row.original.changeType].title}
+            label={productStatusObj[row.original.status].title}
             variant='tonal'
-            color={productStatusObj[row.original.changeType].color}
+            color={productStatusObj[row.original.status].color}
             size='small'
           />
         )
@@ -197,11 +234,11 @@ const InventoryByProductId = ({ productId }: { productId: string }) => {
 
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dataFetch]
+    [detailInventory.inventoryByProductId]
   )
 
   const table = useReactTable({
-    data: dataFetch || [],
+    data: detailInventory.inventoryByProductId || [],
     columns,
     filterFns: {
       fuzzy: fuzzyFilter
@@ -229,7 +266,11 @@ const InventoryByProductId = ({ productId }: { productId: string }) => {
     getFacetedMinMaxValues: getFacetedMinMaxValues()
   })
 
+  useEffect(() => {
+    FetchInventoryByProductId(productId)
+  }, [productId])
 
+  console.log({ detailInventory })
 
   return (
     <>

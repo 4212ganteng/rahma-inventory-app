@@ -35,3 +35,30 @@ export interface reduceStockForm {
   productId: string
   quantity: number
 }
+
+// inventory detail by productId
+export interface DataResponseInvetoryDetail {
+  productName: string
+  productSku: string
+  totalStock: number
+  totalData: number
+  inventoryByProductId: InventoryByProductID[]
+}
+
+export interface InventoryByProductID {
+  id: string
+  productId: string
+  batchNumber: string
+  quantity: number
+  remainingQuantity: number
+  entryDate: Date
+  expiryDate: Date
+  status: Status
+  fifoSequence: number
+  product: Product
+}
+
+export interface Product {
+  name: string
+  sku: string
+}

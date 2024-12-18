@@ -133,12 +133,11 @@ const columnHelper = createColumnHelper<DataListInventory>()
 
 const InventoryListTable = () => {
 
-  const { AddStock, FetchListInventory, dataInventory } = useInventory()
+  const { FetchListInventory, dataInventory } = useInventory()
 
   // States
   const [rowSelection, setRowSelection] = useState({})
   const [globalFilter, setGlobalFilter] = useState('')
-  const [addUnitOpen, setAddUnitOpen] = useState(false)
 
   // Hooks
   const { lang: locale } = useParams()
@@ -197,7 +196,7 @@ const InventoryListTable = () => {
             <Chip
               label={
                 hasEntries ? (
-                  <a href={`/product/${productID}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <a href={`/inventory/by-product/${productID}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                     {title}
                   </a>
                 ) : (

@@ -11,12 +11,13 @@ import { toast } from 'react-toastify'
 
 
 import { getErrorMessage } from '@/helper/getErrorMessage'
-import type { AddStockForm, DataListInventory, reduceStockForm } from '@/types/apps/InventoryType'
+import type { AddStockForm, DataListInventory, DataResponseInvetoryDetail, reduceStockForm } from '@/types/apps/InventoryType'
 import api_v1 from '@/utils/axios/api_v1'
 
 
 export const useInventory = () => {
   const [dataInventory, setDataInventory] = useState<DataListInventory[]>([])
+  const [detailInventory, setDetailInventory] = useState<DataResponseInvetoryDetail[]>([])
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
@@ -92,13 +93,13 @@ export const useInventory = () => {
   }
 
   // get Inventory By ProductId
-  const FetchInventoryByProductId = async () => {
+  const FetchInventoryByProductId = async (id: string) => {
     try {
       setLoading(true)
-      const response = await api_v1.get('rahma/inventory/report')
+      const response = await api_v1.get('rahma/inventory/by-productId', { params: { productId: id } })
 
       setLoading(false)
-      setDataInventory(response.data.data)
+      setDetailInventory(response.data.data)
     } catch (error) {
       setLoading(false)
       const errorMessage = getErrorMessage(error)
@@ -109,5 +110,5 @@ export const useInventory = () => {
     }
   }
 
-  return { FetchListInventory, AddStock, dataInventory, loading, ReduceStock }
+  return { FetchListInventory, FetchInventoryByProductId, AddStock, dataInventory, loading, ReduceStock, detailInventory }
 }
