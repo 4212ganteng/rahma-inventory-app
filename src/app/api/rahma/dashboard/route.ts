@@ -88,6 +88,37 @@ export async function GET() {
       }
     })
 
+    const calculatePercentage = (part: number, total: number) => {
+      if (total === 0) return 0 // Menghindari pembagian dengan nol
+
+      return (part / total) * 100
+    }
+
+    // Hitung persentase status produk
+    const productStatusPercentage = {
+      expired: calculatePercentage(expiredProductStatus.length, totalProduct),
+      empty: calculatePercentage(emptyProductStatus.length, totalProduct),
+      almostOutOfStock: calculatePercentage(almostOutOfStockProductStatus.length, totalProduct),
+      available: calculatePercentage(availableProductStatus.length, totalProduct)
+    }
+
+    // Hitung persentase stok berdasarkan status
+    const stockStatusPercentage = {
+      expired: calculatePercentage(
+        totalRemainingStockExpired._sum.remainingQuantity || 0,
+        totalReamainingStock._sum.remainingQuantity || 0
+      ),
+      empty: calculatePercentage(0, totalReamainingStock._sum.remainingQuantity || 0), // Tidak ada data stok kosong
+      almostOutOfStock: calculatePercentage(
+        totalRemainingStockAlmostOutOfStock._sum.remainingQuantity || 0,
+        totalReamainingStock._sum.remainingQuantity || 0
+      ),
+      available: calculatePercentage(
+        totalRemainingStockAvailable._sum.remainingQuantity || 0,
+        totalReamainingStock._sum.remainingQuantity || 0
+      )
+    }
+
     return NextResponse.json({
       data: {
         totalProduct,
@@ -98,7 +129,9 @@ export async function GET() {
         totalReamainingStock: totalReamainingStock._sum.remainingQuantity,
         totalRemainingStockExpired: totalRemainingStockExpired._sum.remainingQuantity,
         totalRemainingStockAvailable: totalRemainingStockAvailable._sum.remainingQuantity,
-        totalRemainingStockAlmostOutOfStock: totalRemainingStockAlmostOutOfStock._sum.remainingQuantity
+        totalRemainingStockAlmostOutOfStock: totalRemainingStockAlmostOutOfStock._sum.remainingQuantity,
+        productStatusPercentage,
+        stockStatusPercentage
       }
     })
   } catch (error) {
