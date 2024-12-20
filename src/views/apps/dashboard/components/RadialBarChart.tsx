@@ -1,4 +1,6 @@
 // Next Imports
+import type { FC } from 'react'
+
 import dynamic from 'next/dynamic'
 
 // MUI Imports
@@ -13,7 +15,13 @@ import type { ApexOptions } from 'apexcharts'
 // Styled Component Imports
 const AppReactApexCharts = dynamic(() => import('@/libs/styles/AppReactApexCharts'))
 
-const RadialBarChart = () => {
+type Tprops = {
+  stockReady: number,
+  stockReadyPercentage: number
+
+}
+
+const RadialBarChart: FC<Tprops> = ({ stockReady, stockReadyPercentage }) => {
   // Vars
   const options: ApexOptions = {
     chart: {
@@ -91,9 +99,9 @@ const RadialBarChart = () => {
     <Card>
       <CardHeader title='82.5k' subheader='Expenses' className='pbe-0' />
       <CardContent className='flex flex-col gap-3 items-center'>
-        <AppReactApexCharts type='radialBar' height={148} width='100%' options={options} series={[78]} />
+        <AppReactApexCharts type='radialBar' height={148} width='100%' options={options} series={[stockReady]} />
         <Typography variant='body2' color='text.disabled' className='sm:mbs-2 lg:mbs-0'>
-          $21k Expenses more than last month
+          {stockReadyPercentage}Remaining items available in the warehouse
         </Typography>
       </CardContent>
     </Card>

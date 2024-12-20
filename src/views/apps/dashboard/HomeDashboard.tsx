@@ -1,45 +1,70 @@
+'use client'
+
 // MUI Imports
+import { useEffect } from 'react'
+
 import Grid from '@mui/material/Grid'
 
-// Components Imports
-
 // Data Imports
+import { useLogistic } from '../logistic/hooks/useLogistic'
 import Congratulations from './components/Congratulations'
 import DonutChartGeneratedLeads from './components/DonutChartGeneratedLeads'
 import LineChartProfit from './components/LineChartProfit'
 import RadialBarChart from './components/RadialBarChart'
+import RevenueReport from './components/RevenueReport'
 import StatisticsCard from './components/StatisticsCard'
+import { useDashboard } from './hooks/useDashboard'
+import type { ThemeColor } from '@/@core/types'
 
-/**
- * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the
- * ! `.env` file found at root of your project and also update the API endpoints like `/apps/invoice` in below example.
- * ! Also, remove the above server action import and the action itself from the `src/app/server/actions.ts` file to clean up unused code
- * ! because we've used the server action for getting our static data.
- */
 
-/* const getInvoiceData = async () => {
-  // Vars
-  const res = await fetch(`${process.env.API_URL}/apps/invoice`)
 
-  if (!res.ok) {
-    throw new Error('Failed to fetch invoice data')
-  }
+const HomeDashboard = () => {
+  const { FetchDashboard, dataDashboard, loading } = useDashboard()
+  const { FetchAdiitionalStock, FetchReductionStock, dataLogisticAddition, dataLogisticReduction } = useLogistic()
 
-  return res.json()
-}
- */
+  const dataStat = [
+    {
+      stats: dataDashboard?.totalReamainingStock ?? 0,
+      title: 'Stock All',
+      color: 'primary' as ThemeColor,
+      icon: 'tabler-chart-pie-2'
+    },
+    {
+      color: 'info' as ThemeColor,
+      stats: dataDashboard?.totalRemainingStockAvailable ?? 0,
+      title: 'Stock Ready',
+      icon: 'tabler-users'
+    },
+    {
+      color: 'error' as ThemeColor,
+      stats: dataDashboard?.totalRemainingStockAlmostOutOfStock ?? 0,
+      title: 'Hampir Habis',
+      icon: 'tabler-shopping-cart'
+    },
+    {
+      stats: dataDashboard?.totalRemainingStockExpired ?? 0,
+      color: 'success' as ThemeColor,
+      title: 'Stock Expired',
+      icon: 'tabler-currency-dollar'
+    }
+  ]
 
-const HomeDashboard = async () => {
-  // Vars
-  // const invoiceData = await getInvoiceData()
+  useEffect(() => {
+    FetchDashboard()
+    FetchAdiitionalStock()
+    FetchReductionStock()
+  }, [])
+
+
+
 
   return (
     <Grid container spacing={6}>
       <Grid item xs={12} md={4}>
-        <Congratulations />
+        <Congratulations name='Sulaiman' />
       </Grid>
       <Grid item xs={12} md={8}>
-        <StatisticsCard />
+        <StatisticsCard data={dataStat} />
       </Grid>
       <Grid item xs={12} xl={4}>
         <Grid container spacing={6}>
@@ -47,31 +72,38 @@ const HomeDashboard = async () => {
             <LineChartProfit />
           </Grid>
           <Grid item xs={12} sm={6} md={3} xl={6}>
-            <RadialBarChart />
+            <RadialBarChart stockReady={dataDashboard?.totalRemainingStockAvailable ?? 0} stockReadyPercentage={dataDashboard?.productStatusPercentage?.available ?? 0} />
           </Grid>
           <Grid item xs={12} md={6} xl={12}>
-            <DonutChartGeneratedLeads />
+            <DonutChartGeneratedLeads stockAvailablePercentage={dataDashboard?.stockStatusPercentage?.available ?? 0} stockAvailable={dataDashboard?.totalRemainingStockAvailable ?? 0} series={
+              [
+                dataDashboard?.totalRemainingStockAvailable ?? 0,
+                dataDashboard?.totalRemainingStockAlmostOutOfStock ?? 0,
+                dataDashboard?.totalRemainingStockExpired ?? 0
+              ]
+            } />
           </Grid>
         </Grid>
       </Grid>
-      {/* <Grid item xs={12} xl={8}>
-        <RevenueReport />
+      <Grid item xs={12} xl={8}>
+        <RevenueReport
+          dataStockAdditions={dataLogisticAddition.map(item => item.quantity)}
+          dataStockReductions={dataLogisticReduction.map(item => item.quantity)}
+          dataProduct={[
+            dataDashboard?.productStatusPercentage.available ?? 0,
+            dataDashboard?.productStatusPercentage.almostOutOfStock ?? 0,
+            dataDashboard?.productStatusPercentage.expired ?? 0,
+            dataDashboard?.productStatusPercentage.empty ?? 0,
+          ]}
+          dataStockItems={[
+            dataDashboard?.totalRemainingStockAvailable ?? 0,
+            dataDashboard?.totalRemainingStockAlmostOutOfStock ?? 0,
+            dataDashboard?.totalRemainingStockExpired ?? 0,
+            70,
+          ]}
+        />
       </Grid>
-      <Grid item xs={12} sm={6} lg={4}>
-        <EarningReports />
-      </Grid>
-      <Grid item xs={12} sm={6} lg={4}>
-        <PopularProducts />
-      </Grid>
-      <Grid item xs={12} sm={6} lg={4}>
-        <Orders />
-      </Grid>
-      <Grid item xs={12} sm={6} lg={4}>
-        <Transactions />
-      </Grid>
-      <Grid item xs={12} lg={8}>
-        <InvoiceListTable invoiceData={invoiceData} />
-      </Grid> */}
+
     </Grid>
   )
 }

@@ -78,6 +78,8 @@ export async function GET() {
       }
     })
 
+    console.log(totalRemainingStockAvailable)
+
     // total item stock of Almost out off stock
     const totalRemainingStockAlmostOutOfStock = await prisma.inventoryEntry.aggregate({
       where: {
@@ -91,7 +93,7 @@ export async function GET() {
     const calculatePercentage = (part: number, total: number) => {
       if (total === 0) return 0 // Menghindari pembagian dengan nol
 
-      return (part / total) * 100
+      return Math.round((part / total) * 100)
     }
 
     // Hitung persentase status produk

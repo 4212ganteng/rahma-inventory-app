@@ -1,6 +1,8 @@
 'use client'
 
 // Next Imports
+import type { FC } from 'react'
+
 import dynamic from 'next/dynamic'
 
 // MUI Imports
@@ -15,9 +17,14 @@ import type { ApexOptions } from 'apexcharts'
 // Styled Component Imports
 const AppReactApexCharts = dynamic(() => import('@/libs/styles/AppReactApexCharts'))
 
-const series = [32, 41, 41, 70]
+// const series = [32, 41, 41, 70]
 
-const DonutChartGeneratedLeads = () => {
+type Tprops = {
+  series: number[], stockAvailable: number,
+  stockAvailablePercentage: number
+}
+
+const DonutChartGeneratedLeads: FC<Tprops> = ({ series, stockAvailable, stockAvailablePercentage }) => {
   // Hook
   const theme = useTheme()
 
@@ -36,7 +43,7 @@ const DonutChartGeneratedLeads = () => {
     legend: { show: false },
     tooltip: { enabled: true, theme: 'false' },
     dataLabels: { enabled: false },
-    labels: ['Electronic', 'Sports', 'Decor', 'Fashion'],
+    labels: ['Avaliable', 'Almost out Of stock', 'Expired',],
     states: {
       hover: {
         filter: { type: 'none' }
@@ -109,11 +116,11 @@ const DonutChartGeneratedLeads = () => {
             <Typography>Monthly Report</Typography>
           </div>
           <div className='flex flex-col items-start'>
-            <Typography variant='h3'>4,350</Typography>
+            <Typography variant='h3'>{stockAvailable}</Typography>
             <div className='flex items-center gap-1'>
               <i className='tabler-chevron-up text-success text-xl'></i>
               <Typography color='success.main' component='span'>
-                +15.8%
+                +{stockAvailablePercentage}%
               </Typography>
             </div>
           </div>
