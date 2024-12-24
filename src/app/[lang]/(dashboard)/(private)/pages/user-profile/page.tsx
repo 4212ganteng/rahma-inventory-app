@@ -5,10 +5,11 @@ import type { ReactElement } from 'react'
 import dynamic from 'next/dynamic'
 
 // Type Imports
+import UserProfile from '@views/pages/user-profile'
+
 import type { Data } from '@/types/pages/profileTypes'
 
 // Component Imports
-import UserProfile from '@views/pages/user-profile'
 
 // Data Imports
 import { getProfileData } from '@/app/server/actions'

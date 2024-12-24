@@ -196,7 +196,7 @@ const InventoryListTable = () => {
             <Chip
               label={
                 hasEntries ? (
-                  <a href={`/inventory/by-product/${productID}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <a href={`/apps/inventory/by-product/${productID}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                     {title}
                   </a>
                 ) : (

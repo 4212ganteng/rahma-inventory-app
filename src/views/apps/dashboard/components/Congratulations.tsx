@@ -12,7 +12,7 @@ const Congratulations = ({ name }: { name: string }) => {
         <Grid item xs={8}>
           <CardContent>
             <Typography variant='h5' className='mbe-0.5'>
-              Welcome {name} 🎉
+              Welcome <span className='capitalize'>{name}</span> 🎉
             </Typography>
             <Typography variant='subtitle1' className='mbe-2'>
               INVITE - Inventory Information Technology

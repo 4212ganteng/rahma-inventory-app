@@ -39,6 +39,7 @@
     "negotiator": "^0.6.3",
     "next": "14.2.5",
     "next-auth": "^4.24.7",
+    "nextjs-toploader": "^3.7.15",
     "prisma": "^5.19.1",
     "react": "18.3.1",
     "react-apexcharts": "^1.4.1",

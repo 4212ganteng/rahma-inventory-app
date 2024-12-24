@@ -97,11 +97,11 @@ const RadialBarChart: FC<Tprops> = ({ stockReady, stockReadyPercentage }) => {
 
   return (
     <Card>
-      <CardHeader title='82.5k' subheader='Expenses' className='pbe-0' />
+      <CardHeader title='Stock Product' subheader='Available' className='pbe-0' />
       <CardContent className='flex flex-col gap-3 items-center'>
-        <AppReactApexCharts type='radialBar' height={148} width='100%' options={options} series={[stockReady]} />
+        <AppReactApexCharts type='radialBar' height={148} width='100%' options={options} series={[stockReadyPercentage]} />
         <Typography variant='body2' color='text.disabled' className='sm:mbs-2 lg:mbs-0'>
-          {stockReadyPercentage}Remaining items available in the warehouse
+          {stockReady} items available in the warehouse
         </Typography>
       </CardContent>
     </Card>

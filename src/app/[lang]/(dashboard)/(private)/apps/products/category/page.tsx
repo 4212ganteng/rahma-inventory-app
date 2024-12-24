@@ -15,9 +15,9 @@ const CategoryList = async () => {
 
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <ProductCard />
-      </Grid>
+      </Grid> */}
       <Grid item xs={12}>
         <CategoryListTable />
       </Grid>

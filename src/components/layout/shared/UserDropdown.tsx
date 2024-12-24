@@ -22,6 +22,8 @@ import MenuItem from '@mui/material/MenuItem'
 import Button from '@mui/material/Button'
 
 // Hook Imports
+import { useSession } from 'next-auth/react'
+
 import { useSettings } from '@core/hooks/useSettings'
 
 // Styled component for badge content
@@ -37,6 +39,7 @@ const BadgeContentSpan = styled('span')({
 const UserDropdown = () => {
   // States
   const [open, setOpen] = useState(false)
+  const { data: session } = useSession()
 
   // Refs
   const anchorRef = useRef<HTMLDivElement>(null)
@@ -78,7 +81,7 @@ const UserDropdown = () => {
       >
         <Avatar
           ref={anchorRef}
-          alt='John Doe'
+          alt={session?.user?.name as string}
           src='/images/avatars/1.png'
           onClick={handleDropdownOpen}
           className='cursor-pointer bs-[38px] is-[38px]'
@@ -106,9 +109,9 @@ const UserDropdown = () => {
                     <Avatar alt='John Doe' src='/images/avatars/1.png' />
                     <div className='flex items-start flex-col'>
                       <Typography className='font-medium' color='text.primary'>
-                        John Doe
+                        {session?.user?.name}
                       </Typography>
-                      <Typography variant='caption'>admin@vuexy.com</Typography>
+                      <Typography variant='caption'>{session?.user?.email}</Typography>
                     </div>
                   </div>
                   <Divider className='mlb-1' />

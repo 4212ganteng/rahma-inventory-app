@@ -3,6 +3,8 @@ import { headers } from 'next/headers'
 
 // Third-party Imports
 import 'react-perfect-scrollbar/dist/css/styles.css'
+import NextTopLoader from 'nextjs-toploader';
+
 
 // Type Imports
 import type { ChildrenType } from '@core/types'
@@ -36,7 +38,9 @@ const RootLayout = ({ children, params }: ChildrenType & { params: { lang: Local
   return (
     <TranslationWrapper headersList={headersList} lang={params.lang}>
       <html id='__next' lang={params.lang} dir={direction}>
-        <body className='flex is-full min-bs-full flex-auto flex-col'>{children}</body>
+        <body className='flex is-full min-bs-full flex-auto flex-col'>
+          <NextTopLoader />
+          {children}</body>
       </html>
     </TranslationWrapper>
   )

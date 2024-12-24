@@ -112,8 +112,8 @@ const DonutChartGeneratedLeads: FC<Tprops> = ({ series, stockAvailable, stockAva
       <CardContent className='flex justify-between gap-4'>
         <div className='flex flex-col justify-between'>
           <div className='flex flex-col'>
-            <Typography variant='h5'>Generated Leads</Typography>
-            <Typography>Monthly Report</Typography>
+            <Typography variant='h5'>Product Status</Typography>
+            <Typography>Expired Report</Typography>
           </div>
           <div className='flex flex-col items-start'>
             <Typography variant='h3'>{stockAvailable}</Typography>

@@ -257,7 +257,7 @@ const AddProductDrawer = (props: Props) => {
 
           <DropzoneWrapper>
             {/* <FileUploaderSingle files={files} setFiles={setFiles} /> */}
-            <FileUploaderSingle title={'Kartu keluarga (KK)'} files={files} setFiles={setFiles} />
+            <FileUploaderSingle title={'Product'} files={files} setFiles={setFiles} />
           </DropzoneWrapper>
 
 
