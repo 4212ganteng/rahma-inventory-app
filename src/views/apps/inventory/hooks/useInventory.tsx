@@ -46,7 +46,7 @@ export const useInventory = () => {
     try {
       const response = await api_v1.post('rahma/inventory/add-stock', payload)
 
-      console.log({ response })
+
       setLoading(false)
       toast.success('Add Stock successfully!')
       FetchListInventory()
@@ -73,7 +73,7 @@ export const useInventory = () => {
     try {
       const response = await api_v1.post('rahma/inventory/reduce-stock', payload)
 
-      console.log({ response })
+
       setLoading(false)
       toast.success('Reduce stock successfully!')
       FetchListInventory()

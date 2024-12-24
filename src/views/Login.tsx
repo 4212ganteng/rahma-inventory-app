@@ -142,7 +142,6 @@ const Login = ({ mode }: { mode: SystemMode }) => {
     })
 
 
-    console.log("ini res", res)
 
     if (res && res.ok && res.error === null) {
       // Vars

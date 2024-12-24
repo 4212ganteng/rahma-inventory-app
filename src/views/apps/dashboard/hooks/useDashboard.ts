@@ -13,8 +13,6 @@ export const useDashboard = () => {
   const [dataDashboard, setDataDashboard] = useState<DashboardResponse>()
   const [loading, setLoading] = useState(false)
 
-  console.log({ dataDashboard })
-
   // get Inventory By ProductId
   const FetchDashboard = async () => {
     try {

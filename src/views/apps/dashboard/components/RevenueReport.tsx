@@ -42,7 +42,6 @@ const RevenueReport: FC<Tprops> = ({ dataStockAdditions, dataStockReductions, da
 
 
 
-  console.log(barSeries)
 
   // Hooks
   const theme = useTheme()

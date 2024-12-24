@@ -86,8 +86,6 @@ const AddProductDrawer = (props: Props) => {
       data.image = "";
     }
 
-    console.log({ data })
-
     await onDataSubmit(data)
     handleClose()
   })

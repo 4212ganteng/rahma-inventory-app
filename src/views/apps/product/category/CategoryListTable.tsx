@@ -258,9 +258,6 @@ const CategoryListTable = () => {
   }, [])
 
 
-  console.log({ filteredData })
-  console.log(dataCategory)
-
   return (
     <>
       <Card>

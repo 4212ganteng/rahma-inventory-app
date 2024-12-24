@@ -22,7 +22,7 @@ export const UseProduct = () => {
       const response = await api_v1.get('rahma/product')
 
       setLoading(false)
-      console.log('products', response.data)
+
       setDataProducts(response.data.products)
     } catch (error) {
       setLoading(false)
@@ -37,8 +37,6 @@ export const UseProduct = () => {
   // create Product
   const CreateproductwithFile = async (payload: ProductForm) => {
     setLoading(true)
-
-    console.log({ payload })
 
     try {
       const formData = new FormData()
@@ -55,7 +53,6 @@ export const UseProduct = () => {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
 
-      console.log({ response })
       setLoading(false)
       toast.success('Product added successfully!')
 

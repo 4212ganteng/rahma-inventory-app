@@ -44,7 +44,7 @@ export const useUnit = () => {
     try {
       const response = await api_v1.post('rahma/unit', payload)
 
-      console.log({ response })
+
       setLoading(false)
       toast.success('Lead added successfully!')
       fetchUnit()

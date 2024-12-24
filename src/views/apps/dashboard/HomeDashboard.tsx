@@ -26,7 +26,7 @@ const HomeDashboard = () => {
   const { FetchAdiitionalStock, FetchReductionStock, dataLogisticAddition, dataLogisticReduction } = useLogistic()
   const { data: session } = useSession()
 
-  console.log(session)
+
 
 
   const dataStat = [

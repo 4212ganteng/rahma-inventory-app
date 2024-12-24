@@ -270,7 +270,6 @@ const InventoryByProductId = ({ productId }: { productId: string }) => {
     FetchInventoryByProductId(productId)
   }, [productId])
 
-  console.log({ detailInventory })
 
   return (
     <>
