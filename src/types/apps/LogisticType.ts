@@ -5,13 +5,17 @@ export interface ResponseLogistic {
 
 export interface LogisticResponData {
   id: string
-  inventoryEntryId: string
-  changeType: string
-  quantity: number
-  changeDate: Date
-  description: string
-  userId: null
+  stockChangeId: string
+  waybillNumber: string
+  waybillDate: Date
+  status: string
+  stockChange: StockChange
+}
+
+export interface StockChange {
   inventoryEntry: InventoryEntry
+  quantity: number
+  description: string
 }
 
 export interface InventoryEntry {

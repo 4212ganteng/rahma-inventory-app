@@ -16,6 +16,7 @@ export const useLogistic = () => {
   const [dataLogistic, setDataLogistic] = useState<LogisticResponData[]>([])
   const [dataLogisticAddition, setDataLogisticAddition] = useState<LogisticResponData[]>([])
   const [dataLogisticReduction, setDataLogisticReduction] = useState<LogisticResponData[]>([])
+  const [dataLogisticPreview, setDataLogisticPreview] = useState<LogisticResponData[]>([])
   const [loading, setLoading] = useState(false)
 
   // get all report Additional stock
@@ -73,7 +74,25 @@ export const useLogistic = () => {
     }
   }
 
+  // get preview
+  const FetchPreview = async (waybillNumber: string) => {
+    try {
+      setLoading(true)
+      const response = await api_v1.get(`rahma/logistic/preview?waybillNumber=${waybillNumber}`)
+
+      setLoading(false)
+      setDataLogisticPreview(response.data.data)
+    } catch (error) {
+      setLoading(false)
+      const errorMessage = getErrorMessage(error)
+
+      toast.error(errorMessage)
+
+      return isRejectedWithValue(errorMessage)
+    }
+  }
 
 
-  return { dataLogisticReduction, loading, dataLogisticAddition, dataLogistic, FetchLogistic, FetchAdiitionalStock, FetchReductionStock }
+
+  return { dataLogisticReduction, loading, dataLogisticAddition, dataLogistic, FetchLogistic, FetchAdiitionalStock, FetchReductionStock, FetchPreview, dataLogisticPreview }
 }

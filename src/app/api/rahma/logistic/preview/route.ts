@@ -1,12 +1,26 @@
+import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
 import prisma from '@/utils/prisma'
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const searchParams = req.nextUrl.searchParams
+  const waybillNumber = searchParams.get('waybillNumber') || ''
+
   try {
-    const reportStockReduction = await prisma.waybill.findMany({
+    // validate waybillNumber
+    if (!waybillNumber) {
+      return NextResponse.json(
+        {
+          message: 'Waybill number is required'
+        },
+        { status: 400 }
+      )
+    }
+
+    const waybill = await prisma.waybill.findMany({
       where: {
-        status: 'PENGURANGAN'
+        waybillNumber: waybillNumber
       },
       include: {
         stockChange: {
@@ -25,15 +39,12 @@ export async function GET() {
             description: true
           }
         }
-      },
-      orderBy: {
-        id: 'desc'
       }
     })
 
     return NextResponse.json({
-      message: 'Report Reduction Data',
-      data: reportStockReduction
+      message: 'Report Detail Waybill',
+      data: waybill
     })
   } catch (error) {
     return NextResponse.json(

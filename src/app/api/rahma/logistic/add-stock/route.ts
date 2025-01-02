@@ -4,16 +4,25 @@ import prisma from '@/utils/prisma'
 
 export async function GET() {
   try {
-    const reportStockAddition = await prisma.stockChange.findMany({
+    const reportStockAddition = await prisma.waybill.findMany({
       where: {
-        changeType: 'PENAMBAHAN'
+        status: 'PENAMBAHAN'
       },
       include: {
-        inventoryEntry: {
+        stockChange: {
           select: {
-            product: {
-              select: { name: true, sku: true }
-            }
+            inventoryEntry: {
+              select: {
+                product: {
+                  select: {
+                    name: true,
+                    sku: true
+                  }
+                }
+              }
+            },
+            quantity: true,
+            description: true
           }
         }
       },

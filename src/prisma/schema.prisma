@@ -40,6 +40,11 @@ enum StatusActive {
   Inactive
 }
 
+enum ChangeType {
+  PENAMBAHAN
+  PENGURANGAN
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -157,5 +162,17 @@ model StockChange {
   changeDate  DateTime @default(now())
   description String?
 
+  waybill Waybill[]
+
   userId String? // Optional: untuk tracking siapa yang melakukan perubahan
+}
+
+//  waybill
+model Waybill {
+  id            String      @id @default(cuid())
+  stockChangeId String
+  stockChange   StockChange @relation(fields: [stockChangeId], references: [id])
+  waybillNumber String
+  waybillDate   DateTime
+  status        ChangeType  @default(PENAMBAHAN)
 }

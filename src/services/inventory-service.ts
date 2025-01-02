@@ -41,6 +41,24 @@ export class InventoryService {
               description: 'Stok Awal'
             }
           }
+        },
+        include: {
+          stockChanges: true
+        }
+      })
+
+      console.log('inventor entry result', inventoryEntry)
+
+      // create waybill
+      const currentDate = new Date()
+      const waybillNumber = `WB-${currentDate.getFullYear()}${(currentDate.getMonth() + 1).toString().padStart(2, '0')}${currentDate.getDate().toString().padStart(2, '0')}-${Math.random().toString(36).substr(2, 5)}`
+
+      await tx.waybill.create({
+        data: {
+          stockChangeId: inventoryEntry.stockChanges[0].id,
+          waybillNumber,
+          status: 'PENAMBAHAN',
+          waybillDate: currentDate
         }
       })
 
@@ -50,6 +68,11 @@ export class InventoryService {
 
   // Kurangi Stok Produk (Metode FIFO)
   async reduceProductStock(productId: string, quantityToReduce: number) {
+    const currentDate = new Date()
+    const waybillNumber = `WB-${currentDate.getFullYear()}${(currentDate.getMonth() + 1).toString().padStart(2, '0')}${currentDate.getDate().toString().padStart(2, '0')}-${Math.random().toString(36).substr(2, 5)}`
+
+    console.log({ waybillNumber })
+
     return this.prisma.$transaction(async tx => {
       // Ambil entri inventori berdasarkan FIFO (urutan terawal)
       const availableEntries = await tx.inventoryEntry.findMany({
@@ -99,7 +122,7 @@ export class InventoryService {
         })
 
         // Catat perubahan stok
-        await tx.stockChange.create({
+        const stockChange = await tx.stockChange.create({
           data: {
             inventoryEntryId: entry.id,
             changeType: 'PENGURANGAN',
@@ -114,6 +137,16 @@ export class InventoryService {
         })
 
         remainingToReduce -= reduceQuantity
+
+        // create waybill
+        await tx.waybill.create({
+          data: {
+            stockChangeId: stockChange.id,
+            waybillNumber: waybillNumber,
+            status: 'PENGURANGAN',
+            waybillDate: new Date()
+          }
+        })
       }
 
       return reducedEntries

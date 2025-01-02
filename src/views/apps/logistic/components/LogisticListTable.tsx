@@ -37,6 +37,8 @@ import {
 import classnames from 'classnames'
 
 // Type Imports
+import { IconButton } from '@mui/material'
+
 import type { ThemeColor } from '@core/types'
 
 // Component Imports
@@ -46,6 +48,7 @@ import CustomTextField from '@core/components/mui/TextField'
 import TablePaginationComponent from '@/components/TablePaginationComponent'
 import type { LogisticResponData } from '@/types/apps/LogisticType'
 import tableStyles from '@core/styles/table.module.css'
+import OptionMenu from '@/@core/components/option-menu'
 
 
 declare module '@tanstack/table-core' {
@@ -116,7 +119,7 @@ const productStatusObj: productStatusType = {
 // Column Definitions
 const columnHelper = createColumnHelper<LogisticResponData>()
 
-const LogisticListTable = ({ dataFetch }: { dataFetch: LogisticResponData }) => {
+const LogisticListTable = ({ dataFetch }: { dataFetch: LogisticResponData[] }) => {
 
 
 
@@ -151,57 +154,69 @@ const LogisticListTable = ({ dataFetch }: { dataFetch: LogisticResponData }) => 
           />
         )
       },
-      columnHelper.accessor('inventoryEntry.product.name', {
+      columnHelper.accessor('stockChange.inventoryEntry.product.name', {
         header: 'Product Name',
         cell: ({ row }) => (
 
-          <Typography variant='body2'> {row.original.inventoryEntry.product.name}</Typography>
+          <Typography variant='body2'> {row.original.stockChange.inventoryEntry.product.name}</Typography>
 
         )
       }),
 
-      columnHelper.accessor('inventoryEntry.product.sku', {
+      columnHelper.accessor('stockChange.inventoryEntry.product.sku', {
         header: 'SKU',
-        cell: ({ row }) => <Typography>{row.original.inventoryEntry.product.sku}</Typography>
+        cell: ({ row }) => <Typography>{row.original.stockChange.inventoryEntry.product.sku}</Typography>
       }),
 
-      columnHelper.accessor('quantity', {
+      columnHelper.accessor('stockChange.quantity', {
         header: 'Quantity',
         cell: ({ row }) => (
 
-          <Typography variant='body2'>{row.original.quantity}</Typography>
+          <Typography variant='body2'>{row.original.stockChange.quantity}</Typography>
 
         )
       }),
-      columnHelper.accessor('description', {
+      columnHelper.accessor('stockChange.description', {
         header: 'Description',
         cell: ({ row }) => (
 
-          <Typography variant='body2'>{row.original.description}</Typography>
+          <Typography variant='body2'>{row.original.stockChange.description}</Typography>
 
         )
       }),
 
-
-      columnHelper.accessor('changeType', {
+      columnHelper.accessor('status', {
         header: 'Status',
         cell: ({ row }) => (
           <Chip
-            label={productStatusObj[row.original.changeType].title}
+            label={productStatusObj[row.original.status].title}
             variant='tonal'
-            color={productStatusObj[row.original.changeType].color}
+            color={productStatusObj[row.original.status].color}
             size='small'
           />
         )
       }),
 
+      columnHelper.accessor('actions', {
+        header: 'Actions',
+        cell: ({ row }) => (
+          <IconButton
+            onClick={() => {
+              window.location.href = `/apps/logistics/stock-reduction/preview/${row.original.waybillNumber}`
+            }}
+          >
+            <i className='tabler-eye text-textSecondary' />
+          </IconButton>
+        ),
+        enableSorting: false
+      })
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [dataFetch]
   )
 
   const table = useReactTable({
-    data: dataFetch || [],
+    data: Array.isArray(dataFetch) ? dataFetch : [],
     columns,
     filterFns: {
       fuzzy: fuzzyFilter
