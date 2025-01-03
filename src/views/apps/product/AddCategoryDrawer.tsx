@@ -45,7 +45,7 @@ const defaultValues = {
 }
 
 // start func
-const AddCategoryDrawer: FC<Props> = ({ title, open, handleClose, category, onDataSubmit }) => {
+const AddCategoryDrawer: FC<Props> = ({ title, open, handleClose, onDataSubmit }) => {
 
   // React Hook Form
   const {

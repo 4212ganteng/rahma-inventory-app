@@ -4,7 +4,6 @@
 import { useEffect, useMemo, useState } from 'react'
 
 // Next Imports
-import { useParams } from 'next/navigation'
 
 // MUI Imports
 import Button from '@mui/material/Button'
@@ -44,7 +43,6 @@ import type { Category } from '@prisma/client'
 
 import type { ThemeColor } from '@core/types'
 
-import type { ProductType } from '@/types/apps/productTypes'
 
 // Component Imports
 import CustomTextField from '@core/components/mui/TextField'
@@ -67,11 +65,6 @@ declare module '@tanstack/table-core' {
     itemRank: RankingInfo
   }
 }
-
-type ProductWithActionsType = ProductType & {
-  actions?: string
-}
-
 
 
 type productStatusType = {
@@ -133,14 +126,12 @@ const productStatusObj: productStatusType = {
 const columnHelper = createColumnHelper<Category>()
 
 const CategoryListTable = () => {
-  // Hooks
-  const { lang: locale } = useParams()
+
 
   const { fetchCategory, dataCategory, createCategory } = useCategory()
 
   // States
   const [rowSelection, setRowSelection] = useState({})
-  const [filteredData, setFilteredData] = useState(dataCategory)
   const [globalFilter, setGlobalFilter] = useState('')
   const [addCategoryOpen, setAddCategoryOpen] = useState(false)
 

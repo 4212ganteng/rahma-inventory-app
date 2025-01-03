@@ -4,7 +4,6 @@
 import { useEffect, useMemo, useState } from 'react'
 
 // Next Imports
-import { useParams } from 'next/navigation'
 
 // MUI Imports
 import Button from '@mui/material/Button'
@@ -13,7 +12,6 @@ import CardHeader from '@mui/material/CardHeader'
 import Checkbox from '@mui/material/Checkbox'
 import Chip from '@mui/material/Chip'
 import Divider from '@mui/material/Divider'
-import IconButton from '@mui/material/IconButton'
 import MenuItem from '@mui/material/MenuItem'
 import TablePagination from '@mui/material/TablePagination'
 import type { TextFieldProps } from '@mui/material/TextField'
@@ -39,9 +37,7 @@ import classnames from 'classnames'
 
 // Type Imports
 
-import type { ThemeColor } from '@core/types'
 
-import type { ProductType } from '@/types/apps/productTypes'
 
 // Component Imports
 import CustomTextField from '@core/components/mui/TextField'
@@ -49,9 +45,9 @@ import OptionMenu from '@core/components/option-menu'
 
 // Style Imports
 import TablePaginationComponent from '@/components/TablePaginationComponent'
+import type { DataListInventory } from '@/types/apps/InventoryType'
 import tableStyles from '@core/styles/table.module.css'
 import { useInventory } from '../hooks/useInventory'
-import type { DataListInventory } from '@/types/apps/InventoryType'
 
 
 declare module '@tanstack/table-core' {
@@ -63,16 +59,9 @@ declare module '@tanstack/table-core' {
   }
 }
 
-type ProductWithActionsType = ProductType & {
-  actions?: string
-}
 
-type productStatusType = {
-  [key: string]: {
-    title: string
-    color: ThemeColor
-  }
-}
+
+
 
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -119,12 +108,16 @@ const DebouncedInput = ({
 // Vars
 
 
-const productStatusObj: productStatusType = {
-  Active: { title: 'Active', color: 'success' },
-  Inactive: { title: 'Inactive', color: 'error' }
+
+
+interface Entry {
+
+  // Define the structure of an entry if known, otherwise use any
+
+  [key: string]: any;
 }
 
-const getEntriesTitle = (entries) => {
+const getEntriesTitle = (entries: Entry[]): string => {
   return entries && entries.length > 0 ? 'Entries' : 'No Entries';
 };
 
@@ -139,8 +132,7 @@ const InventoryListTable = () => {
   const [rowSelection, setRowSelection] = useState({})
   const [globalFilter, setGlobalFilter] = useState('')
 
-  // Hooks
-  const { lang: locale } = useParams()
+
 
   const columns = useMemo<ColumnDef<DataListInventory, any>[]>(
     () => [
@@ -230,7 +222,8 @@ const InventoryListTable = () => {
                 {
                   text: 'Delete',
                   icon: 'tabler-trash',
-                  menuItemProps: { onClick: () => setData(data?.filter(product => product.id !== row.original.id)) }
+
+                  // menuItemProps: { onClick: () => setData(data?.filter(product => product.id !== row.original.id)) }
                 },
 
               ]}

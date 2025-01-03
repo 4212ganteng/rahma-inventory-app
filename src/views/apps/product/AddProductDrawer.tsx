@@ -1,13 +1,11 @@
 // React Imports
-import type { ChangeEvent } from 'react'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // MUI Imports
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
 import Drawer from '@mui/material/Drawer'
 import IconButton from '@mui/material/IconButton'
-import InputAdornment from '@mui/material/InputAdornment'
 import Typography from '@mui/material/Typography'
 
 // Third-party Imports
@@ -16,17 +14,16 @@ import { Controller, useForm } from 'react-hook-form'
 // Type Imports
 import type { Product } from '@prisma/client'
 
-import { Box } from '@mui/material'
 
 
 // Components Imports
+import FileUploaderSingle from '@/@core/components/file-uploader/FileUploaderSingle'
 import CustomAutocomplete from '@/@core/components/mui/Autocomplete'
+import DropzoneWrapper from '@/@core/styles/libs/react-dropzone/DropzoneWrapper'
 import { useStandarizedOptions } from '@/hooks/useStandarizedOptions'
 import CustomTextField from '@core/components/mui/TextField'
 import { useCategory } from './category/hooks/useCategory'
 import { useUnit } from './unit/hooks/useUnit'
-import DropzoneWrapper from '@/@core/styles/libs/react-dropzone/DropzoneWrapper'
-import FileUploaderSingle from '@/@core/components/file-uploader/FileUploaderSingle'
 
 type ProductForm = Omit<Product, 'id' | 'createdAt' | 'updatedAt'>
 
@@ -42,7 +39,7 @@ type Props = {
 
 const AddProductDrawer = (props: Props) => {
   // Props
-  const { open, handleClose, product, onDataSubmit } = props
+  const { open, handleClose, onDataSubmit } = props
 
   // States
   const [files, setFiles] = useState<File[]>([])
@@ -72,7 +69,6 @@ const AddProductDrawer = (props: Props) => {
     reset: resetForm,
     handleSubmit,
     formState: { errors },
-    setValue
   } = useForm<ProductForm>({
     defaultValues: defaulValues
   })
@@ -110,11 +106,7 @@ const AddProductDrawer = (props: Props) => {
     fetchUnit()
   }, [])
 
-  // Clear file handler
-  const clearFile = () => {
-    setValue('image', null)
-    setImagePreview(null)
-  }
+
 
 
 

@@ -1,9 +1,6 @@
 // MUI Imports
 import Grid from '@mui/material/Grid'
 
-// Component Imports
-
-import ProductCard from '@views/apps/product/list/ProductCard'
 
 // Data Imports
 import CategoryListTable from '@/views/apps/product/category/CategoryListTable'

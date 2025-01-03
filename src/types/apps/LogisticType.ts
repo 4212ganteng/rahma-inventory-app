@@ -20,6 +20,8 @@ export interface StockChange {
 
 export interface InventoryEntry {
   product: Product
+  batchNumber: string
+  fifoSequence: string
 }
 
 export interface Product {

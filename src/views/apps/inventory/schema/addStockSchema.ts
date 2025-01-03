@@ -1,6 +1,6 @@
 'use client'
 
-import { object, string, number, pipe, nonEmpty, minLength, maxLength, match, custom, transform } from 'valibot'
+import { object, string, number, pipe, nonEmpty, minLength, maxLength, custom, transform } from 'valibot'
 
 const addStockSchema = object({
   productId: pipe(

@@ -4,7 +4,6 @@
 import { useEffect, useMemo, useState } from 'react'
 
 // Next Imports
-import { useParams } from 'next/navigation'
 
 // MUI Imports
 import Button from '@mui/material/Button'
@@ -50,7 +49,6 @@ import OptionMenu from '@core/components/option-menu'
 // Style Imports
 import TablePaginationComponent from '@/components/TablePaginationComponent'
 import tableStyles from '@core/styles/table.module.css'
-import AddCategoryDrawer from '../AddCategoryDrawer'
 import AddUnitDrawer from '../AddUnitDrawer'
 import { useUnit } from './hooks/useUnit'
 
@@ -137,8 +135,7 @@ const UnitListTable = () => {
   const [globalFilter, setGlobalFilter] = useState('')
   const [addUnitOpen, setAddUnitOpen] = useState(false)
 
-  // Hooks
-  const { lang: locale } = useParams()
+
 
   const columns = useMemo<ColumnDef<ProductWithActionsType, any>[]>(
     () => [

@@ -1,53 +1,23 @@
 // MUI Imports
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
-import Typography from '@mui/material/Typography'
-import Grid from '@mui/material/Grid'
 import Divider from '@mui/material/Divider'
-
-// Type Imports
-import type { InvoiceType } from '@/types/apps/invoiceTypes'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
 
 // Component Imports
 import Logo from '@components/layout/shared/Logo'
 
 // Style Imports
+import type { LogisticResponData } from '@/types/apps/LogisticType'
 import tableStyles from '@core/styles/table.module.css'
 import './print.css'
 
-// Vars
-const data = [
-  {
-    Item: 'Premium Branding Package',
-    Description: 'Branding & Promotion',
-    Hours: 48,
-    Qty: 1,
-    Total: '$32'
-  },
-  {
-    Item: 'Social Media',
-    Description: 'Social media templates',
-    Hours: 42,
-    Qty: 1,
-    Total: '$28'
-  },
-  {
-    Item: 'Web Design',
-    Description: 'Web designing package',
-    Hours: 46,
-    Qty: 1,
-    Total: '$24'
-  },
-  {
-    Item: 'SEO',
-    Description: 'Search engine optimization',
-    Hours: 40,
-    Qty: 1,
-    Total: '$22'
-  }
-]
 
-const PreviewCard = ({ invoiceData, id }: { invoiceData?: InvoiceType; id: string }) => {
+const PreviewCard = ({ previewData }: { previewData: LogisticResponData[] }) => {
+
+  const total = previewData?.reduce((acc, item) => acc + item.stockChange.quantity, 0)
+
   return (
     <Card className='previewCard'>
       <CardContent className='sm:!p-12'>
@@ -66,10 +36,10 @@ const PreviewCard = ({ invoiceData, id }: { invoiceData?: InvoiceType; id: strin
                   </div>
                 </div>
                 <div className='flex flex-col gap-6'>
-                  <Typography variant='h5'>{`Invoice #${id}`}</Typography>
+                  <Typography variant='h5' className='uppercase'>{`#${previewData[0]?.waybillNumber}`}</Typography>
                   <div className='flex flex-col gap-1'>
-                    <Typography color='text.primary'>{`Date Issued: ${invoiceData?.issuedDate}`}</Typography>
-                    <Typography color='text.primary'>{`Date Due: ${invoiceData?.dueDate}`}</Typography>
+                    <Typography color='text.primary'>{`Date Issued: ${new Date(previewData[0]?.waybillDate).toLocaleDateString()}`}</Typography>
+                    <Typography color='text.primary'>{`Type: ${previewData[0]?.status}`}</Typography>
                   </div>
                 </div>
               </div>
@@ -130,23 +100,28 @@ const PreviewCard = ({ invoiceData, id }: { invoiceData?: InvoiceType; id: strin
                     <th className='!bg-transparent'>Item</th>
                     <th className='!bg-transparent'>SKU</th>
                     <th className='!bg-transparent'>Description</th>
+                    <th className='!bg-transparent'>Batch Number</th>
                     <th className='!bg-transparent'>Qty</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((item, index) => (
+                  {previewData?.map((item, index) => (
                     <tr key={index}>
                       <td>
-                        <Typography color='text.primary'>{item.Item}</Typography>
+                        <Typography color='text.primary'>{item.stockChange?.inventoryEntry?.product?.name}</Typography>
                       </td>
                       <td>
-                        <Typography color='text.primary'>{item.Hours}</Typography>
+                        <Typography color='text.primary'>{item.stockChange?.inventoryEntry?.product?.sku}</Typography>
                       </td>
                       <td>
-                        <Typography color='text.primary'>{item.Description}</Typography>
+                        <Typography color='text.primary'>{item.stockChange?.description}</Typography>
                       </td>
                       <td>
-                        <Typography color='text.primary'>{item.Qty}</Typography>
+                        <Typography color='text.primary'>{item.stockChange?.inventoryEntry?.batchNumber}</Typography>
+                      </td>
+
+                      <td>
+                        <Typography color='text.primary'>{item.stockChange?.quantity}</Typography>
                       </td>
 
                     </tr>
@@ -158,38 +133,20 @@ const PreviewCard = ({ invoiceData, id }: { invoiceData?: InvoiceType; id: strin
           <Grid item xs={12}>
             <div className='flex justify-between flex-col gap-y-4 sm:flex-row'>
               <div className='flex flex-col gap-1 order-2 sm:order-[unset]'>
-                <div className='flex items-center gap-2'>
+                {/* <div className='flex items-center gap-2'>
                   <Typography className='font-medium' color='text.primary'>
                     Salesperson:
                   </Typography>
                   <Typography>Tommy Shelby</Typography>
                 </div>
-                <Typography>Thanks for your business</Typography>
+                <Typography>Thanks for your business</Typography> */}
               </div>
               <div className='min-is-[200px]'>
-                <div className='flex items-center justify-between'>
-                  <Typography>Subtotal:</Typography>
-                  <Typography className='font-medium' color='text.primary'>
-                    $1800
-                  </Typography>
-                </div>
-                <div className='flex items-center justify-between'>
-                  <Typography>Discount:</Typography>
-                  <Typography className='font-medium' color='text.primary'>
-                    $28
-                  </Typography>
-                </div>
-                <div className='flex items-center justify-between'>
-                  <Typography>Tax:</Typography>
-                  <Typography className='font-medium' color='text.primary'>
-                    21%
-                  </Typography>
-                </div>
-                <Divider className='mlb-2' />
+
                 <div className='flex items-center justify-between'>
                   <Typography>Total:</Typography>
                   <Typography className='font-medium' color='text.primary'>
-                    $1690
+                    {total}
                   </Typography>
                 </div>
               </div>
@@ -203,8 +160,7 @@ const PreviewCard = ({ invoiceData, id }: { invoiceData?: InvoiceType; id: strin
               <Typography component='span' className='font-medium' color='text.primary'>
                 Note:
               </Typography>{' '}
-              It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance
-              projects. Thank You!
+              Metode FIFO digunakan untuk mengelola persediaan barang yang keluar berdasarkan urutan kedatangan barang pertama kali (batch yang lebih tua akan keluar lebih dulu).
             </Typography>
           </Grid>
         </Grid>

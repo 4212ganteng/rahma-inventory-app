@@ -97,8 +97,8 @@ const HomeDashboard = () => {
         </Grid>
         <Grid item xs={12} xl={8}>
           <RevenueReport
-            dataStockAdditions={dataLogisticAddition.map(item => item.quantity)}
-            dataStockReductions={dataLogisticReduction.map(item => item.quantity)}
+            dataStockAdditions={dataLogisticAddition.map(item => item.stockChange?.quantity)}
+            dataStockReductions={dataLogisticReduction.map(item => item.stockChange?.quantity)}
             dataProduct={[
               dataDashboard?.productStatusPercentage.available ?? 0,
               dataDashboard?.productStatusPercentage.almostOutOfStock ?? 0,

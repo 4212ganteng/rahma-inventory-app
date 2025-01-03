@@ -4,7 +4,6 @@
 import { useEffect, useMemo, useState } from 'react'
 
 // Next Imports
-import { useParams } from 'next/navigation'
 
 // MUI Imports
 import Button from '@mui/material/Button'
@@ -48,7 +47,6 @@ import CustomTextField from '@core/components/mui/TextField'
 import TablePaginationComponent from '@/components/TablePaginationComponent'
 import type { LogisticResponData } from '@/types/apps/LogisticType'
 import tableStyles from '@core/styles/table.module.css'
-import OptionMenu from '@/@core/components/option-menu'
 
 
 declare module '@tanstack/table-core' {
@@ -127,8 +125,6 @@ const LogisticListTable = ({ dataFetch }: { dataFetch: LogisticResponData[] }) =
   const [rowSelection, setRowSelection] = useState({})
   const [globalFilter, setGlobalFilter] = useState('')
 
-  // Hooks
-  const { lang: locale } = useParams()
 
   const columns = useMemo<ColumnDef<LogisticResponData, any>[]>(
     () => [
@@ -197,7 +193,7 @@ const LogisticListTable = ({ dataFetch }: { dataFetch: LogisticResponData[] }) =
         )
       }),
 
-      columnHelper.accessor('actions', {
+      columnHelper.accessor('waybillNumber', {
         header: 'Actions',
         cell: ({ row }) => (
           <IconButton

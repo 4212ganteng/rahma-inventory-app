@@ -48,7 +48,7 @@ const defaultValues: unitForm = {
 }
 
 // start func
-const AddUnitDrawer: FC<Props> = ({ title, open, handleClose, unit, onDataSubmit }) => {
+const AddUnitDrawer: FC<Props> = ({ title, open, handleClose, onDataSubmit }) => {
 
   // React Hook Form
   const {

@@ -32,7 +32,9 @@ export async function GET(req: NextRequest) {
                     name: true,
                     sku: true
                   }
-                }
+                },
+                batchNumber: true,
+                fifoSequence: true
               }
             },
             quantity: true,

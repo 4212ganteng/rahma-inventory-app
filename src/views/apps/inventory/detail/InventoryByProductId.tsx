@@ -4,7 +4,6 @@
 import { useEffect, useMemo, useState } from 'react'
 
 // Next Imports
-import { useParams } from 'next/navigation'
 
 // MUI Imports
 import Button from '@mui/material/Button'
@@ -44,10 +43,9 @@ import CustomTextField from '@core/components/mui/TextField'
 
 // Style Imports
 import TablePaginationComponent from '@/components/TablePaginationComponent'
-import type { LogisticResponData } from '@/types/apps/LogisticType'
+import type { InventoryByProductID } from '@/types/apps/InventoryType'
 import tableStyles from '@core/styles/table.module.css'
 import { useInventory } from '../hooks/useInventory'
-import type { InventoryByProductID } from '@/types/apps/InventoryType'
 
 
 declare module '@tanstack/table-core' {
@@ -129,8 +127,7 @@ const InventoryByProductId = ({ productId }: { productId: string }) => {
   const [rowSelection, setRowSelection] = useState({})
   const [globalFilter, setGlobalFilter] = useState('')
 
-  // Hooks
-  const { lang: locale } = useParams()
+
 
   const columns = useMemo<ColumnDef<InventoryByProductID, any>[]>(
     () => [
