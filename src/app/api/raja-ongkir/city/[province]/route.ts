@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-export async function GET(req: Request, { params }) {
+export async function GET(req: Request, { params }: { params: { province: string } }) {
   console.log(params)
 
   try {
@@ -24,6 +24,10 @@ export async function GET(req: Request, { params }) {
   } catch (error: unknown) {
     console.log(error)
 
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    if (error instanceof Error) {
+      return NextResponse.json({ error: error.message }, { status: 500 })
+    }
+
+    return NextResponse.json({ error: 'An unknown error occurred' }, { status: 500 })
   }
 }

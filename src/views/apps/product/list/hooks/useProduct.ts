@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import type { Product } from '@prisma/client'
 
@@ -9,14 +9,23 @@ import { toast } from 'react-toastify'
 import { getErrorMessage } from '@/helper/getErrorMessage'
 import api_v1 from '@/utils/axios/api_v1'
 
-type ProductForm = Omit<Product, 'id' | 'createdAt' | 'updatedAt'>
+type ProductForm = {
+  name: string
+  sku: string
+  description: string | null
+  categoryId: string
+  unitId: string
+  minStockThreshold: number
+  image: File[] | null
+}
 
 export const UseProduct = () => {
   const [loading, setLoading] = useState(false)
   const [dataProducts, setDataProducts] = useState<Product[]>([])
 
   // FetchAllProducts
-  const FetchAllProducts = async () => {
+
+  const FetchAllProducts = useCallback(async () => {
     try {
       setLoading(true)
       const response = await api_v1.get('rahma/product')
@@ -32,22 +41,31 @@ export const UseProduct = () => {
 
       return isRejectedWithValue(errorMessage)
     }
-  }
+  }, [])
 
   // create Product
-  const CreateproductwithFile = async (payload: ProductForm) => {
+  const CreateproductwithFile = useCallback(async (payload: ProductForm) => {
     setLoading(true)
 
     try {
       const formData = new FormData()
 
+      console.log({ payload })
+
       formData.append('name', payload.name)
-      formData.append('description', payload.description)
+
+      if (payload.description) {
+        formData.append('description', payload.description)
+      }
+
       formData.append('sku', payload.sku)
-      formData.append('minStockThreshold', payload.minStockThreshold)
-      formData.append('categoryId', payload.categoryId.value)
-      formData.append('unitId', payload.unitId.value)
-      formData.append('image', payload.image[0])
+      formData.append('minStockThreshold', payload?.minStockThreshold.toString())
+      formData.append('categoryId', payload?.categoryId)
+      formData.append('unitId', payload.unitId)
+
+      if (payload.image && payload.image.length > 0) {
+        formData.append('image', payload.image[0])
+      }
 
       const response = await api_v1.post('rahma/product', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
@@ -56,7 +74,7 @@ export const UseProduct = () => {
       setLoading(false)
       toast.success('Product added successfully!')
 
-      //  fetchUnit()
+      FetchAllProducts()
 
       return response.data
     } catch (error) {
@@ -69,7 +87,7 @@ export const UseProduct = () => {
 
       return isRejectedWithValue(errorMessage)
     }
-  }
+  }, [])
 
   // const Createproduct = async (data: ProductForm) => {
   //   setLoading(true)

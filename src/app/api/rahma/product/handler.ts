@@ -54,7 +54,7 @@ export class ProductController {
   async createProductUpfile(req: NextRequest) {
     const formData = await req.formData()
 
-    const file = formData.get('image') as string
+    const file = formData.get('image') as File
     const name = formData.get('name') as string
     const sku = formData.get('sku') as string
     const description = formData.get('description') as string
@@ -62,14 +62,12 @@ export class ProductController {
     const categoryId = formData.get('categoryId') as string
     const unitId = formData.get('unitId') as string
 
-    if (!file || file === 'undefined') {
+    if (!file) {
       console.log(file)
       console.log(typeof file)
 
       return NextResponse.json({ error: 'Gambar wajib di isi' }, { status: 400 })
     }
-
-    console.log('ini fileeee', file)
 
     const buffer = Buffer.from(await file.arrayBuffer())
 
@@ -82,7 +80,7 @@ export class ProductController {
     }
 
     try {
-      await writeFile(path.join(process.cwd(), 'public/images/products' + filename), buffer)
+      await writeFile(path.join(process.cwd(), 'public/images/products/' + filename), buffer)
 
       const newProduct = await this.productService.createProduct({
         name,

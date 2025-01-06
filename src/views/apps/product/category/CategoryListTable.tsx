@@ -186,7 +186,7 @@ const CategoryListTable = () => {
           />
         )
       }),
-      columnHelper.accessor('actions', {
+      columnHelper.accessor('id', {
         header: 'Actions',
         cell: ({ row }) => (
           <div className='flex items-center'>
@@ -201,7 +201,7 @@ const CategoryListTable = () => {
                 {
                   text: 'Delete',
                   icon: 'tabler-trash',
-                  menuItemProps: { onClick: () => setData(data?.filter(product => product.id !== row.original.id)) }
+                  menuItemProps: { onClick: () => row.original.id }
                 },
 
               ]}
@@ -361,7 +361,11 @@ const CategoryListTable = () => {
           title='Add Category'
           open={addCategoryOpen}
 
-          onDataSubmit={createCategory}
+          onDataSubmit={(data) => createCategory({
+            ...data,
+            id: '', // provide a default or generated id
+            isDeleted: false // provide a default value
+          })}
 
           // category={}
           handleClose={() => setAddCategoryOpen(!addCategoryOpen)}

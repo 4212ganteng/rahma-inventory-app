@@ -72,7 +72,7 @@ const FileUploaderSingle: FC<Tprops> = ({ files, setFiles, title }) => {
               borderRadius: 1,
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor: theme => `rgba(${theme.palette.customColors.main}, 0.08)`
+              backgroundColor: `rgb(var(--mui-palette-text-primaryChannel) / 0.08)`
             }}
           >
             <IconifyIcon icon='tabler:upload' fontSize='2rem' />

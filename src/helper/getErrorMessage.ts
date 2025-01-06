@@ -1,12 +1,22 @@
+interface CustomError extends Error {
+  response?: {
+    data?: {
+      error?: string
+    }
+  }
+}
+
 export const getErrorMessage = (error: unknown): string => {
   if (error instanceof Error) {
-    if (error.response.data.error) {
-      const errResponse = error.response.data.error
+    const customError = error as CustomError
 
-      return `${error.message}, ${errResponse}`
+    if (customError.response?.data?.error) {
+      const errResponse = customError.response.data.error
+
+      return `${customError.message}, ${errResponse}`
     }
 
-    return error.message
+    return customError.message
   }
 
   return String(error)

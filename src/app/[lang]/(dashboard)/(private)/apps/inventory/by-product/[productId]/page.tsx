@@ -1,7 +1,7 @@
 import InventoryByProductId from "@/views/apps/inventory/detail/InventoryByProductId";
 
-const InventoryDEtail = ({ params }: { params: Promise<{ productId: string }> }) => {
-  const { productId } = params;
+const InventoryDEtail = async ({ params }: { params: Promise<{ productId: string }> }) => {
+  const { productId } = await params;
 
   console.log({ productId })
 

@@ -9,7 +9,7 @@ import { minLength, nonEmpty, object, pipe, string } from 'valibot';
 
 import CustomTextField from '@/@core/components/mui/TextField';
 
-import type { Category, CategoryFormData } from '@/types/apps/categoryType';
+import type { Category, CategoryFormData, CategoryStatus } from '@/types/apps/categoryType';
 
 
 type Props = {
@@ -38,10 +38,10 @@ const schema = object({
 })
 
 
-const defaultValues = {
+const defaultValues: CategoryFormData = {
   category: '',
   description: '',
-  statusActive: 'Active'
+  statusActive: 'Active' as CategoryStatus
 }
 
 // start func
@@ -54,6 +54,7 @@ const AddCategoryDrawer: FC<Props> = ({ title, open, handleClose, onDataSubmit }
     formState: { errors },
     reset: resetForm
   } = useForm<CategoryFormData>({
+
     defaultValues: defaultValues,
     resolver: valibotResolver(schema)
   })

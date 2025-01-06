@@ -17,7 +17,7 @@ import api_v1 from '@/utils/axios/api_v1'
 
 export const useInventory = () => {
   const [dataInventory, setDataInventory] = useState<DataListInventory[]>([])
-  const [detailInventory, setDetailInventory] = useState<DataResponseInvetoryDetail[]>([])
+  const [detailInventory, setDetailInventory] = useState<DataResponseInvetoryDetail>()
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 

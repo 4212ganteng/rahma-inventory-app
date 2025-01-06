@@ -13,13 +13,13 @@ import type { ProductType } from '@/types/apps/productTypes'
 // Component Imports
 import CustomTextField from '@core/components/mui/TextField'
 
-type ProductStockType = { [key: string]: boolean }
+// type ProductStockType = { [key: string]: boolean }
 
 // Vars
-const productStockObj: ProductStockType = {
-  'In Stock': true,
-  'Out of Stock': false
-}
+// const productStockObj: ProductStockType = {
+//   'In Stock': true,
+//   'Out of Stock': false
+// }
 
 const TableFilters = ({
   setData,
@@ -29,15 +29,15 @@ const TableFilters = ({
   productData?: ProductType[]
 }) => {
   // States
-  const [category, setCategory] = useState<ProductType['category']>('')
+  const [category, setCategory] = useState('')
   const [stock, setStock] = useState('')
   const [status, setStatus] = useState<ProductType['status']>('')
 
   useEffect(
     () => {
       const filteredData = productData?.filter(product => {
-        if (category && product.category !== category) return false
-        if (stock && product.stock !== productStockObj[stock]) return false
+        // if (category && product.category !== category) return false
+        // if (stock && product.stock !== productStockObj[stock]) return false
         if (status && product.status !== status) return false
 
         return true

@@ -231,11 +231,11 @@ const InventoryByProductId = ({ productId }: { productId: string }) => {
 
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [detailInventory.inventoryByProductId]
+    [detailInventory?.inventoryByProductId]
   )
 
   const table = useReactTable({
-    data: detailInventory.inventoryByProductId || [],
+    data: detailInventory?.inventoryByProductId || [],
     columns,
     filterFns: {
       fuzzy: fuzzyFilter

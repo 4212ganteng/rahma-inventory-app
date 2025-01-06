@@ -12,7 +12,6 @@ import Typography from '@mui/material/Typography'
 import { Controller, useForm } from 'react-hook-form'
 
 // Type Imports
-import type { Product } from '@prisma/client'
 
 
 
@@ -25,17 +24,22 @@ import CustomTextField from '@core/components/mui/TextField'
 import { useCategory } from './category/hooks/useCategory'
 import { useUnit } from './unit/hooks/useUnit'
 
-type ProductForm = Omit<Product, 'id' | 'createdAt' | 'updatedAt'>
+type ProductForm = {
+  name: string;
+  sku: string;
+  description: string | null;
+  categoryId: string;
+  unitId: string;
+  minStockThreshold: number;
+  image: File[] | null;
+}
 
 
 type Props = {
   open: boolean
   handleClose: () => void
-  product: Product | null
   onDataSubmit: (data: ProductForm) => Promise<void>
 }
-
-
 
 const AddProductDrawer = (props: Props) => {
   // Props
@@ -47,10 +51,6 @@ const AddProductDrawer = (props: Props) => {
   // hooks
   const { dataUnit, fetchUnit } = useUnit()
   const { dataCategory, fetchCategory } = useCategory()
-
-
-
-
 
   const defaulValues = {
     name: "",
@@ -79,13 +79,12 @@ const AddProductDrawer = (props: Props) => {
     if (files) {
       data.image = files;
     } else {
-      data.image = "";
+      data.image = null;
     }
 
     await onDataSubmit(data)
     handleClose()
   })
-
 
   // Handle Form Reset
   const handleReset = () => {
@@ -94,9 +93,6 @@ const AddProductDrawer = (props: Props) => {
     setFiles([])
 
   }
-
-
-
 
   const listOptionsUnit = useStandarizedOptions(dataUnit, 'unit', 'id')
   const listOptionCategory = useStandarizedOptions(dataCategory, 'category', 'id')
@@ -185,7 +181,7 @@ const AddProductDrawer = (props: Props) => {
                 {...field}
                 options={listOptionsUnit}
                 isOptionEqualToValue={(option, value) => option.id === value.id}
-                onChange={(e, value) => onChange(value)}
+                onChange={(e, value) => onChange(value.value)}
                 renderInput={params => (
                   <CustomTextField
                     required
@@ -208,7 +204,7 @@ const AddProductDrawer = (props: Props) => {
                 {...field}
                 options={listOptionCategory}
                 isOptionEqualToValue={(option, value) => option.id === value.id}
-                onChange={(e, value) => onChange(value)}
+                onChange={(e, value) => onChange(value.value)}
                 renderInput={params => (
                   <CustomTextField
                     required

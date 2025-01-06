@@ -169,13 +169,13 @@ const ProductListTable = () => {
       columnHelper.accessor('categoryId', {
         header: 'Category',
         cell: ({ row }) => (
-          <Typography color='text.primary'>{row.original.category.category}</Typography>
+          <Typography color='text.primary'>{row.original.categoryId}</Typography>
         )
       }),
 
       columnHelper.accessor('unitId', {
         header: 'Unit',
-        cell: ({ row }) => <Typography>{row.original.unit.unit}</Typography>
+        cell: ({ row }) => <Typography>{row.original.unitId}</Typography>
       }),
 
       columnHelper.accessor('minStockThreshold', {
@@ -183,7 +183,7 @@ const ProductListTable = () => {
         cell: ({ row }) => <Typography>{row.original.minStockThreshold}</Typography>
       }),
 
-      columnHelper.accessor('actions', {
+      columnHelper.accessor('id', {
         header: 'Actions',
         cell: ({ row }) => (
           <div className='flex items-center'>
@@ -198,7 +198,7 @@ const ProductListTable = () => {
                 {
                   text: 'Delete',
                   icon: 'tabler-trash',
-                  menuItemProps: { onClick: () => setData(data?.filter(product => product.id !== row.original.id)) }
+                  menuItemProps: { onClick: () => row.original.id }
                 },
                 { text: 'Duplicate', icon: 'tabler-copy' }
               ]}
@@ -377,6 +377,7 @@ const ProductListTable = () => {
             />
 
             <AddProductDrawer
+
               open={addCategoryOpen}
 
               // product={productData}

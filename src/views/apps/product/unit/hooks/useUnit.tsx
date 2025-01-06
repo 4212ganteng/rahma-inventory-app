@@ -46,7 +46,7 @@ export const useUnit = () => {
 
 
       setLoading(false)
-      toast.success('Lead added successfully!')
+      toast.success('Unit added successfully!')
       fetchUnit()
 
       return response.data

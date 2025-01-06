@@ -38,9 +38,10 @@ import classnames from 'classnames'
 
 // Type Imports
 
+import type { Unit } from '@prisma/client'
+
 import type { ThemeColor } from '@core/types'
 
-import type { ProductType } from '@/types/apps/productTypes'
 
 // Component Imports
 import CustomTextField from '@core/components/mui/TextField'
@@ -62,7 +63,7 @@ declare module '@tanstack/table-core' {
   }
 }
 
-type ProductWithActionsType = ProductType & {
+type ProductWithActionsType = Unit & {
   actions?: string
 }
 
@@ -201,7 +202,7 @@ const UnitListTable = () => {
                 {
                   text: 'Delete',
                   icon: 'tabler-trash',
-                  menuItemProps: { onClick: () => setData(data?.filter(product => product.id !== row.original.id)) }
+                  menuItemProps: { onClick: () => row.original.id }
                 },
 
               ]}

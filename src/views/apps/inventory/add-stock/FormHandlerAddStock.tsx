@@ -10,7 +10,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 
 import CustomAutocomplete from '@/@core/components/mui/Autocomplete';
 import CustomTextField from '@/@core/components/mui/TextField';
-import { useStandarizedOptions } from '@/hooks/useStandarizedOptions';
+import { useStandarizedOptions2 } from '@/hooks/useStandarizedOptions';
 import AppReactDatepicker from '@/libs/styles/AppReactDatepicker';
 import type { AddStockForm } from '@/types/apps/InventoryType';
 import { UseProduct } from '../../product/list/hooks/useProduct';
@@ -26,11 +26,16 @@ const FormHandlerAddStock = () => {
   const defaultValues = {
     productId: "",
     quantity: 0,
-    expiryDate: ""
+    expiryDate: new Date()
   }
 
 
-  const listOptionsProduct = useStandarizedOptions(dataProducts, 'name', 'id')
+  const listOptionsProduct = useStandarizedOptions2(dataProducts, (item) => {
+    return {
+      label: item.name,
+      value: item.id
+    }
+  })
 
 
 
@@ -53,20 +58,20 @@ const FormHandlerAddStock = () => {
 
     const payload: AddStockForm = {
       ...data,
-      productId: data.productId.value
+
+      // .value
+      productId: data.productId
     }
 
     AddStock(payload)
-
-    // await onDataSubmit(data)
-
 
   })
 
 
   useEffect(() => {
     FetchAllProducts()
-  }, [])
+
+  }, [FetchAllProducts])
 
   return (
 
@@ -83,14 +88,18 @@ const FormHandlerAddStock = () => {
                     name='productId'
                     control={control}
                     rules={{ required: true }}
-                    render={({ field: { onChange, ...field } }) => (
+                    render={({ field: { onChange, value, ...field } }) => (
 
                       <CustomAutocomplete
+
                         {...field}
+                        value={listOptionsProduct.find(option => option.value === value)}
+
 
                         options={listOptionsProduct}
-                        isOptionEqualToValue={(option, value) => option.id === value.id}
-                        onChange={(e, value) => onChange(value)}
+
+                        isOptionEqualToValue={(option, value) => option.value === value.value}
+                        onChange={(e, value) => value ? onChange(value.value) : null}
                         renderInput={params => (
                           <CustomTextField
                             required

@@ -223,7 +223,7 @@ const InventoryListTable = () => {
                   text: 'Delete',
                   icon: 'tabler-trash',
 
-                  // menuItemProps: { onClick: () => setData(data?.filter(product => product.id !== row.original.id)) }
+                  menuItemProps: { onClick: () => row.original.productId }
                 },
 
               ]}

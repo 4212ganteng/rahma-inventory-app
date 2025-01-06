@@ -13,8 +13,7 @@ const addStockSchema = object({
     string(),
     transform(parseInt),
     number(),
-    nonEmpty('Quantity is required'),
-    custom(value => {
+    custom((value: any) => {
       if (value < 1) {
         throw new Error('Quantity must be at least 1')
       }
@@ -30,7 +29,7 @@ const addStockSchema = object({
     string(),
     nonEmpty('Expiry Date is required'),
 
-    custom(value => {
+    custom((value: any) => {
       const currentDate = new Date()
       const inputDate = new Date(value)
 

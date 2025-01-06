@@ -51,7 +51,7 @@ const FormHandlerReduceStock = () => {
 
     const payload: reduceStockForm = {
       ...data,
-      productId: data.productId.value
+      productId: data.productId
     }
 
     ReduceStock(payload)
@@ -88,7 +88,7 @@ const FormHandlerReduceStock = () => {
 
                         options={listOptionsProduct}
                         isOptionEqualToValue={(option, value) => option.id === value.id}
-                        onChange={(e, value) => onChange(value)}
+                        onChange={(e, value) => onChange(value.value)}
                         renderInput={params => (
                           <CustomTextField
                             required

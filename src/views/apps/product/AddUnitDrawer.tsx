@@ -157,7 +157,7 @@ const AddUnitDrawer: FC<Props> = ({ title, open, handleClose, onDataSubmit }) =>
 
           <div className='flex items-center gap-4'>
             <Button variant='contained' type='submit'>
-              Addss
+              Add
             </Button>
             <Button variant='tonal' color='error' type='reset' onClick={handleReset}>
               Discard

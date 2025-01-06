@@ -40,7 +40,7 @@ export const useCategory = () => {
       const response = await api_v1.post('rahma/category', payload)
 
       setLoading(false)
-      toast.success('Lead added successfully!')
+      toast.success('Category added successfully!')
       fetchCategory()
 
       return response.data
