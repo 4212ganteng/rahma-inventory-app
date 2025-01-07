@@ -262,8 +262,6 @@ const ProductListTable = () => {
     <Fragment>
       {loading && <FallbackSpinner />}
 
-
-
       <Grid container spacing={6}>
         {/* header product */}
         <Grid item xs={12}>

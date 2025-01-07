@@ -84,7 +84,7 @@ const AddProductDrawer = (props: Props) => {
 
     await onDataSubmit(data)
     handleClose()
-  })
+  }, (err) => console.log('err form', err))
 
   // Handle Form Reset
   const handleReset = () => {
@@ -217,7 +217,7 @@ const AddProductDrawer = (props: Props) => {
 
               <CustomAutocomplete
                 {...field}
-                value={listOptionCategory.find(item => item.value == value)}
+                value={listOptionCategory.find((item) => item.value === value)}
                 options={listOptionCategory}
                 isOptionEqualToValue={(option, value) => option.value === value.value}
                 onChange={(e, value) => value ? onChange(value.value) : null}
@@ -232,11 +232,6 @@ const AddProductDrawer = (props: Props) => {
               />
             )}
           />
-
-
-
-
-
 
           <Controller
             name='description'
