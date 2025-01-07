@@ -10,7 +10,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 
 import CustomAutocomplete from '@/@core/components/mui/Autocomplete';
 import CustomTextField from '@/@core/components/mui/TextField';
-import { useStandarizedOptions } from '@/hooks/useStandarizedOptions';
+import { useStandarizedOptions2 } from '@/hooks/useStandarizedOptions';
 import type { reduceStockForm } from '@/types/apps/InventoryType';
 import { UseProduct } from '../../product/list/hooks/useProduct';
 import { useInventory } from '../hooks/useInventory';
@@ -20,18 +20,17 @@ const FormHandlerReduceStock = () => {
   const { FetchAllProducts, dataProducts } = UseProduct()
   const { ReduceStock } = useInventory()
 
-
-
   const defaultValues = {
     productId: "",
     quantity: 0,
   }
 
-
-  const listOptionsProduct = useStandarizedOptions(dataProducts, 'name', 'id')
-
-
-
+  const listOptionsProduct = useStandarizedOptions2(dataProducts, (item) => {
+    return {
+      label: item.name,
+      value: item.id
+    }
+  })
 
   // React Hook Form
   const {
@@ -47,7 +46,7 @@ const FormHandlerReduceStock = () => {
 
 
   // Handle Form Submit
-  const onSubmit = handleSubmit(async (data: reduceStockForm) => {
+  const onSubmit = handleSubmit(async (data: reduceStockForm,) => {
 
     const payload: reduceStockForm = {
       ...data,
@@ -56,10 +55,7 @@ const FormHandlerReduceStock = () => {
 
     ReduceStock(payload)
 
-    // await onDataSubmit(data)
-
-
-  })
+  }, err => console.log(err))
 
 
   useEffect(() => {
@@ -67,8 +63,6 @@ const FormHandlerReduceStock = () => {
   }, [])
 
   return (
-
-
     <Fragment>
       <Card>
         {/* <CardHeader title={edited ? t('Edit Allowance') : t('Add Allowance')} /> */}
@@ -86,9 +80,11 @@ const FormHandlerReduceStock = () => {
                       <CustomAutocomplete
                         {...field}
 
+                        value={listOptionsProduct.find((item) => item.value === field.value)}
+
                         options={listOptionsProduct}
-                        isOptionEqualToValue={(option, value) => option.id === value.id}
-                        onChange={(e, value) => onChange(value.value)}
+                        isOptionEqualToValue={(option, value) => option.value === value.value}
+                        onChange={(e, value) => onChange(value?.value)}
                         renderInput={params => (
                           <CustomTextField
                             required

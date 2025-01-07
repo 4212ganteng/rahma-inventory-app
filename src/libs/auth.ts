@@ -44,6 +44,7 @@ export const authOptions: NextAuthOptions = {
             body: JSON.stringify({ email, password })
           })
 
+          console.log('res from auth', res)
           const data = await res.json()
 
           if (res.status === 401) {

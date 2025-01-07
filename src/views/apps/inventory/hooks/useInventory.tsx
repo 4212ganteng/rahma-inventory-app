@@ -52,7 +52,7 @@ export const useInventory = () => {
       FetchListInventory()
 
       response.data
-      router.back()
+      router.push('/apps/inventory/list')
 
       return
     } catch (error) {
@@ -73,13 +73,14 @@ export const useInventory = () => {
     try {
       const response = await api_v1.post('rahma/inventory/reduce-stock', payload)
 
-
       setLoading(false)
       toast.success('Reduce stock successfully!')
       FetchListInventory()
 
       response.data
-      router.back()
+
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      router.push('/apps/inventory/list')
 
       return
     } catch (error) {

@@ -19,7 +19,7 @@ import { Controller, useForm } from 'react-hook-form'
 import FileUploaderSingle from '@/@core/components/file-uploader/FileUploaderSingle'
 import CustomAutocomplete from '@/@core/components/mui/Autocomplete'
 import DropzoneWrapper from '@/@core/styles/libs/react-dropzone/DropzoneWrapper'
-import { useStandarizedOptions } from '@/hooks/useStandarizedOptions'
+import { useStandarizedOptions2 } from '@/hooks/useStandarizedOptions'
 import CustomTextField from '@core/components/mui/TextField'
 import { useCategory } from './category/hooks/useCategory'
 import { useUnit } from './unit/hooks/useUnit'
@@ -94,8 +94,20 @@ const AddProductDrawer = (props: Props) => {
 
   }
 
-  const listOptionsUnit = useStandarizedOptions(dataUnit, 'unit', 'id')
-  const listOptionCategory = useStandarizedOptions(dataCategory, 'category', 'id')
+  const listOptionsUnit = useStandarizedOptions2(dataUnit, (item) => {
+    return {
+      label: item.unit,
+      value: item.id
+    }
+  })
+
+
+  const listOptionCategory = useStandarizedOptions2(dataCategory, (item) => {
+    return {
+      label: item.category,
+      value: item.id
+    }
+  })
 
   useEffect(() => {
     fetchCategory()
@@ -175,13 +187,16 @@ const AddProductDrawer = (props: Props) => {
             name='unitId'
             control={control}
             rules={{ required: true }}
-            render={({ field: { onChange, ...field } }) => (
+            render={({ field: { onChange, value, ...field } }) => (
 
               <CustomAutocomplete
                 {...field}
+
+                value={listOptionsUnit?.find(option => option.value == value)}
+
                 options={listOptionsUnit}
-                isOptionEqualToValue={(option, value) => option.id === value.id}
-                onChange={(e, value) => onChange(value.value)}
+                isOptionEqualToValue={(option, value) => option.value === value.value}
+                onChange={(e, value) => value ? onChange(value.value) : null}
                 renderInput={params => (
                   <CustomTextField
                     required
@@ -198,13 +213,14 @@ const AddProductDrawer = (props: Props) => {
             name='categoryId'
             control={control}
             rules={{ required: true }}
-            render={({ field: { onChange, ...field } }) => (
+            render={({ field: { onChange, value, ...field } }) => (
 
               <CustomAutocomplete
                 {...field}
+                value={listOptionCategory.find(item => item.value == value)}
                 options={listOptionCategory}
-                isOptionEqualToValue={(option, value) => option.id === value.id}
-                onChange={(e, value) => onChange(value.value)}
+                isOptionEqualToValue={(option, value) => option.value === value.value}
+                onChange={(e, value) => value ? onChange(value.value) : null}
                 renderInput={params => (
                   <CustomTextField
                     required

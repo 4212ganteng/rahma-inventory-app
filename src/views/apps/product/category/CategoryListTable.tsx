@@ -55,6 +55,7 @@ import TablePaginationComponent from '@/components/TablePaginationComponent'
 import tableStyles from '@core/styles/table.module.css'
 import AddCategoryDrawer from '../AddCategoryDrawer'
 import { useCategory } from './hooks/useCategory'
+import FallbackSpinner from '@/@core/components/spinner/FallbackSpinner'
 
 
 declare module '@tanstack/table-core' {
@@ -128,7 +129,7 @@ const columnHelper = createColumnHelper<Category>()
 const CategoryListTable = () => {
 
 
-  const { fetchCategory, dataCategory, createCategory } = useCategory()
+  const { fetchCategory, dataCategory, createCategory, loading } = useCategory()
 
   // States
   const [rowSelection, setRowSelection] = useState({})
@@ -251,6 +252,8 @@ const CategoryListTable = () => {
 
   return (
     <>
+      {loading && <FallbackSpinner />}
+
       <Card>
         <CardHeader title='Filters' />
         {/* <TableFilters setData={setFilteredData} productData={data} /> */}

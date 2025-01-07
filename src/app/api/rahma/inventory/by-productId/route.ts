@@ -19,6 +19,10 @@ export async function GET(req: NextRequest) {
             sku: true
           }
         }
+      },
+
+      orderBy: {
+        fifoSequence: 'desc'
       }
     })
 

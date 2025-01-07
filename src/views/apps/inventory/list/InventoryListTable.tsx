@@ -48,6 +48,7 @@ import TablePaginationComponent from '@/components/TablePaginationComponent'
 import type { DataListInventory } from '@/types/apps/InventoryType'
 import tableStyles from '@core/styles/table.module.css'
 import { useInventory } from '../hooks/useInventory'
+import FallbackSpinner from '@/@core/components/spinner/FallbackSpinner'
 
 
 declare module '@tanstack/table-core' {
@@ -126,7 +127,7 @@ const columnHelper = createColumnHelper<DataListInventory>()
 
 const InventoryListTable = () => {
 
-  const { FetchListInventory, dataInventory } = useInventory()
+  const { FetchListInventory, dataInventory, loading } = useInventory()
 
   // States
   const [rowSelection, setRowSelection] = useState({})
@@ -272,6 +273,9 @@ const InventoryListTable = () => {
 
   return (
     <>
+      {loading && <FallbackSpinner />}
+
+
       <Card>
         <CardHeader title='Inventory Data' />
         {/* <TableFilters setData={setFilteredData} productData={data} /> */}

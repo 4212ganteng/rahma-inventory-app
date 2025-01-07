@@ -1,13 +1,14 @@
 'use client'
 
-import { useEffect } from "react"
+import { Fragment, useEffect } from "react"
 
 import { useLogistic } from "../hooks/useLogistic"
 import LogisticListTable from "../components/LogisticListTable"
+import FallbackSpinner from "@/@core/components/spinner/FallbackSpinner"
 
 const ListAllLogistic = () => {
 
-  const { FetchLogistic, dataLogistic } = useLogistic()
+  const { FetchLogistic, dataLogistic, loading } = useLogistic()
 
 
   useEffect(() => {
@@ -16,7 +17,13 @@ const ListAllLogistic = () => {
 
 
   return (
-    <LogisticListTable dataFetch={dataLogistic} />
+
+    <Fragment>
+
+      {loading && <FallbackSpinner />}
+
+      <LogisticListTable dataFetch={dataLogistic} />
+    </Fragment>
   )
 }
 

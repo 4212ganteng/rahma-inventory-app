@@ -147,10 +147,11 @@ const Login = ({ mode }: { mode: SystemMode }) => {
       // Vars
       const redirectURL = searchParams.get('redirectTo') ?? '/'
 
-
+      console.log('res ok', res);
       router.replace(getLocalizedUrl(redirectURL, locale as Locale))
     } else {
       if (res?.error) {
+        console.log('res error', res);
         const error = JSON.parse(res.error)
 
         setErrorState(error)
