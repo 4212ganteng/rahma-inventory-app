@@ -42,6 +42,8 @@ export async function POST(req: NextRequest) {
       { status: 201 }
     )
   } catch (error) {
+    console.log('kok error si', error)
+
     return NextResponse.json(
       {
         message: `something wrong ${error}`

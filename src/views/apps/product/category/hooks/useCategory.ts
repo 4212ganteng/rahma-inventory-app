@@ -6,10 +6,12 @@ import { isRejectedWithValue } from '@reduxjs/toolkit'
 
 import { toast } from 'react-toastify'
 
-import type { Category } from '@prisma/client'
+import { type Category } from '@prisma/client'
 
 import { getErrorMessage } from '@/helper/getErrorMessage'
 import api_v1 from '@/utils/axios/api_v1'
+
+type CategoryPayload = Omit<Category, 'id'>
 
 export const useCategory = () => {
   const [dataCategory, setDataCategory] = useState<Category[]>([])
@@ -34,10 +36,17 @@ export const useCategory = () => {
   }
 
   // create category
-  const createCategory = async (payload: Category) => {
+  const createCategory = async (payload: CategoryPayload) => {
+    const dataPayload = {
+      category: payload.category,
+      description: payload.description,
+      statusActive: payload.statusActive,
+      isDeleted: payload.isDeleted
+    }
+
     try {
       setLoading(true)
-      const response = await api_v1.post('rahma/category', payload)
+      const response = await api_v1.post('rahma/category', dataPayload)
 
       setLoading(false)
       toast.success('Category added successfully!')

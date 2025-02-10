@@ -74,9 +74,9 @@ const RevenueReport: FC<Tprops> = ({ dataStockAdditions, dataStockReductions, da
         horizontal: 9
       },
       markers: {
-        width: 12,
-        height: 12,
-        radius: 10,
+        // width: 12,
+        // height: 12,
+        // radius: 10,
         offsetY: 1,
         offsetX: theme.direction === 'rtl' ? 7 : -4
       }
