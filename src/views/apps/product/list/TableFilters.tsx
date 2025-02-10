@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // React Imports
 import { useState, useEffect } from 'react'
 
@@ -7,7 +8,7 @@ import CardContent from '@mui/material/CardContent'
 import MenuItem from '@mui/material/MenuItem'
 
 // Type Imports
-import type { ProductType } from '@/types/apps/productTypes'
+import type { ProductRes } from '@/types/apps/productTypes'
 
 
 // Component Imports
@@ -22,32 +23,34 @@ import CustomTextField from '@core/components/mui/TextField'
 // }
 
 const TableFilters = ({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setData,
   productData
 }: {
-  setData: (data: ProductType[]) => void
-  productData?: ProductType[]
+  setData: (data: ProductRes[]) => void
+  productData?: ProductRes[]
 }) => {
   // States
   const [category, setCategory] = useState('')
   const [stock, setStock] = useState('')
-  const [status, setStatus] = useState<ProductType['status']>('')
 
-  useEffect(
-    () => {
-      const filteredData = productData?.filter(product => {
-        // if (category && product.category !== category) return false
-        // if (stock && product.stock !== productStockObj[stock]) return false
-        if (status && product.status !== status) return false
+  // const [status, setStatus] = useState<ProductRes['status']>('')
 
-        return true
-      })
+  // useEffect(
+  //   () => {
+  //     const filteredData = productData?.filter(product => {
+  //       // if (category && product.category !== category) return false
+  //       // if (stock && product.stock !== productStockObj[stock]) return false
+  //       if (status && product.status !== status) return false
 
-      setData(filteredData ?? [])
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [category, stock, status, productData]
-  )
+  //       return true
+  //     })
+
+  //     setData(filteredData ?? [])
+  //   },
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   [category, stock, status, productData]
+  // )
 
   return (
     <CardContent>
@@ -58,7 +61,8 @@ const TableFilters = ({
             fullWidth
             id='select-status'
             value={status}
-            onChange={e => setStatus(e.target.value)}
+
+            // onChange={e => setStatus(e.target.value)}
             SelectProps={{ displayEmpty: true }}
           >
             <MenuItem value=''>Select Status</MenuItem>
