@@ -366,7 +366,9 @@ const CategoryListTable = () => {
 
           onDataSubmit={(data) => createCategory({
             ...data,
-            id: '', // provide a default or generated id
+
+            // id: '', // provide a default or generated id
+
             isDeleted: false // provide a default value
           })}
 

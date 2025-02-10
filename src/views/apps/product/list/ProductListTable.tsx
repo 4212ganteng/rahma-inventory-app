@@ -47,6 +47,7 @@ import OptionMenu from '@core/components/option-menu'
 // Style Imports
 import FallbackSpinner from '@/@core/components/spinner/FallbackSpinner'
 import TablePaginationComponent from '@/components/TablePaginationComponent'
+import type { ProductRes } from '@/types/apps/productTypes'
 import tableStyles from '@core/styles/table.module.css'
 import AddProductDrawer from '../AddProductDrawer'
 import { UseProduct } from './hooks/useProduct'
@@ -109,7 +110,7 @@ const DebouncedInput = ({
 
 
 // Column Definitions
-const columnHelper = createColumnHelper<Product>()
+const columnHelper = createColumnHelper<ProductRes>()
 
 const ProductListTable = () => {
   const imgUrl = process.env.NEXT_PUBLIC_IMAGE_URL
@@ -124,7 +125,7 @@ const ProductListTable = () => {
 
 
 
-  const columns = useMemo<ColumnDef<Product, any>[]>(
+  const columns = useMemo<ColumnDef<ProductRes, any>[]>(
     () => [
       {
         id: 'select',
@@ -169,13 +170,13 @@ const ProductListTable = () => {
       columnHelper.accessor('categoryId', {
         header: 'Category',
         cell: ({ row }) => (
-          <Typography color='text.primary'>{row.original.categoryId}</Typography>
+          <Typography color='text.primary'>{row.original.category.category}</Typography>
         )
       }),
 
       columnHelper.accessor('unitId', {
         header: 'Unit',
-        cell: ({ row }) => <Typography>{row.original.unitId}</Typography>
+        cell: ({ row }) => <Typography>{row.original.unit.unit}</Typography>
       }),
 
       columnHelper.accessor('minStockThreshold', {
