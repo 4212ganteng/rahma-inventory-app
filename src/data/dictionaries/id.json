@@ -110,6 +110,7 @@
     "addStock": "Tambah Stok",
     "reduceStock": "Pengurangan Stok",
     "stockAdditionData": "Data Penambahan Stock",
-    "stockReductionData": "Data Pengurangan Stock"
+    "stockReductionData": "Data Pengurangan Stock",
+    "supplier": "Supplier"
   }
 }

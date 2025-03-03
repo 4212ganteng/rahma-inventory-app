@@ -8,7 +8,7 @@ export class InventoryService {
   }
 
   // Tambah Stok Produk (Entry Baru)
-  async addProductStock(productId: string, quantity: number, expiryDate: Date) {
+  async addProductStock(productId: string, supplierId: string, quantity: number, expiryDate: Date) {
     return this.prisma.$transaction(async tx => {
       // Generate batch number unik
       const batchNumber = `BATCH-${Date.now()}`
@@ -28,6 +28,7 @@ export class InventoryService {
       const inventoryEntry = await tx.inventoryEntry.create({
         data: {
           productId,
+          supplierId,
           batchNumber,
           quantity,
           remainingQuantity: quantity,
@@ -178,6 +179,14 @@ export class InventoryService {
     const products = await this.prisma.product.findMany({
       include: {
         inventoryEntries: {
+          include: {
+            supplier: {
+              select: {
+                name: true
+              }
+            }
+          },
+
           orderBy: { fifoSequence: 'desc' }
         }
       }
@@ -185,13 +194,15 @@ export class InventoryService {
 
     return products.map(product => ({
       productId: product.id,
+      supplierId: product.id,
       productName: product.name,
       totalStock: product.inventoryEntries.reduce((sum, entry) => sum + entry.remainingQuantity, 0),
       entries: product.inventoryEntries.map(entry => ({
         batchNumber: entry.batchNumber,
         remainingQuantity: entry.remainingQuantity,
         expiryDate: entry.expiryDate,
-        status: entry.status
+        status: entry.status,
+        supplierName: entry.supplier.name
       }))
     }))
   }

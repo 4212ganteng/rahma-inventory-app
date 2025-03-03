@@ -18,6 +18,11 @@ export async function GET(req: NextRequest) {
             name: true,
             sku: true
           }
+        },
+        supplier: {
+          select: {
+            name: true
+          }
         }
       },
 

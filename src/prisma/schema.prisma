@@ -92,6 +92,17 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+model Supplier {
+  id String @id @default(cuid())
+  name String
+  contact String
+  email String
+  address String
+
+  inventoryEntries  InventoryEntry[]
+
+}
+
 // Satuan produk (pcs, kg, liter)
 model Unit {
   id           String       @id @default(cuid())
@@ -133,7 +144,10 @@ model Product {
 model InventoryEntry {
   id        String  @id @default(cuid())
   productId String
+  supplierId String
+
   product   Product @relation(fields: [productId], references: [id])
+  supplier   Supplier @relation(fields: [supplierId], references: [id])
 
   batchNumber       String @unique
   quantity          Float
@@ -176,3 +190,6 @@ model Waybill {
   waybillDate   DateTime
   status        ChangeType  @default(PENAMBAHAN)
 }
+
+
+

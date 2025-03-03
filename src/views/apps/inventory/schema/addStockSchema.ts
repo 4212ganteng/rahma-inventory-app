@@ -9,6 +9,12 @@ const addStockSchema = object({
     minLength(3, 'Product ID must be at least 3 characters long'),
     maxLength(20, 'Product ID cannot exceed 20 characters')
   ),
+  supplierId: pipe(
+    string(),
+    nonEmpty('Supplier ID is required'),
+    minLength(3, 'Supplier ID must be at least 3 characters long'),
+    maxLength(20, 'Supplier ID cannot exceed 20 characters')
+  ),
   quantity: pipe(
     string(),
     transform(parseInt),

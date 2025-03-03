@@ -15,6 +15,7 @@ export interface InventoryEntry {
   remainingQuantity: number
   expiryDate: Date
   status: Status
+  supplierName: string
 }
 
 export enum Status {
@@ -26,6 +27,7 @@ export enum Status {
 // add stock
 export interface AddStockForm {
   productId: string
+  supplierId: string
   quantity: number
   expiryDate: Date
 }
@@ -49,6 +51,7 @@ export interface InventoryByProductID {
   id: string
   productId: string
   batchNumber: string
+  supplierName: string
   quantity: number
   remainingQuantity: number
   entryDate: Date
@@ -56,6 +59,7 @@ export interface InventoryByProductID {
   status: Status
   fifoSequence: number
   product: Product
+  supplier: { name: string }
 }
 
 export interface Product {

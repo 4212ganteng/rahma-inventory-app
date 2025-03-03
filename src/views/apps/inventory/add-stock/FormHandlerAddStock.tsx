@@ -15,22 +15,32 @@ import AppReactDatepicker from '@/libs/styles/AppReactDatepicker';
 import type { AddStockForm } from '@/types/apps/InventoryType';
 import { UseProduct } from '../../product/list/hooks/useProduct';
 import { useInventory } from '../hooks/useInventory';
+import { useSupplier } from '../../supplier/hooks/useSupplier';
 
 
 const FormHandlerAddStock = () => {
   const { FetchAllProducts, dataProducts } = UseProduct()
+  const { FetchAllSuppliers, dataSuppliers } = useSupplier()
   const { AddStock } = useInventory()
 
 
 
   const defaultValues = {
     productId: "",
+    supplierId: "",
     quantity: 0,
     expiryDate: new Date()
   }
 
 
   const listOptionsProduct = useStandarizedOptions2(dataProducts, (item) => {
+    return {
+      label: item.name,
+      value: item.id
+    }
+  })
+
+  const listOptionsSupplier = useStandarizedOptions2(dataSuppliers, (item) => {
     return {
       label: item.name,
       value: item.id
@@ -58,7 +68,8 @@ const FormHandlerAddStock = () => {
       ...data,
 
       // .value
-      productId: data.productId
+      productId: data.productId,
+      supplierId: data.supplierId
     }
 
     AddStock(payload)
@@ -68,8 +79,8 @@ const FormHandlerAddStock = () => {
 
   useEffect(() => {
     FetchAllProducts()
-
-  }, [FetchAllProducts])
+    FetchAllSuppliers()
+  }, [FetchAllProducts, FetchAllSuppliers])
 
   return (
 
@@ -81,7 +92,36 @@ const FormHandlerAddStock = () => {
           <div className='p-6'>
             <form onSubmit={onSubmit} className='flex flex-col gap-5'>
               <Grid container spacing={5}>
-                <Grid item xs={12} sm={12}>
+                <Grid item xs={12} sm={6}>
+                  <Controller
+                    name='supplierId'
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field: { onChange, value, ...field } }) => (
+
+                      <CustomAutocomplete
+
+                        {...field}
+                        value={listOptionsSupplier.find(option => option.value === value)}
+
+
+                        options={listOptionsSupplier}
+
+                        isOptionEqualToValue={(option, value) => option.value === value.value}
+                        onChange={(e, value) => value ? onChange(value.value) : null}
+                        renderInput={params => (
+                          <CustomTextField
+                            required
+                            {...params}
+                            label={'Supplier'}
+                            {...(errors.supplierId && { helperText: errors.supplierId.message })}
+                          />
+                        )}
+                      />
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
                   <Controller
                     name='productId'
                     control={control}

@@ -40,15 +40,16 @@ import classnames from 'classnames'
 
 
 // Component Imports
+import { IconButton } from '@mui/material'
+
 import CustomTextField from '@core/components/mui/TextField'
-import OptionMenu from '@core/components/option-menu'
 
 // Style Imports
+import FallbackSpinner from '@/@core/components/spinner/FallbackSpinner'
 import TablePaginationComponent from '@/components/TablePaginationComponent'
 import type { DataListInventory } from '@/types/apps/InventoryType'
 import tableStyles from '@core/styles/table.module.css'
 import { useInventory } from '../hooks/useInventory'
-import FallbackSpinner from '@/@core/components/spinner/FallbackSpinner'
 
 
 declare module '@tanstack/table-core' {
@@ -168,6 +169,7 @@ const InventoryListTable = () => {
 
         )
       }),
+
       columnHelper.accessor('totalStock', {
         header: 'Stock',
         cell: ({ row }) => (
@@ -210,27 +212,31 @@ const InventoryListTable = () => {
       }),
       columnHelper.accessor('productId', {
         header: 'Actions',
-        cell: ({ row }) => (
-          <div className='flex items-center'>
-            {/* <IconButton>
-              <i className='tabler-eye-edit text-textSecondary' />
-            </IconButton> */}
-            <OptionMenu
-              iconButtonProps={{ size: 'medium' }}
-              iconClassName='text-textSecondary'
-              options={[
 
-                {
-                  text: 'Delete',
-                  icon: 'tabler-trash',
+        // cell: ({ row }) => (
 
-                  menuItemProps: { onClick: () => row.original.productId }
-                },
+        //   <IconButton>
+        //     <i className='tabler-eye text-textSecondary' />
+        //   </IconButton>
 
-              ]}
-            />
-          </div>
-        ),
+
+        // ),
+
+        cell: ({ row }) => {
+          const hasEntries = row.original.entries && row.original.entries.length > 0;
+
+          const productID = row.original.productId; // Ambil productID dari data row
+
+          return (
+
+            hasEntries ? (
+              <IconButton href={`/apps/inventory/by-product/${productID}`}>
+                <i className='tabler-eye text-textSecondary' />
+              </IconButton>
+            ) : null
+          );
+        },
+
         enableSorting: false
       })
     ],

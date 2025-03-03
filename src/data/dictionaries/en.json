@@ -110,6 +110,7 @@
     "addStock": "Add Stock",
     "reduceStock": "Reduce Stock",
     "stockAdditionData": "Stock Addition Data",
-    "stockReductionData": "Stock Reduction Data"
+    "stockReductionData": "Stock Reduction Data",
+    "supplier": "Supplier"
   }
 }

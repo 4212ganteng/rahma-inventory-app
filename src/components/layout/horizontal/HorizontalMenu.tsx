@@ -85,31 +85,57 @@ const HorizontalMenu = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof 
           menuSectionStyles: verticalMenuSectionStyles(verticalNavOptions, theme)
         }}
       >
-        <MenuItem href={`/${locale}/home`} icon={<i className='tabler-smart-home' />}>
+
+
+        <MenuItem href={`/${locale}/dashboards/home`} icon={<i className='tabler-smart-home' />}>
           {dictionary['navigation'].home}
         </MenuItem>
-        <MenuItem href={`/${locale}/about`} icon={<i className='tabler-info-circle' />}>
-          {dictionary['navigation'].about}
-        </MenuItem>
-        {/* leads */}
+
+
+        {/* products */}
         <SubMenu
-          label={dictionary['navigation'].leads}
-          icon={<i className='tabler-smart-home' />}
+          label={dictionary['navigation'].products}
+          icon={<i className='tabler-layout' />}
 
         // suffix={<CustomChip label='5' size='small' color='error' round='true' />}
         >
-          <MenuItem href={`/${locale}/apps/leads`}>{dictionary['navigation'].list}</MenuItem>
-          <MenuItem href={`/${locale}/apps/leads/add`}>{dictionary['navigation'].add}</MenuItem>
+          <MenuItem href={`/${locale}/apps/products/list`}>{dictionary['navigation'].list}</MenuItem>
+          <MenuItem href={`/${locale}/apps/products/category`}>{dictionary['navigation'].category}</MenuItem>
+          <MenuItem href={`/${locale}/apps/products/unit`}>{dictionary['navigation'].unit}</MenuItem>
         </SubMenu>
 
-        {/* activity */}
+        {/* inventory */}
         <SubMenu
-          label={dictionary['navigation'].activity}
-          icon={<i className='tabler-smart-home' />}
+          label={dictionary['navigation'].inventory}
+          icon={<i className='tabler-shopping-cart' />}
         >
-          <MenuItem href={`/${locale}/apps/activity`}>{dictionary['navigation'].list}</MenuItem>
-          <MenuItem href={`/${locale}/apps/activity/add`}>{dictionary['navigation'].add}</MenuItem>
+          <MenuItem href={`/${locale}/apps/inventory/list`}>{dictionary['navigation'].list}</MenuItem>
+          <MenuItem href={`/${locale}/apps/inventory/add-stock`}>{dictionary['navigation'].addStock}</MenuItem>
+          <MenuItem href={`/${locale}/apps/inventory/reduce-stock`}>{dictionary['navigation'].reduceStock}</MenuItem>
         </SubMenu>
+
+
+        {/* Logistic */}
+        <SubMenu
+          label={dictionary['navigation'].logistics}
+          icon={<i className='tabler-truck' />}
+        >
+          <MenuItem href={`/${locale}/apps/logistics/list`}>{dictionary['navigation'].list}</MenuItem>
+          <MenuItem href={`/${locale}/apps/logistics/stock-addition`}>{dictionary['navigation'].stockAdditionData}</MenuItem>
+          <MenuItem href={`/${locale}/apps/logistics/stock-reduction`}>{dictionary['navigation'].stockReductionData}</MenuItem>
+        </SubMenu>
+
+
+        {/* Supplier */}
+        <SubMenu
+          label={dictionary['navigation'].supplier}
+          icon={<i className='tabler-truck' />}
+        >
+          <MenuItem href={`/${locale}/apps/supplier/`}>{dictionary['navigation'].list}</MenuItem>
+        </SubMenu>
+
+
+
       </Menu>
     </HorizontalNav>
   )

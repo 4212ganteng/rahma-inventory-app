@@ -163,6 +163,15 @@ const InventoryByProductId = ({ productId }: { productId: string }) => {
         )
       }),
 
+      columnHelper.accessor('supplier.name', {
+        header: 'Supplier Name',
+        cell: ({ row }) => (
+
+          <Typography variant='body2' className='uppercase'>{row.original.supplier.name}</Typography>
+
+        )
+      }),
+
       columnHelper.accessor('product.sku', {
         header: 'SKU',
         cell: ({ row }) => <Typography>{row.original.product.sku}</Typography>
