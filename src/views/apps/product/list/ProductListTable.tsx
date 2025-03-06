@@ -51,7 +51,8 @@ import type { ProductRes } from '@/types/apps/productTypes'
 import tableStyles from '@core/styles/table.module.css'
 import AddProductDrawer from '../AddProductDrawer'
 import { UseProduct } from './hooks/useProduct'
-import ProductCard from './ProductCard'
+
+// import ProductCard from './ProductCard'
 
 
 declare module '@tanstack/table-core' {
@@ -113,7 +114,7 @@ const DebouncedInput = ({
 const columnHelper = createColumnHelper<ProductRes>()
 
 const ProductListTable = () => {
-  const imgUrl = process.env.NEXT_PUBLIC_IMAGE_URL
+
 
 
   const { CreateproductwithFile, FetchAllProducts, dataProducts, loading } = UseProduct()
@@ -152,15 +153,14 @@ const ProductListTable = () => {
       columnHelper.accessor('name', {
         header: 'Product',
         cell: ({ row }) => (
-          <div className='flex items-center gap-4'>
-            <img src={`${imgUrl}/${row.original?.image}`} width={38} height={38} className='rounded bg-actionHover' />
-            <div className='flex flex-col'>
-              <Typography className='font-medium' color='text.primary'>
-                {row.original.name}
-              </Typography>
-              <Typography variant='body2'>{row.original.description}</Typography>
-            </div>
+
+          <div className='flex flex-col'>
+            <Typography className='font-medium' color='text.primary'>
+              {row.original.name}
+            </Typography>
+            <Typography variant='body2'>{row.original.description}</Typography>
           </div>
+
         )
       }),
       columnHelper.accessor('sku', {
@@ -248,16 +248,16 @@ const ProductListTable = () => {
     FetchAllProducts()
   }, [])
 
-  type TpropsProductHeader = {
-    product: number, entries: number, category: number, unit: number
-  }
+  // type TpropsProductHeader = {
+  //   product: number, entries: number, category: number, unit: number
+  // }
 
-  const dataHeader: TpropsProductHeader = {
-    category: 10,
-    entries: 15,
-    product: 7,
-    unit: 2
-  }
+  // const dataHeader: TpropsProductHeader = {
+  //   category: 10,
+  //   entries: 15,
+  //   product: 7,
+  //   unit: 2
+  // }
 
   return (
     <Fragment>
@@ -265,9 +265,9 @@ const ProductListTable = () => {
 
       <Grid container spacing={6}>
         {/* header product */}
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <ProductCard valueDataHeaderProduct={dataHeader} />
-        </Grid>
+        </Grid> */}
         {/* list table */}
         <Grid item xs={12}>
           <Card>

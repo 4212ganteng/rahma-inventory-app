@@ -16,9 +16,7 @@ import { Controller, useForm } from 'react-hook-form'
 
 
 // Components Imports
-import FileUploaderSingle from '@/@core/components/file-uploader/FileUploaderSingle'
 import CustomAutocomplete from '@/@core/components/mui/Autocomplete'
-import DropzoneWrapper from '@/@core/styles/libs/react-dropzone/DropzoneWrapper'
 import { useStandarizedOptions2 } from '@/hooks/useStandarizedOptions'
 import CustomTextField from '@core/components/mui/TextField'
 import { useCategory } from './category/hooks/useCategory'
@@ -251,11 +249,11 @@ const AddProductDrawer = (props: Props) => {
           />
 
 
-
+          {/*
           <DropzoneWrapper>
-            {/* <FileUploaderSingle files={files} setFiles={setFiles} /> */}
+
             <FileUploaderSingle title={'Product'} files={files} setFiles={setFiles} />
-          </DropzoneWrapper>
+          </DropzoneWrapper> */}
 
 
           <div className='flex items-center gap-4'>

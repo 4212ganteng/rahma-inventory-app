@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 
 import prisma from '@/utils/prisma'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     const reportStockAddition = await prisma.waybill.findMany({

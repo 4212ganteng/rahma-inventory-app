@@ -17,12 +17,23 @@ export class ProductController {
   // Buat Produk Baru
   async createProduct(req: NextRequest) {
     try {
-      const body = await req.json()
+      // const body = await req.json()
 
-      console.log({ body })
+      // console.log({ body })
+      const formData = await req.formData()
+
+      const file = formData.get('image') as File
+      const name = formData.get('name') as string
+      const sku = formData.get('sku') as string
+      const description = formData.get('description') as string
+      const minStockThreshold = formData.get('minStockThreshold') as string
+      const categoryId = formData.get('categoryId') as string
+      const unitId = formData.get('unitId') as string
+
+      console.log({ file, name, sku, description, minStockThreshold, categoryId, unitId })
 
       // Validasi input
-      const { name, sku, categoryId, unitId, description, minStockThreshold } = body
+      // const { name, sku, categoryId, unitId, description, minStockThreshold } = body
 
       if (!name || !sku || !categoryId || !unitId) {
         return NextResponse.json({ message: 'Data produk tidak lengkap' }, { status: 400 })

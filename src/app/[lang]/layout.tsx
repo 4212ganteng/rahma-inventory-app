@@ -24,6 +24,8 @@ import '@/app/globals.css'
 // Generated Icon CSS Imports
 import '@assets/iconify-icons/generated-icons.css'
 
+export const dynamic = "force-dynamic"
+
 export const metadata = {
   title: 'INVITE - Inventory Information Technology',
   description:
