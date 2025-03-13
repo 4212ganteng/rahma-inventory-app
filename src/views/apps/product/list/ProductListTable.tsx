@@ -108,12 +108,29 @@ const DebouncedInput = ({
 const columnHelper = createColumnHelper<ProductRes>()
 
 const ProductListTable = () => {
-  const { CreateproductwithFile, FetchAllProducts, dataProducts, DeleteProduct, loading } = UseProduct()
+  const { CreateproductwithFile, FetchAllProducts, dataProducts, DeleteProduct, UpdateProductWithFile, loading } = UseProduct()
 
   // States
   const [rowSelection, setRowSelection] = useState({})
   const [globalFilter, setGlobalFilter] = useState('')
-  const [addCategoryOpen, setAddCategoryOpen] = useState(false)
+
+  // const [addCategoryOpen, setAddCategoryOpen] = useState(false)
+  const [productDrawerOpen, setProductDrawerOpen] = useState(false)
+  const [drawerMode, setDrawerMode] = useState<'add' | 'edit'>('add')
+  const [selectedProduct, setSelectedProduct] = useState<ProductRes | null>(null)
+
+
+  const openAddDrawer = () => {
+    setDrawerMode('add')
+    setSelectedProduct(null)
+    setProductDrawerOpen(true)
+  }
+
+  const openEditDrawer = (product: ProductRes) => {
+    setDrawerMode('edit')
+    setSelectedProduct(product)
+    setProductDrawerOpen(true)
+  }
 
   const columns = useMemo<ColumnDef<ProductRes, any>[]>(
     () => [
@@ -173,7 +190,8 @@ const ProductListTable = () => {
         header: 'Actions',
         cell: ({ row }) => (
           <div className='flex items-center'>
-            <IconButton>
+
+            <IconButton onClick={() => openEditDrawer(row.original)}>
               <i className='tabler-edit text-textSecondary' />
             </IconButton>
             <OptionMenu
@@ -283,7 +301,9 @@ const ProductListTable = () => {
                 <Button
                   variant='contained'
                   className='max-sm:is-full is-auto'
-                  onClick={() => setAddCategoryOpen(!addCategoryOpen)}
+
+                  // onClick={() => setAddCategoryOpen(!addCategoryOpen)}
+                  onClick={openAddDrawer}
                   startIcon={<i className='tabler-plus' />}
                 >
                   Add Product
@@ -356,11 +376,13 @@ const ProductListTable = () => {
             />
 
             <AddProductDrawer
-              open={addCategoryOpen}
-              // product={productData}
+              open={productDrawerOpen}
+              product={selectedProduct}
               onDataSubmit={CreateproductwithFile}
-              // product={}
-              handleClose={() => setAddCategoryOpen(!addCategoryOpen)}
+              mode={drawerMode}
+              onUpdateSubmit={UpdateProductWithFile}
+              handleClose={() => setProductDrawerOpen(!productDrawerOpen)}
+
             />
           </Card>
         </Grid>

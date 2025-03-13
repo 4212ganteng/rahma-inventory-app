@@ -1,11 +1,15 @@
+import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
+
 import prisma from '@/utils/prisma'
-import { NextRequest, NextResponse } from 'next/server'
 
 export async function PATCH(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams
 
   const productId = searchParams.get('productId') || ''
+
   console.log({ productId })
+
   // Update Produk
 
   try {

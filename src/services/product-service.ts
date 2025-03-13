@@ -120,6 +120,8 @@ export class ProductService {
 
   // Update Produk
   async updateProduct(id: string, data: Product) {
+    data.minStockThreshold = Number(data.minStockThreshold)
+
     try {
       return await this.prisma.product.update({
         where: { id },

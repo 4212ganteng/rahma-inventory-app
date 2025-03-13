@@ -16,8 +16,10 @@ import { Controller, useForm } from 'react-hook-form'
 
 
 // Components Imports
+
 import CustomAutocomplete from '@/@core/components/mui/Autocomplete'
 import { useStandarizedOptions2 } from '@/hooks/useStandarizedOptions'
+import type { ProductRes } from '@/types/apps/productTypes'
 import CustomTextField from '@core/components/mui/TextField'
 import { useCategory } from './category/hooks/useCategory'
 import { useUnit } from './unit/hooks/useUnit'
@@ -37,11 +39,15 @@ type Props = {
   open: boolean
   handleClose: () => void
   onDataSubmit: (data: ProductForm) => Promise<void>
+  onUpdateSubmit?: (productId: string, data: ProductForm) => Promise<void>
+  product?: ProductRes | null
+  mode?: 'add' | 'edit'
+
 }
 
 const AddProductDrawer = (props: Props) => {
   // Props
-  const { open, handleClose, onDataSubmit } = props
+  const { open, handleClose, onDataSubmit, onUpdateSubmit, product, mode = 'add' } = props
 
   // States
   const [files, setFiles] = useState<File[]>([])
@@ -72,15 +78,52 @@ const AddProductDrawer = (props: Props) => {
   })
 
 
-  // Handle Form Submit
-  const onSubmit = handleSubmit(async (data: ProductForm) => {
-    if (files) {
-      data.image = files;
-    } else {
-      data.image = null;
+
+  // Effect to load product data when in edit mode
+  useEffect(() => {
+
+    if (open && mode === 'edit' && product) {
+      resetForm({
+        name: product.name || '',
+        description: product.description || '',
+        sku: product.sku || '',
+        categoryId: product.categoryId || '',
+        unitId: product.unitId || '',
+        minStockThreshold: product.minStockThreshold || 0,
+        image: null
+      })
+    } else if (open && mode === 'add') {
+      resetForm(defaulValues)
+      setFiles([])
     }
 
-    await onDataSubmit(data)
+  }, [open, mode, product, resetForm])
+
+  // Handle Form Submit
+  const onSubmit = handleSubmit(async (data: ProductForm) => {
+    //   if (files) {
+    //     data.image = files;
+    //   } else {
+    //     data.image = null;
+    //   }
+
+    //   await onDataSubmit(data)
+    //   handleClose()
+    // }, (err) => console.log('err form', err))
+
+
+    if (files.length > 0) {
+      data.image = files
+    } else {
+      data.image = null
+    }
+
+    if (mode === 'add') {
+      await onDataSubmit(data)
+    } else if (mode === 'edit' && product && onUpdateSubmit) {
+      await onUpdateSubmit(product.id, data)
+    }
+
     handleClose()
   }, (err) => console.log('err form', err))
 
@@ -258,7 +301,7 @@ const AddProductDrawer = (props: Props) => {
 
           <div className='flex items-center gap-4'>
             <Button variant='contained' type='submit'>
-              Add
+              {mode === 'add' ? 'Add' : 'Update'}
             </Button>
             <Button variant='tonal' color='error' type='reset' onClick={handleReset}>
               Discard

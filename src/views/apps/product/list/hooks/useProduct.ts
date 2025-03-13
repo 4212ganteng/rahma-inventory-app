@@ -46,6 +46,7 @@ export const UseProduct = () => {
   const DeleteProduct = async (productId: string) => {
     try {
       setLoading(true)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const response = await api_v1.patch(`rahma/product/delete?productId=${productId}`)
 
       setLoading(false)
@@ -109,6 +110,28 @@ export const UseProduct = () => {
     }
   }, [])
 
+  // Update Product with File
+  const UpdateProductWithFile = useCallback(async (productId: string, payload: ProductForm) => {
+    setLoading(true)
+
+    try {
+      const response = await api_v1.patch(`rahma/product?productId=${productId}`, payload)
+
+      setLoading(false)
+      toast.success('Product updated successfully!')
+      FetchAllProducts()
+
+      return response.data
+    } catch (error) {
+      setLoading(false)
+      const errorMessage = getErrorMessage(error)
+
+      toast.error(errorMessage)
+
+      return isRejectedWithValue(errorMessage)
+    }
+  }, [])
+
   // const Createproduct = async (data: ProductForm) => {
   //   setLoading(true)
 
@@ -138,5 +161,5 @@ export const UseProduct = () => {
   //   }
   // }
 
-  return { CreateproductwithFile, loading, dataProducts, FetchAllProducts, DeleteProduct }
+  return { CreateproductwithFile, loading, dataProducts, UpdateProductWithFile, FetchAllProducts, DeleteProduct }
 }
