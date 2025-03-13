@@ -45,7 +45,9 @@ export class ProductService {
     const totalProducts = await this.prisma.product.count({ where })
 
     const products = await this.prisma.product.findMany({
-      where,
+      where: {
+        isDeleted: false
+      },
       skip: (page - 1) * limit,
       take: limit,
       include: {

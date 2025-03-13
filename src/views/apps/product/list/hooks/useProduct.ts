@@ -43,6 +43,26 @@ export const UseProduct = () => {
     }
   }, [])
 
+  const DeleteProduct = async (productId: string) => {
+    try {
+      setLoading(true)
+      const response = await api_v1.patch(`rahma/product/delete?productId=${productId}`)
+
+      setLoading(false)
+
+      toast.success('Product deleted successfully!')
+
+      FetchAllProducts()
+    } catch (error) {
+      setLoading(false)
+      const errorMessage = getErrorMessage(error)
+
+      toast.error(errorMessage)
+
+      return isRejectedWithValue(errorMessage)
+    }
+  }
+
   // create Product
   const CreateproductwithFile = useCallback(async (payload: ProductForm) => {
     setLoading(true)
@@ -118,5 +138,5 @@ export const UseProduct = () => {
   //   }
   // }
 
-  return { CreateproductwithFile, loading, dataProducts, FetchAllProducts }
+  return { CreateproductwithFile, loading, dataProducts, FetchAllProducts, DeleteProduct }
 }

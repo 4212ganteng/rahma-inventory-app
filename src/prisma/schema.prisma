@@ -134,6 +134,7 @@ model Product {
   unit              Unit             @relation(fields: [unitId], references: [id])
   minStockThreshold Int              @default(10)
   image             String?
+  isDeleted Boolean @default(false)
   inventoryEntries  InventoryEntry[]
 
   createdAt DateTime @default(now())

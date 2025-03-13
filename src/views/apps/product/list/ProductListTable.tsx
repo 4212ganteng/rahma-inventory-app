@@ -3,7 +3,6 @@
 // React Imports
 import { Fragment, useEffect, useMemo, useState } from 'react'
 
-
 // MUI Imports
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
@@ -54,7 +53,6 @@ import { UseProduct } from './hooks/useProduct'
 
 // import ProductCard from './ProductCard'
 
-
 declare module '@tanstack/table-core' {
   interface FilterFns {
     fuzzy: FilterFn<unknown>
@@ -63,8 +61,6 @@ declare module '@tanstack/table-core' {
     itemRank: RankingInfo
   }
 }
-
-
 
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -108,23 +104,16 @@ const DebouncedInput = ({
   return <CustomTextField {...props} value={value} onChange={e => setValue(e.target.value)} />
 }
 
-
-
 // Column Definitions
 const columnHelper = createColumnHelper<ProductRes>()
 
 const ProductListTable = () => {
-
-
-
-  const { CreateproductwithFile, FetchAllProducts, dataProducts, loading } = UseProduct()
+  const { CreateproductwithFile, FetchAllProducts, dataProducts, DeleteProduct, loading } = UseProduct()
 
   // States
   const [rowSelection, setRowSelection] = useState({})
   const [globalFilter, setGlobalFilter] = useState('')
   const [addCategoryOpen, setAddCategoryOpen] = useState(false)
-
-
 
   const columns = useMemo<ColumnDef<ProductRes, any>[]>(
     () => [
@@ -153,14 +142,12 @@ const ProductListTable = () => {
       columnHelper.accessor('name', {
         header: 'Product',
         cell: ({ row }) => (
-
           <div className='flex flex-col'>
             <Typography className='font-medium' color='text.primary'>
               {row.original.name}
             </Typography>
             <Typography variant='body2'>{row.original.description}</Typography>
           </div>
-
         )
       }),
       columnHelper.accessor('sku', {
@@ -169,9 +156,7 @@ const ProductListTable = () => {
       }),
       columnHelper.accessor('categoryId', {
         header: 'Category',
-        cell: ({ row }) => (
-          <Typography color='text.primary'>{row.original.category.category}</Typography>
-        )
+        cell: ({ row }) => <Typography color='text.primary'>{row.original.category.category}</Typography>
       }),
 
       columnHelper.accessor('unitId', {
@@ -195,13 +180,11 @@ const ProductListTable = () => {
               iconButtonProps={{ size: 'medium' }}
               iconClassName='text-textSecondary'
               options={[
-                { text: 'Download', icon: 'tabler-download' },
                 {
                   text: 'Delete',
                   icon: 'tabler-trash',
-                  menuItemProps: { onClick: () => row.original.id }
-                },
-                { text: 'Duplicate', icon: 'tabler-copy' }
+                  menuItemProps: { onClick: () => DeleteProduct(row.original.id) }
+                }
               ]}
             />
           </div>
@@ -241,8 +224,6 @@ const ProductListTable = () => {
     getFacetedUniqueValues: getFacetedUniqueValues(),
     getFacetedMinMaxValues: getFacetedMinMaxValues()
   })
-
-
 
   useEffect(() => {
     FetchAllProducts()
@@ -301,7 +282,6 @@ const ProductListTable = () => {
                 </Button>
                 <Button
                   variant='contained'
-
                   className='max-sm:is-full is-auto'
                   onClick={() => setAddCategoryOpen(!addCategoryOpen)}
                   startIcon={<i className='tabler-plus' />}
@@ -376,21 +356,16 @@ const ProductListTable = () => {
             />
 
             <AddProductDrawer
-
               open={addCategoryOpen}
-
               // product={productData}
               onDataSubmit={CreateproductwithFile}
-
               // product={}
               handleClose={() => setAddCategoryOpen(!addCategoryOpen)}
             />
           </Card>
         </Grid>
       </Grid>
-
     </Fragment>
-
   )
 }
 
