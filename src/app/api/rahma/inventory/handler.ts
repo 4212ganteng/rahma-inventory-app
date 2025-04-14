@@ -13,12 +13,13 @@ export class InventoryController {
   // Tambah Stok Produk
   async addStock(req: NextRequest) {
     try {
-      const { productId, supplierId, quantity, expiryDate } = await req.json()
+      const { productId, supplierId, quantity, price, expiryDate } = await req.json()
 
       const newEntry = await this.inventoryService.addProductStock(
         productId,
         supplierId,
         Number(quantity),
+        Number(price),
         new Date(expiryDate)
       )
 

@@ -201,6 +201,14 @@ const InventoryByProductId = ({ productId }: { productId: string }) => {
 
         )
       }),
+      columnHelper.accessor('price', {
+        header: 'Price',
+        cell: ({ row }) => (
+
+          <Typography variant='body2'>{row.original.price}</Typography>
+
+        )
+      }),
 
       columnHelper.accessor('remainingQuantity', {
         header: 'Remaining QTY',

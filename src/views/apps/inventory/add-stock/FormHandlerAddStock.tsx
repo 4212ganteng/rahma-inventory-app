@@ -29,6 +29,7 @@ const FormHandlerAddStock = () => {
     productId: "",
     supplierId: "",
     quantity: 0,
+    price: 0,
     expiryDate: new Date()
   }
 
@@ -164,6 +165,25 @@ const FormHandlerAddStock = () => {
                         fullWidth
                         required
                         label='Quantity'
+                        error={Boolean(errors.quantity)}
+                        helperText={errors.quantity?.message}
+                      />
+                    )}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={6}>
+                  <Controller
+                    name='price'
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                      <CustomTextField
+                        {...field}
+                        type="number"
+                        fullWidth
+                        required
+                        label='Price'
                         error={Boolean(errors.quantity)}
                         helperText={errors.quantity?.message}
                       />

@@ -22,6 +22,7 @@ export interface InventoryEntry {
   product: Product
   batchNumber: string
   fifoSequence: string
+  price: number
 }
 
 export interface Product {

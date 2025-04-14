@@ -27,6 +27,7 @@ export async function GET(req: NextRequest) {
           select: {
             inventoryEntry: {
               select: {
+                price: true,
                 product: {
                   select: {
                     name: true,
@@ -37,6 +38,7 @@ export async function GET(req: NextRequest) {
                 fifoSequence: true
               }
             },
+
             quantity: true,
             description: true
           }

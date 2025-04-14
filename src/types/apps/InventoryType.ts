@@ -7,6 +7,7 @@ export interface DataListInventory {
   productId: string
   productName: string
   totalStock: number
+  price: number
   entries: InventoryEntry[]
 }
 
@@ -29,6 +30,7 @@ export interface AddStockForm {
   productId: string
   supplierId: string
   quantity: number
+  price: number
   expiryDate: Date
 }
 
@@ -53,6 +55,7 @@ export interface InventoryByProductID {
   batchNumber: string
   supplierName: string
   quantity: number
+  price: number
   remainingQuantity: number
   entryDate: Date
   expiryDate: Date

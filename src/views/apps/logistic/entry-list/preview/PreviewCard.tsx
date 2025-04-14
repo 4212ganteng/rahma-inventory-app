@@ -16,7 +16,7 @@ import './print.css'
 
 const PreviewCard = ({ previewData }: { previewData: LogisticResponData[] }) => {
 
-  const total = previewData?.reduce((acc, item) => acc + item.stockChange.quantity, 0)
+  const total = previewData?.reduce((acc, item) => acc + (item.stockChange.quantity * item.stockChange.inventoryEntry.price), 0)
 
   return (
     <Card className='previewCard'>
@@ -102,6 +102,7 @@ const PreviewCard = ({ previewData }: { previewData: LogisticResponData[] }) => 
                     <th className='!bg-transparent'>Description</th>
                     <th className='!bg-transparent'>Batch Number</th>
                     <th className='!bg-transparent'>Qty</th>
+                    <th className='!bg-transparent'>Price</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -122,6 +123,9 @@ const PreviewCard = ({ previewData }: { previewData: LogisticResponData[] }) => 
 
                       <td>
                         <Typography color='text.primary'>{item.stockChange?.quantity}</Typography>
+                      </td>
+                      <td>
+                        <Typography color='text.primary'>{item.stockChange?.inventoryEntry.price}</Typography>
                       </td>
 
                     </tr>
@@ -146,7 +150,7 @@ const PreviewCard = ({ previewData }: { previewData: LogisticResponData[] }) => 
                 <div className='flex items-center justify-between'>
                   <Typography>Total:</Typography>
                   <Typography className='font-medium' color='text.primary'>
-                    {total}
+                    {total?.toLocaleString('id-Id')}
                   </Typography>
                 </div>
               </div>

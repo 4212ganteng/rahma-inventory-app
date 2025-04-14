@@ -8,7 +8,7 @@ export class InventoryService {
   }
 
   // Tambah Stok Produk (Entry Baru)
-  async addProductStock(productId: string, supplierId: string, quantity: number, expiryDate: Date) {
+  async addProductStock(productId: string, supplierId: string, quantity: number, price: number, expiryDate: Date) {
     return this.prisma.$transaction(async tx => {
       // Generate batch number unik
       const batchNumber = `BATCH-${Date.now()}`
@@ -31,6 +31,7 @@ export class InventoryService {
           supplierId,
           batchNumber,
           quantity,
+          price,
           remainingQuantity: quantity,
           expiryDate,
           status,
@@ -202,6 +203,7 @@ export class InventoryService {
         remainingQuantity: entry.remainingQuantity,
         expiryDate: entry.expiryDate,
         status: entry.status,
+        price: entry.price,
         supplierName: entry.supplier.name
       }))
     }))
